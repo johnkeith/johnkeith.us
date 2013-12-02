@@ -1,0 +1,4 @@
+User-agent: *
+Disallow: 
+
+Sitemap: http://johnk.herokuapp.com/sitemap.xml 

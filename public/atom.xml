@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[John Keith]]></title>
+  <link href="http://johnk.herokuapp.com/atom.xml" rel="self"/>
+  <link href="http://johnk.herokuapp.com/"/>
+  <updated>2013-12-01T21:39:46-05:00</updated>
+  <id>http://johnk.herokuapp.com/</id>
+  <author>
+    <name><![CDATA[John Keith]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Test Post]]></title>
+    <link href="http://johnk.herokuapp.com/blog/2013/12/01/test-post/"/>
+    <updated>2013-12-01T21:39:09-05:00</updated>
+    <id>http://johnk.herokuapp.com/blog/2013/12/01/test-post</id>
+    <content type="html"><![CDATA[
+]]></content>
+  </entry>
+  
+</feed>
