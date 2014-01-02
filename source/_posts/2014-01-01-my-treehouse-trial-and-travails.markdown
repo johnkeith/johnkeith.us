@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "My Treehouse Trial (and travails!)"
+title: "My Treehouse Trial (and travails)"
 date: 2014-01-01 13:47:35 -0500
 comments: true
 categories: [treehouse, coding, iOS]
