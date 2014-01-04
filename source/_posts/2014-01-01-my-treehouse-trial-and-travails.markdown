@@ -10,15 +10,15 @@ With the wonderful break from school here at the holidays, I decided to join Tre
 
 Before diving into the usability issues I've experienced, let me say that I have really enjoyed Treehouse thus far. I was initially wary of the video-lecture style that defines the Treehouse delivery mechanism, but I think there is something to be said for adding the human element of an embodied teacher when learning to code. While the learn-by-watching method of Treehouse differs greatly from the Codeacademy approach (code, code, code!), I am currently enjoying it as I start trying to unpack the verbosity of Objective C. 
 
-On the other hand, I have experienced some quirky behaviors after the video segments are done and you start to do the Code Challenges and other quizzes. There is a noticeable delay (as in 7 to 10 seconds) in between when complete the final exercise in a coding exercise (receiving the message "Congrats! You completed the challenge!") and when the dialogue box appears telling you how many points the completion earns. 
+On the other hand, I have experienced some quirky behaviors after the video segments are done and you start to do the Code Challenges and other quizzes. There is a noticeable delay (as in 7 to 10 seconds) in between when completing the final exercise in a coding exercise (receiving the message "Congrats! You completed the challenge!") and when the dialogue box appears telling you how many points the completion earns. 
 
 {% img /images/postimg/nsstringChallenge.png %}
 
-I've noticed this delay only occurs the first time you are completing a Code Challenge, not if you go back and retake a challenge. That fact, however, brings up another problem: when you complete a challenge you have already completed, you are still presented with a dialogue box telling you points are being awarded! It is certainly a little confusing to receive the message that I have earned 6 points for completing the @NSString challenge, but then not see any change in my overall score. 
+I've noticed this delay only occurs the first time you are completing a Code Challenge, not if you go back and retake a challenge. That fact, however, brings up another problem: when you complete a challenge you have already completed, you are still presented with a dialogue box telling you points are being awarded! It is certainly a little confusing to receive the message that I have earned 6 points for completing the NSString challenge, but then not see any change in my overall score. 
 
 I think the fixes in these cases could be straightforward. Simply offer a loading indicator if the long delay between challenge completion and points awarding is unavoidable. Then, if retaking a challenge already completed, make sure the dialogue box at the end mentions that this challenge has already been passed and no new points will be awarded. 
 
-In terms of quizzes, there are a few pedagogical problems when you answer a question incorrectly. On the iPad app, the user is given no informative feedback whatsoever when a question is answered incorrectly - all you get is a red box and an unhappy beep. The web interface offers an experience that is much the same (an incorrect answer garners a message of "Bummer! Unfortunately, that answer is incorrect."). 
+In terms of quizzes, there are a few pedagogical problems when you answer a question incorrectly. On the iPad app, the user is given little feedback when a question is answered incorrectly - all you get is a red box and an unhappy beep. The web interface offers an experience that is much the same (an incorrect answer garners a message of "Bummer! Unfortunately, that answer is incorrect."). 
 
 {% img /images/postimg/bummerAnswer.png %}
 
@@ -44,4 +44,4 @@ What is lacking from both interfaces, however, is any indication of other course
 
 Perhaps what Treehouse could do is offer a more informative Dashboard page. In the Welcome Home section of the web interface, current courses could be listed alongside the current track, accompanied by resume buttons. The same holds true on the iPad app - under the In Progress section, the current courses could also be visible and tapable. 
 
-Treehouse is an awesome product and I'm excited about continuing to explore its many facets, but I do hope the Treehouse Team will tighten up some aspects of the experience. I believe the few small tweaks above could easily make Treehouse one of the best online learning platforms I have ever encountered.
+Treehouse is an awesome product and I'm excited about continuing to explore its many facets, but I do hope the Treehouse Team will tighten up some aspects of the experience. I believe the few small tweaks above could easily make Treehouse one of the best online learning platforms available for aspiring developers.
