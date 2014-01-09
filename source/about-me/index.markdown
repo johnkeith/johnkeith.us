@@ -13,7 +13,7 @@ Hi. I'm John. I'm an instructional technologist at an independent school. I want
 I’ve been using four main sources for learning web development so far: Codeacademy, Treehouse, Ruby Monks, and Michael Hartl’s Ruby on Rails Tutorial. From these resources, I’ve begun to acquire a strong working knowledge of HTML, CSS, Ruby, Javascript, JQuery, Git, and Heroku.
 
 ### What I'm Making
-![TEDx Hammond School](http://johnkeith.github.io/aboutme/img/tedxcap.jpg)
+[![TEDx Hammond School](http://johnkeith.github.io/aboutme/img/tedxcap.jpg)](http://www.tedxhammondschool.com)
 
 Right now, I’m designing a TEDx website for Hammond School. The site is a minimal one page design built on Bootstrap. [HTML, CSS, JQuery, Bootstrap 3]
 
@@ -31,7 +31,7 @@ Additionally, I've built a few portfolio pages to test out things I've been lear
 
 You can reach me through [LinkedIn](http://www.linkedin.com/pub/john-keith/48/139/8a0), [Twitter](https://twitter.com/mrjohnkeith), or [email](mailto:johnkeith@outlook.com). 
 
-You can also [view my resume here](https://www.dropbox.com/s/uovb3l7uirh8hb7/John%20Terrell%20Keith%20Resume.pdf).
+You can also [view my resume here](https://www.dropbox.com/s/dzajeiutr5n5sky/JohnTerrellKeith-site.pdf).
 
 
 
