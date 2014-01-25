@@ -4,7 +4,7 @@
   <title><![CDATA[John Keith]]></title>
   <link href="http://johnk.herokuapp.com/atom.xml" rel="self"/>
   <link href="http://johnk.herokuapp.com/"/>
-  <updated>2014-01-09T06:28:16-05:00</updated>
+  <updated>2014-01-25T12:52:26-05:00</updated>
   <id>http://johnk.herokuapp.com/</id>
   <author>
     <name><![CDATA[John Keith]]></name>
@@ -12,6 +12,31 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Uncovering Good Resources]]></title>
+    <link href="http://johnk.herokuapp.com/blog/2014/01/25/uncovering-good-resources/"/>
+    <updated>2014-01-25T12:07:18-05:00</updated>
+    <id>http://johnk.herokuapp.com/blog/2014/01/25/uncovering-good-resources</id>
+    <content type="html"><![CDATA[<p>There are two parts about learning web development that I have found consistently difficult.</p>
+
+<ol>
+<li><p>Finding a sensible path through the myriad of resources for learning to code</p></li>
+<li><p>Staying focused</p></li>
+</ol>
+
+
+<p>I think these two go hand-in-hand. After moving beyond a walled garden like Codeacademy, finding out where to go and what to tackle next is really hard! There is such a vast array of languages and frameworks to try that it is baffling to try and decipher what will be most beneficial to learn.</p>
+
+<p>All things considered, I&rsquo;m not sure this is really something to worry much about. Diving into almost any language at this point will help me further the skills I have gained and develop a greater understanding of how all these different moving pieces of the web fit together.</p>
+
+<p>That said, I am concerned about losing focus. I&rsquo;ve learned a great deal about Ruby and I want to keep moving forward with it (especially after learning about you can make iOS apps using RubyMotion!), but I keep getting excited (side-tracked) by all kinds of shiny new development tools I&rsquo;m finding.</p>
+
+<p>For example, the last couple of days I&rsquo;ve been playing with <a href="http://www.sinatrarb.com">Sinatra</a> and loving it! Since I&rsquo;m going to be heading off to coding bootcamp soon, I figure it would be a good choice to wait on learning Rails until I get there and instead focus on exploring other Ruby-based frameworks. (Also, Sinatra is a heck of a lot easier to wrap your head around than Rails!).</p>
+
+<p>So, in order to keep myself on the right path, I&rsquo;m going to work on building stuff with Sinatra (<a href="http://mherman.org/blog/2013/06/08/designing-with-class-sinatra-plus-postgresql-plus-heroku/">this tutorial</a> really was a great way to start), while continuing to read and work on Ruby fundamentals. Speaking of great resources, I finished TestFirst.org&rsquo;s <a href="http://testfirst.org/learn_ruby">Learn Ruby</a> last weekend and that was an awesome way to start applying the Ruby I&rsquo;ve learned. <a href="https://github.com/johnkeith/testfirstruby">My solutions</a> could certainly use some work, but I think these kinds of test-driven coding challenges are the best way for me to keep moving forward with Ruby at this point.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[My Treehouse Trial (and travails)]]></title>
