@@ -4,7 +4,7 @@
   <title><![CDATA[Category: coding | John Keith]]></title>
   <link href="http://johnk.herokuapp.com/blog/categories/coding/atom.xml" rel="self"/>
   <link href="http://johnk.herokuapp.com/"/>
-  <updated>2014-01-30T21:36:20-05:00</updated>
+  <updated>2014-01-30T21:39:27-05:00</updated>
   <id>http://johnk.herokuapp.com/</id>
   <author>
     <name><![CDATA[John Keith]]></name>
@@ -14,10 +14,10 @@
 
   
   <entry>
-    <title type="html"><![CDATA[My Treehouse Trial (and travails)]]></title>
-    <link href="http://johnk.herokuapp.com/blog/2014/01/01/my-treehouse-trial-and-travails/"/>
+    <title type="html"><![CDATA[My Treehouse Trial]]></title>
+    <link href="http://johnk.herokuapp.com/blog/2014/01/01/my-treehouse-trial/"/>
     <updated>2014-01-01T13:47:35-05:00</updated>
-    <id>http://johnk.herokuapp.com/blog/2014/01/01/my-treehouse-trial-and-travails</id>
+    <id>http://johnk.herokuapp.com/blog/2014/01/01/my-treehouse-trial</id>
     <content type="html"><![CDATA[<p>With the wonderful break from school here at the holidays, I decided to join Treehouse and explore this popular learning platform (and maybe pick up a little Objective C and iOS while I&rsquo;m at it!). I&rsquo;m on day three of a two week trial and so far I&rsquo;ve been impressed by the site and its fantastic array of offerings, despite my devotion to Codeacademy. That said, after completing Treehouse&rsquo;s <a href="http://teamtreehouse.com/library/usability-foundations">Usability Foundations</a> course and dipping my toes into the iOS Development track, I certainly have run across a few areas that could use improvement.</p>
 
 <p>Before diving into the usability issues I&rsquo;ve experienced, let me say that I have really enjoyed Treehouse thus far. I was initially wary of the video-lecture style that defines the Treehouse delivery mechanism, but I think there is something to be said for adding the human element of an embodied teacher when learning to code. While the learn-by-watching method of Treehouse differs greatly from the Codeacademy approach (code, code, code!), I am currently enjoying it as I start trying to unpack the verbosity of Objective C.</p>
