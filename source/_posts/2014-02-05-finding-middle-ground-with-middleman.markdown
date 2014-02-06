@@ -11,7 +11,7 @@ That said, after finding and playing with [Middleman](www.middlemanapp.com), I b
 
 I was really thrilled when I managed to figure out how to insert Markdown files into a HAML template built in a Middleman project. 
 
-``` [HAML]
+``` haml
 .main-contain
   .pure-g-r
     .pure-u-1-2
