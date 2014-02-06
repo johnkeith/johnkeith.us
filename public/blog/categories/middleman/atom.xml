@@ -4,7 +4,7 @@
   <title><![CDATA[Category: middleman | John Keith]]></title>
   <link href="http://johnk.herokuapp.com/blog/categories/middleman/atom.xml" rel="self"/>
   <link href="http://johnk.herokuapp.com/"/>
-  <updated>2014-02-05T22:22:51-05:00</updated>
+  <updated>2014-02-06T17:42:11-05:00</updated>
   <id>http://johnk.herokuapp.com/</id>
   <author>
     <name><![CDATA[John Keith]]></name>
@@ -18,9 +18,9 @@
     <link href="http://johnk.herokuapp.com/blog/2014/02/05/finding-middle-ground-with-middleman/"/>
     <updated>2014-02-05T19:24:45-05:00</updated>
     <id>http://johnk.herokuapp.com/blog/2014/02/05/finding-middle-ground-with-middleman</id>
-    <content type="html"><![CDATA[<p>For a while, I&rsquo;ve been wondering &ndash; where is the better way of building static sites? I&rsquo;ve made a ton of stuff working off of Bootstrap templates and Wordpress themes, but I also really love creating sites without all the mess of those big frameworks. I want to hand code sites to keep learning about the presentational side of web development, but an environment like Rails is not ideal for such explorations. Even the much more managable Sinatra is only a little better, as I feel like my focus when building something in Sinatra is split evenly between the front-end and back-end.</p>
+    <content type="html"><![CDATA[<p>For a while, I&rsquo;ve been wondering &ndash; where is the better way of building static sites? I&rsquo;ve made a ton of stuff working off of Bootstrap templates and Wordpress themes, but I also really love creating sites without all the mess of those big frameworks. I want to hand code sites to keep learning about the presentational side of web development, but an environment like Rails is not ideal for such explorations. Even the much more manageable Sinatra is only a little better, as I feel like my focus when building something in Sinatra is split evenly between the front-end and back-end.</p>
 
-<p>That said, after finding and playing with <a href="http://www.middlemanapp.com">Middleman</a>, I believe it provides the perfect way to focus on the front-end of things without sacrifing the power of HAML, SASS and the like. The LiveReload extension is also amazing &ndash; it is incredible how small effiencies make all the differences when writing and testing out new ideas.</p>
+<p>That said, after finding and playing with <a href="http://www.middlemanapp.com">Middleman</a>, I believe it provides the perfect way to focus on the front-end of things without sacrificing the power of HAML, SASS and the like. The LiveReload extension is also amazing &ndash; it is incredible how small efficiencies make all the differences when writing and testing out new ideas.</p>
 
 <p>I was really thrilled when I managed to figure out how to insert Markdown files into a HAML template built in a Middleman project.</p>
 
@@ -38,7 +38,7 @@
 
 <p>```</p>
 
-<p>The code is nothing special, but being able to read a file of Markdown text and insert it into my template was pretty exciting. I&rsquo;m planning to use this trick to create a text-heavy site that keeps its content as seperate from the presenation as possible by inserting all the large chunks of text as Markdown files into templates.</p>
+<p>The code is nothing special, but being able to read a file of Markdown text and insert it into my template was pretty exciting. I&rsquo;m planning to use this trick to create a text-heavy site that keeps its content as separate from the presentation as possible by inserting all the large chunks of text as Markdown files into templates.</p>
 ]]></content>
   </entry>
   
