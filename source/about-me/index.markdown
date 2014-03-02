@@ -4,7 +4,7 @@ title: "About Me"
 date: 2014-01-01 13:47:35 -0500
 comments: false
 sharing: true
-footer: true
+footer: false
 ---
 Hi. I'm John. I'm an instructional technologist at an independent school. I want to become a developer and build better solutions for students.
 
