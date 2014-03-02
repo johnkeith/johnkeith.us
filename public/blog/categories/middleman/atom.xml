@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: middleman | John Keith]]></title>
+  <title><![CDATA[Category: Middleman | John Keith]]></title>
   <link href="http://johnk.herokuapp.com/blog/categories/middleman/atom.xml" rel="self"/>
   <link href="http://johnk.herokuapp.com/"/>
-  <updated>2014-02-08T23:40:26-05:00</updated>
+  <updated>2014-03-02T15:43:41-05:00</updated>
   <id>http://johnk.herokuapp.com/</id>
   <author>
     <name><![CDATA[John Keith]]></name>
@@ -14,31 +14,30 @@
 
   
   <entry>
-    <title type="html"><![CDATA[Finding middle ground with Middleman]]></title>
+    <title type="html"><![CDATA[Finding Middle Ground With Middleman]]></title>
     <link href="http://johnk.herokuapp.com/blog/2014/02/05/finding-middle-ground-with-middleman/"/>
     <updated>2014-02-05T19:24:45-05:00</updated>
     <id>http://johnk.herokuapp.com/blog/2014/02/05/finding-middle-ground-with-middleman</id>
-    <content type="html"><![CDATA[<p>For a while, I&rsquo;ve been wondering &ndash; where is the better way of building static sites? I&rsquo;ve made a ton of stuff working off of Bootstrap templates and Wordpress themes, but I also really love creating sites without all the mess of those big frameworks. I want to hand code sites to keep learning about the presentational side of web development, but an environment like Rails is not ideal for such explorations. Even the much more manageable Sinatra is only a little better, as I feel like my focus when building something in Sinatra is split evenly between the front-end and back-end.</p>
+    <content type="html"><![CDATA[<p>For a while, I’ve been wondering - where is the better way of building static sites? I’ve made a ton of stuff working off of Bootstrap templates and Wordpress themes, but I also really love creating sites without all the mess of those big frameworks. I want to hand code sites to keep learning about the presentational side of web development, but an environment like Rails is not ideal for such explorations. Even the much more manageable Sinatra is only a little better, as I feel like my focus when building something in Sinatra is split evenly between the front-end and back-end. </p>
 
-<p>That said, after finding and playing with <a href="http://www.middlemanapp.com">Middleman</a>, I believe it provides the perfect way to focus on the front-end of things without sacrificing the power of HAML, SASS and the like. The LiveReload extension is also amazing &ndash; it is incredible how small efficiencies make all the differences when writing and testing out new ideas.</p>
+<p>That said, after finding and playing with <a href="http://www.middlemanapp.com">Middleman</a>, I believe it provides the perfect way to focus on the front-end of things without sacrificing the power of HAML, SASS and the like. The LiveReload extension is also amazing - it is incredible how small efficiencies make all the differences when writing and testing out new ideas. </p>
 
-<p>I was really thrilled when I managed to figure out how to insert Markdown files into a HAML template built in a Middleman project.</p>
+<p>I was really thrilled when I managed to figure out how to insert Markdown files into a HAML template built in a Middleman project. </p>
 
-<p>``` haml
-.main-contain
-  .pure-g-r</p>
+<div><div class="CodeRay">
+  <div class="code"><pre><span class="class">.main-contain</span>
+  <span class="class">.pure-g-r</span>
+    <span class="class">.pure-u-1-2</span>
+      <span class="tag">%h1</span> Hello folks.
+    <span class="class">.pure-u-1-2</span>
+      <span class="tag">%p</span> What up?
+<span class="comment">      :markdown</span><span class="comment">
+        #{File.read(File.join(File.dirname(__FILE__), &quot;test.md&quot;))}</span>
+</pre></div>
+</div>
+</div>
 
-<pre><code>.pure-u-1-2
-  %h1 Hello folks.
-.pure-u-1-2
-  %p What up?
-  :markdown
-    #{File.read(File.join(File.dirname(__FILE__), "test.md"))}
-</code></pre>
-
-<p>```</p>
-
-<p>The code is nothing special, but being able to read a file of Markdown text and insert it into my template was pretty exciting. I&rsquo;m planning to use this trick to create a text-heavy site that keeps its content as separate from the presentation as possible by inserting all the large chunks of text as Markdown files into templates.</p>
+<p>The code is nothing special, but being able to read a file of Markdown text and insert it into my template was pretty exciting. I’m planning to use this trick to create a text-heavy site that keeps its content as separate from the presentation as possible by inserting all the large chunks of text as Markdown files into templates. </p>
 ]]></content>
   </entry>
   
