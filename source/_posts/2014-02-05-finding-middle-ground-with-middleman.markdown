@@ -9,8 +9,6 @@ For a while, I've been wondering - where is the better way of building static si
 
 That said, after finding and playing with [Middleman](http://www.middlemanapp.com), I believe it provides the perfect way to focus on the front-end of things without sacrificing the power of HAML, SASS and the like. The LiveReload extension is also amazing - it is incredible how small efficiencies make all the differences when writing and testing out new ideas. 
 
-<!-- more -->
-
 I was really thrilled when I managed to figure out how to insert Markdown files into a HAML template built in a Middleman project. 
 
 ~~~ haml

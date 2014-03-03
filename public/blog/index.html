@@ -106,12 +106,24 @@
 
 <p>That said, after finding and playing with <a href="http://www.middlemanapp.com">Middleman</a>, I believe it provides the perfect way to focus on the front-end of things without sacrificing the power of HAML, SASS and the like. The LiveReload extension is also amazing - it is incredible how small efficiencies make all the differences when writing and testing out new ideas. </p>
 
+<p>I was really thrilled when I managed to figure out how to insert Markdown files into a HAML template built in a Middleman project. </p>
+
+<div><div class="CodeRay">
+  <div class="code"><pre><span class="class">.main-contain</span>
+  <span class="class">.pure-g-r</span>
+    <span class="class">.pure-u-1-2</span>
+      <span class="tag">%h1</span> Hello folks.
+    <span class="class">.pure-u-1-2</span>
+      <span class="tag">%p</span> What up?
+<span class="comment">      :markdown</span><span class="comment">
+        #{File.read(File.join(File.dirname(__FILE__), &quot;test.md&quot;))}</span>
+</pre></div>
+</div>
+</div>
+
+<p>The code is nothing special, but being able to read a file of Markdown text and insert it into my template was pretty exciting. I’m planning to use this trick to create a text-heavy site that keeps its content as separate from the presentation as possible by inserting all the large chunks of text as Markdown files into templates. </p>
 </div>
   
-  
-    <footer>
-      <a rel="full-article" href="/blog/2014/02/05/finding-middle-ground-with-middleman/">Read on &rarr;</a>
-    </footer>
   
 
 </article>
