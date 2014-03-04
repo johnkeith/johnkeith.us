@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: Octopress | John Keith]]></title>
-  <link href="http://johnk.herokuapp.com/blog/categories/octopress/atom.xml" rel="self"/>
+  <title><![CDATA[Category: Heroku | John Keith]]></title>
+  <link href="http://johnk.herokuapp.com/blog/categories/heroku/atom.xml" rel="self"/>
   <link href="http://johnk.herokuapp.com/"/>
   <updated>2014-03-04T17:46:24-05:00</updated>
   <id>http://johnk.herokuapp.com/</id>
@@ -35,25 +35,6 @@
 <p><img src="http://gdurl.com/i4Wr" alt="So Fresh and So Green" />​</p>
 
 <p>Quick, easy, and keeps the size of your Octopress repo down.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[New Look for the Blog]]></title>
-    <link href="http://johnk.herokuapp.com/blog/2014/03/02/new-theme/"/>
-    <updated>2014-03-02T21:20:50-05:00</updated>
-    <id>http://johnk.herokuapp.com/blog/2014/03/02/new-theme</id>
-    <content type="html"><![CDATA[<p>I’ve been meaning to build an Octopress theme since I put this site up back in January. To start with, this blog was using the <a href="https://github.com/lucaslew/whitespace">Whitespace theme</a>, which was a fantastic starting point, but I wanted to create something with a little more…color! </p>
-
-<p>After reading Vladi’s post about creating a theme called <a href="http://vladigleba.com/blog/2013/10/31/introducing-readify-a-new-octopress-theme-focused-on-readibility/">Readify</a>, I was inspired to take a shot at it. </p>
-
-<p>To that end…here’s what I’ve got so far. The code is <a href="https://github.com/johnkeith/sofreshandsogreen">available here</a>, should you want to install it on your own Octopress! I reworked the Classc theme to include a few basic changes that hopefully will make it more readable and usable.</p>
-
-<ul>
-  <li>Larger font and line heights</li>
-  <li>Fixed navbar that becomes unfixed on mobile devices</li>
-  <li>Green everywhere!</li>
-</ul>
 ]]></content>
   </entry>
   
