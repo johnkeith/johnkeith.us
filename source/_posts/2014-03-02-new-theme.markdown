@@ -1,0 +1,16 @@
+---
+layout: post
+title: "New look for the blog"
+date: 2014-03-02 21:20:50 -0500
+comments: true
+categories: [design, octopress]
+---
+I've been meaning to build an Octopress theme since I put this site up back in January. To start with, this blog was using the [Whitespace theme](https://github.com/lucaslew/whitespace), which was a fantastic starting point, but I wanted to create something with a little more...color! 
+
+After reading Vladi's post about creating a theme called [Readify](http://vladigleba.com/blog/2013/10/31/introducing-readify-a-new-octopress-theme-focused-on-readibility/), I was inspired to take a shot at it. 
+
+To that end...here's what I've got so far. The code is [available here](https://github.com/johnkeith/sofreshandsogreen), should you want to install it on your own Octopress! I reworked the Classc theme to include a few basic changes that hopefully will make it more readable and usable.
+
+- Larger font and line heights
+- Fixed navbar that becomes unfixed on mobile devices
+- Green everywhere!
