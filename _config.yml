@@ -4,7 +4,7 @@
 
 url: http://johnk.herokuapp.com
 title: John Keith
-subtitle: Full-stack development, UX, UI
+subtitle: Future @Launch_Academy student, learning Ruby, Rails, & more
 author: John Keith
 simple_search: http://google.com/search
 description:
@@ -20,6 +20,8 @@ subscribe_rss: /atom.xml
 subscribe_email:
 # RSS feeds can list your email address if you like
 email:
+
+portrait: true
 
 # ----------------------- #
 #    Jekyll & Plugins     #
