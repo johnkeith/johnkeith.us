@@ -4,7 +4,7 @@
   <title><![CDATA[John Keith]]></title>
   <link href="http://johnk.herokuapp.com/atom.xml" rel="self"/>
   <link href="http://johnk.herokuapp.com/"/>
-  <updated>2014-03-03T21:34:12-05:00</updated>
+  <updated>2014-03-03T22:08:30-05:00</updated>
   <id>http://johnk.herokuapp.com/</id>
   <author>
     <name><![CDATA[John Keith]]></name>
@@ -18,11 +18,17 @@
     <link href="http://johnk.herokuapp.com/blog/2014/03/02/new-theme/"/>
     <updated>2014-03-02T21:20:50-05:00</updated>
     <id>http://johnk.herokuapp.com/blog/2014/03/02/new-theme</id>
-    <content type="html"><![CDATA[<p>I’ve been meaning to build an Octopress theme since I put this site up back in January. </p>
+    <content type="html"><![CDATA[<p>I’ve been meaning to build an Octopress theme since I put this site up back in January. To start with, this blog was using the <a href="https://github.com/lucaslew/whitespace">Whitespace theme</a>, which was a fantastic starting point, but I wanted to create something with a little more…color! </p>
 
-<p>Initially, this blog was using the <a href="https://github.com/lucaslew/whitespace">Whitespace theme</a>, which was a fantastic starting point, but I wanted to create something with a little more…color! </p>
+<p>After reading Vladi’s post about creating a theme called <a href="http://vladigleba.com/blog/2013/10/31/introducing-readify-a-new-octopress-theme-focused-on-readibility/">Readify</a>, I was inspired to take a shot at it. </p>
 
-<p>To that end…here’s what I’ve got so far. The code is <a href="https://github.com/johnkeith/sofreshandsogreen">available here</a>, should you want to install it on your own Octopress!</p>
+<p>To that end…here’s what I’ve got so far. The code is <a href="https://github.com/johnkeith/sofreshandsogreen">available here</a>, should you want to install it on your own Octopress! I reworked the Classc theme to include a few basic changes that hopefully will make it more readable and usable.</p>
+
+<ul>
+  <li>Larger font and line heights</li>
+  <li>Fixed navbar that becomes unfixed on mobile devices</li>
+  <li>Green everywhere!</li>
+</ul>
 ]]></content>
   </entry>
   
