@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Build What You Use When Learning"
+title: "Build What You Use As a Way to Learn"
 date: 2014-03-06 17:38:44 -0500
 comments: true
 categories: ruby
