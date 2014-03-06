@@ -22,6 +22,7 @@ subscribe_email:
 email:
 
 portrait: true
+social_icons: true
 
 # ----------------------- #
 #    Jekyll & Plugins     #
@@ -78,7 +79,7 @@ github_show_profile_link: true
 github_skip_forks: true
 
 # Twitter
-twitter_user:
+twitter_user: mrjohnkeith
 twitter_tweet_button: true
 
 # Google +1
