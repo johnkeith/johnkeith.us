@@ -100,7 +100,7 @@ delicious_user:
 delicious_count: 3
 
 # Disqus Comments
-disqus_short_name: mrjohnkeith
+disqus_short_name: johnkeith
 disqus_show_comment_count: true
 
 # Google Analytics
