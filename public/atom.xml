@@ -4,7 +4,7 @@
   <title><![CDATA[John Keith]]></title>
   <link href="http://johnk.herokuapp.com/atom.xml" rel="self"/>
   <link href="http://johnk.herokuapp.com/"/>
-  <updated>2014-03-08T10:02:02-05:00</updated>
+  <updated>2014-03-08T12:55:49-05:00</updated>
   <id>http://johnk.herokuapp.com/</id>
   <author>
     <name><![CDATA[John Keith]]></name>
@@ -12,6 +12,43 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Using Evernote With David Allen's 'Getting Things Done' System]]></title>
+    <link href="http://johnk.herokuapp.com/blog/2014/03/08/using-evernote-with-david-allens-getting-things-done-system/"/>
+    <updated>2014-03-08T11:27:42-05:00</updated>
+    <id>http://johnk.herokuapp.com/blog/2014/03/08/using-evernote-with-david-allens-getting-things-done-system</id>
+    <content type="html"><![CDATA[<p>I’ve been using Evernote for a long time now and it has proven to be a fantastic system for storing information. That said, turning it into a system I can use to <em>organize</em> my life has been a Sisyphean experience. Over the years, my Evernote account has undergone a series of shakeups as I tried out different organizational schemes, but each new system of handling notes, websites, and articles I want to save has left me feeling no more put together. </p>
+
+<p>Part of our pre-work for Launch Academy has been to read a series of “brain-hacking” books to get us ready for the start of the program. After diving into David Allen’s <a href="http://www.amazon.com/Getting-Things-Done-Stress-Free-Productivity/dp/0142000280">Getting Things Done</a>, I think I may see a way to corral my ever-ballooning Evernote into a much more manageable and useful repository. </p>
+
+<p>Currently, I open Evernote to a slew of notebook stacks and subnotebooks.</p>
+
+<p><img src="http://gdurl.com/CL5X" alt="My current Evernote" /></p>
+
+<p>While having many individual notebooks is a passable strategy, I’ve found that it becomes less and less useful the more notebooks you create. My count right now is over 50 and I think that might be 44 too many. </p>
+
+<p>An overabundance of notebooks starts to cause problems when you try to send something Evernote from within an app (like a newsreader or through email), as it always becomes a question of how to categorize this piece of information. By default, my notes are routed into a folder I called _INCOMING. This has been a nice landing spot, but the vagueness of the name (or perhaps its linguistic proximity to “inbox”) has contributed to my lack of desire to sort through the massive flood of stuff that piles up in there.</p>
+
+<p>In Allen’s book, he divides the organizational process into five stages: <strong>collect</strong>, <strong>process</strong>, <strong>organize</strong>, <strong>review</strong>, <strong>do</strong>. To reformat my Evernote to follow this system, I’m going to start by creating a _Processing folder and setting it as the default location for collecting everything that hits my Evernote. This will be the folder that I’ll take the time every other day to process the items from - to figure out “what they mean and what to do about them” (Allen). </p>
+
+<p>From the processing folder, an item will have four places to go: into the NextSteps, Projects, Incubating, or Archives folder. </p>
+
+<p>In the NextSteps folder will be all todo items, things that need to be done in the short term or short term actions that need to be taken in relation to longer term projects or goals. </p>
+
+<p>In the Projects folder will reside all of the <em>active</em> ideas or projects that I’m working on at the moment. And, as in <strong>Getting Things Done</strong>, the term projects is defined in a different sense than we usually use, as “any desired result that requires more than one action step” (Allen).</p>
+
+<p>The Incubating (I wanted to use a more active term than Allen’s “incubation”) folder will house the more lofty and long term items - app ideas, career goals, etc.</p>
+
+<p>Lastly, in the Archives folder, I’m going to store everything that resides in my current notebooks. In other words, the Archives folder is essentially going to house everything that passes through my Evernote - it is the final destination of all information.</p>
+
+<p>I think this is the key to any organizational system - there must be a logical, actionable flow of information through the system, including a final resting place where the inactive information may be stored and retrieved. </p>
+
+<p>Since Evernote does such a great job with indexing and searching any and every piece of information inside your account, I feel that there is no need to employ the tagging feature, that it might only slow down the movement of information into and through the new system. I’m going to spend some time not using tagging and see how it goes. </p>
+
+<p>Allen emphasizes the important of reviewing the items in your organizational system at least once a week. I would love if it was possible to create a recurring reminder in Evernote that would alert me when I should review the information I have in each of my actionable folders (NextSteps, Projects, and Incubating), but for now perhaps a weekly calendar alert will suffice.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Build What You Use as a Way to Learn]]></title>
