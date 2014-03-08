@@ -4,7 +4,7 @@
   <title><![CDATA[John Keith]]></title>
   <link href="http://johnk.herokuapp.com/atom.xml" rel="self"/>
   <link href="http://johnk.herokuapp.com/"/>
-  <updated>2014-03-08T12:55:49-05:00</updated>
+  <updated>2014-03-08T13:00:41-05:00</updated>
   <id>http://johnk.herokuapp.com/</id>
   <author>
     <name><![CDATA[John Keith]]></name>
@@ -18,9 +18,9 @@
     <link href="http://johnk.herokuapp.com/blog/2014/03/08/using-evernote-with-david-allens-getting-things-done-system/"/>
     <updated>2014-03-08T11:27:42-05:00</updated>
     <id>http://johnk.herokuapp.com/blog/2014/03/08/using-evernote-with-david-allens-getting-things-done-system</id>
-    <content type="html"><![CDATA[<p>I’ve been using Evernote for a long time now and it has proven to be a fantastic system for storing information. That said, turning it into a system I can use to <em>organize</em> my life has been a Sisyphean experience. Over the years, my Evernote account has undergone a series of shakeups as I tried out different organizational schemes, but each new system of handling notes, websites, and articles I want to save has left me feeling no more put together. </p>
+    <content type="html"><![CDATA[<p>I’ve been using Evernote for a long time now and it has proven to be a fantastic system for storing information. That said, turning it into a system I can use to <em>organize</em> my life has been a Sisyphean experience. Over the years, my Evernote account has undergone a series of shakeups as I’ve tried out different organizational schemes, but each new system of handling notes, websites, and articles has left me feeling no more put together. </p>
 
-<p>Part of our pre-work for Launch Academy has been to read a series of “brain-hacking” books to get us ready for the start of the program. After diving into David Allen’s <a href="http://www.amazon.com/Getting-Things-Done-Stress-Free-Productivity/dp/0142000280">Getting Things Done</a>, I think I may see a way to corral my ever-ballooning Evernote into a much more manageable and useful repository. </p>
+<p>Part of our pre-work for Launch Academy has been to read a series of “brain hacking” books to get us ready for the start of the program. After diving into David Allen’s <a href="http://www.amazon.com/Getting-Things-Done-Stress-Free-Productivity/dp/0142000280">Getting Things Done</a>, I think I may see a way to corral my ever-ballooning Evernote into a much more manageable and useful repository. </p>
 
 <p>Currently, I open Evernote to a slew of notebook stacks and subnotebooks.</p>
 
@@ -46,7 +46,7 @@
 
 <p>Since Evernote does such a great job with indexing and searching any and every piece of information inside your account, I feel that there is no need to employ the tagging feature, that it might only slow down the movement of information into and through the new system. I’m going to spend some time not using tagging and see how it goes. </p>
 
-<p>Allen emphasizes the important of reviewing the items in your organizational system at least once a week. I would love if it was possible to create a recurring reminder in Evernote that would alert me when I should review the information I have in each of my actionable folders (NextSteps, Projects, and Incubating), but for now perhaps a weekly calendar alert will suffice.</p>
+<p>Allen emphasizes the important of reviewing the items in your organizational system at least once a week. I would love if it was possible to create a recurring reminder in Evernote that would alert me when I should review the information I have in each of my actionable folders (NextSteps, Projects, and Incubating), but for now perhaps a weekly calendar alert will suffice. </p>
 ]]></content>
   </entry>
   
