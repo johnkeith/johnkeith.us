@@ -1,0 +1,303 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Simple File Uploads to Rails With Dragonfly - John Keith</title>
+  <meta name="author" content="John Keith">
+
+  
+  <meta name="description" content="Gems are amazing. As a rookie developer, it is incredible to come into the Ruby/Rails community and discover the wealth of code that is available out &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://johnk.herokuapp.com/blog/2014/03/11/simple-file-uploads-to-rails-with-dragonfly">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="John Keith" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+
+<link href="//fonts.googleapis.com/css?family=Open+Sans:400,700&subset=latin" rel="stylesheet" type="text/css" />
+
+<link href='http://fonts.googleapis.com/css?family=Noto+Serif:400,700' rel='stylesheet' type='text/css'>
+
+
+
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-44707486-2']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body    class="collapse-sidebar sidebar-footer" >
+  <nav id="main-nav" role="navigation">
+<ul class="main-navigation">
+	<li><a href="/about-me" class="nav-link">About</a></li>
+  <li><a href="/" class="nav-link">Blog</a></li>
+  <li><a href="/blog/archives" class="nav-link">Archives</a></li>
+  <li><a href="/atom.xml" class="nav-link">RSS</a></li>
+  <li><a href="http://github.com/johnkeith">Github</a></li>
+  <li><a href="http://twitter.com/mrjohnkeith">Twitter</a></li>
+</ul>
+
+</nav>
+  
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Simple File Uploads to Rails With Dragonfly</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-03-11T17:42:53-04:00" pubdate data-updated="true">Mar 11<span>th</span>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>Gems are amazing. As a rookie developer, it is incredible to come into the Ruby/Rails community and discover the wealth of code that is available out there, packaged and ready to be used. I’d encountered and enjoyed open source software before, but it was not until I started writing code that I really came to appreciate what the concept means.</p>
+
+<p>Take for instance file uploading with Rails. You can perform basic uploads using what Rails offers natively or you can choose from a multitude of gems (Paperclip, Carrierwave, Dragonfly, the <a href="https://www.ruby-toolbox.com/categories/rails_file_uploads">list goes on</a>) that add more advanced methods of uploading and storing files in your Rails app. </p>
+
+<p>For the expense tracker I am currently working on, I selected <a href="https://github.com/markevans/dragonfly">Dragonfly</a>. I’ll admit, I tried Paperclip first and I was unable to make it function correctly. My lack of success with Paperclip, however, was only half the reason I ended up with Dragonfly. </p>
+
+<p>As I was envisioning document uploads in my app, I wanted the document (a receipt or invoice of a purchase) to become part of the Expenses table that I had already set up with a multitude of fields. With Paperclip, as far as I understood from the tutorials provided, it seemed like the documents would be set up as a separate model in the database, then associated with my current Expenses model. I can see advantages to the Paperclip approach (making all the documents easily accessible in one section of the database), but I wanted keep the relationships in this app as simple as possible, if only for my own sanity.</p>
+
+<p>The great part about Dragonfly is it makes adding a :document column to your current model incredibly easy. The instructions below were what I did to install and integrate Dragonfly to upload documents when creating a new record in my Expense model. </p>
+
+<p>First, I added Dragonfly to my gemfile and ran bundler.</p>
+
+<div><div class="CodeRay">
+  <div class="code"><pre>gem <span class="string"><span class="delimiter">'</span><span class="content">dragonfly</span><span class="delimiter">'</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">~&gt;1.0.3</span><span class="delimiter">&quot;</span></span>
+</pre></div>
+</div>
+</div>
+
+<pre><code>$ bundle install
+</code></pre>
+
+<p>Then, in my app/models/expense.rb, I added an accessor for my document.</p>
+
+<div><div class="CodeRay">
+  <div class="code"><pre>dragonfly_accessor <span class="symbol">:document</span>
+</pre></div>
+</div>
+</div>
+
+<p>Back at the command line, I setup a migration to add a document column to my expenses model. </p>
+
+<pre><code>$ Rails generate migration AddDocumentToExpenses
+</code></pre>
+
+<p>Inside the migration document, I added two columns, one for the :document_uid and :document_name, per the <a href="http://markevans.github.io/dragonfly/">Dragonfly wiki</a>.</p>
+
+<div><div class="CodeRay">
+  <div class="code"><pre><span class="keyword">class</span> <span class="class">AddDocumentToExpenses</span> &lt; <span class="constant">ActiveRecord</span>::<span class="constant">Migration</span>
+  <span class="keyword">def</span> <span class="function">change</span>
+    add_column <span class="symbol">:expenses</span>, <span class="symbol">:document_uid</span>, <span class="symbol">:string</span>
+    add_column <span class="symbol">:expenses</span>, <span class="symbol">:document_name</span>, <span class="symbol">:string</span>
+  <span class="keyword">end</span>
+<span class="keyword">end</span>
+</pre></div>
+</div>
+</div>
+
+<p>Then came migrating the database.</p>
+
+<pre><code>rake db:migrate
+</code></pre>
+
+<p>Next was altering my app/views/expenses/_form.html.erb to include a field for file uploads. </p>
+
+<div><div class="CodeRay">
+  <div class="code"><pre>&lt;div <span class="keyword">class</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">field</span><span class="delimiter">&quot;</span></span>&gt;
+    &lt;<span class="string"><span class="delimiter">%=</span><span class="content"> f.label :document %&gt;&lt;br&gt;
+    &lt;%</span><span class="delimiter">=</span></span> f.file_field <span class="symbol">:document</span> %&gt;
+&lt;<span class="regexp"><span class="delimiter">/</span><span class="content">div&gt;
+</span></span></pre></div>
+</div>
+</div>
+<p>Then, inside my app/controllers/expenses_controller.rb, I added :document to the list of permitted parameters near the bottom. </p>
+
+<div><div class="CodeRay">
+  <div class="code"><pre><span class="keyword">def</span> <span class="function">expense_params</span>
+    params.require(<span class="symbol">:expense</span>).permit(<span class="symbol">:user_id</span>, <span class="symbol">:date</span>, <span class="symbol">:reseller</span>, <span class="symbol">:item_or_service</span>, <span class="symbol">:payment_form</span>, <span class="symbol">:charged_to</span>, <span class="symbol">:cost</span>, <span class="symbol">:amount_from_budget</span>, <span class="symbol">:notes</span>, <span class="symbol">:document</span>)
+<span class="keyword">end</span>
+</pre></div>
+</div>
+</div>
+
+<p>With the next step, I was unsure if this was the correct course to take. I was worried about my files being uploaded to the public folder, as I assumed anything in that area would be easily accessible from the outside. I created a directory in the root of my app called secure_storage, though I have no idea if that name is a complete misnomer. Then, I opened the config/initializers/dragonfly.rb and changed the default location for where files would be stored. Again, hopefully this will put them in a better location than the public directory, but I am not a hundred precent sure. </p>
+
+<div><div class="CodeRay">
+  <div class="code"><pre>datastore <span class="symbol">:file</span>,
+  <span class="key">root_path</span>: <span class="constant">Rails</span>.root.join(<span class="string"><span class="delimiter">'</span><span class="content">secure_storage/system/dragonfly</span><span class="delimiter">'</span></span>, <span class="constant">Rails</span>.env),
+  <span class="key">server_root</span>: <span class="constant">Rails</span>.root.join(<span class="string"><span class="delimiter">'</span><span class="content">secure_storage</span><span class="delimiter">'</span></span>)
+</pre></div>
+</div>
+</div>
+
+<p>Finally, I added a file link (with a condition to make sure it didn’t appear if no file was present with the record) on the app/views/expenses/show.html.erb. </p>
+
+<p>&lt;% if @expense.document %&gt;</p>
+<p>
+  <strong>Document:</strong>
+  &lt;%= link_to &#8220;File&#8221;, root_url.chop + @expense.document.url %&gt;
+</p>
+<p>&lt;% end %&gt;</p>
+
+<p>That, I believe, was all! You should now have a working file upload function, one that even lets you download the file too! If you try this and have trouble, let me know in the comments below.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">John Keith</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-03-11T17:42:53-04:00" pubdate data-updated="true">Mar 11<span>th</span>, 2014</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/rails/'>rails</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://johnk.herokuapp.com/blog/2014/03/11/simple-file-uploads-to-rails-with-dragonfly/" data-via="mrjohnkeith" data-counturl="http://johnk.herokuapp.com/blog/2014/03/11/simple-file-uploads-to-rails-with-dragonfly/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2014/03/08/using-evernote-with-getting-things-done/" title="Previous Post: Using Evernote with David Allen's 'Getting Things Done' system">&laquo; Using Evernote with David Allen's 'Getting Things Done' system</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2014 - John Keith -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'johnkeith';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://johnk.herokuapp.com/blog/2014/03/11/simple-file-uploads-to-rails-with-dragonfly/';
+        var disqus_url = 'http://johnk.herokuapp.com/blog/2014/03/11/simple-file-uploads-to-rails-with-dragonfly/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>
