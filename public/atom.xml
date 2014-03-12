@@ -4,7 +4,7 @@
   <title><![CDATA[John Keith]]></title>
   <link href="http://johnk.herokuapp.com/atom.xml" rel="self"/>
   <link href="http://johnk.herokuapp.com/"/>
-  <updated>2014-03-11T21:34:34-04:00</updated>
+  <updated>2014-03-11T21:38:00-04:00</updated>
   <id>http://johnk.herokuapp.com/</id>
   <author>
     <name><![CDATA[John Keith]]></name>
@@ -36,8 +36,11 @@
 </div>
 </div>
 
-<pre><code>$ bundle install
-</code></pre>
+<div><div class="CodeRay">
+  <div class="code"><pre>$ bundle install
+</pre></div>
+</div>
+</div>
 
 <p>Then, in my app/models/expense.rb, I added an accessor for my document.</p>
 
@@ -49,8 +52,11 @@
 
 <p>Back at the command line, I setup a migration to add a document column to my expenses model. </p>
 
-<pre><code>$ Rails generate migration AddDocumentToExpenses
-</code></pre>
+<div><div class="CodeRay">
+  <div class="code"><pre>$ Rails generate migration AddDocumentToExpenses
+</pre></div>
+</div>
+</div>
 
 <p>Inside the migration document, I added two columns, one for the :document_uid and :document_name, per the <a href="http://markevans.github.io/dragonfly/">Dragonfly wiki</a>.</p>
 
@@ -67,17 +73,20 @@
 
 <p>Then came migrating the database.</p>
 
-<pre><code>rake db:migrate
-</code></pre>
+<div><div class="CodeRay">
+  <div class="code"><pre>rake db:migrate
+</pre></div>
+</div>
+</div>
 
 <p>Next was altering my app/views/expenses/_form.html.erb to include a field for file uploads. </p>
 
 <div><div class="CodeRay">
-  <div class="code"><pre>&lt;div <span class="keyword">class</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">field</span><span class="delimiter">&quot;</span></span>&gt;
-    &lt;<span class="string"><span class="delimiter">%=</span><span class="content"> f.label :document %&gt;&lt;br&gt;
-    &lt;%</span><span class="delimiter">=</span></span> f.file_field <span class="symbol">:document</span> %&gt;
-&lt;<span class="regexp"><span class="delimiter">/</span><span class="content">div&gt;
-</span></span></pre></div>
+  <div class="code"><pre><span class="tag">&lt;div</span> <span class="attribute-name">class</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">field</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span>
+    <span class="inline"><span class="inline-delimiter">&lt;%=</span> f.label <span class="symbol">:document</span> <span class="inline-delimiter">%&gt;</span></span><span class="tag">&lt;br&gt;</span>
+    <span class="inline"><span class="inline-delimiter">&lt;%=</span> f.file_field <span class="symbol">:document</span> <span class="inline-delimiter">%&gt;</span></span>
+<span class="tag">&lt;/div&gt;</span>
+</pre></div>
 </div>
 </div>
 <p>Then, inside my app/controllers/expenses_controller.rb, I added :document to the list of permitted parameters near the bottom. </p>
@@ -102,12 +111,16 @@
 
 <p>Finally, I added a file link (with a condition to make sure it didn’t appear if no file was present with the record) on the app/views/expenses/show.html.erb. </p>
 
-<p>&lt;% if @expense.document %&gt;</p>
-<p>
-  <strong>Document:</strong>
-  &lt;%= link_to &#8220;File&#8221;, root_url.chop + @expense.document.url %&gt;
-</p>
-<p>&lt;% end %&gt;</p>
+<div><div class="CodeRay">
+  <div class="code"><pre><span class="inline"><span class="inline-delimiter">&lt;%</span> <span class="keyword">if</span> <span class="instance-variable">@expense</span>.document <span class="inline-delimiter">%&gt;</span></span>
+<span class="tag">&lt;p&gt;</span>
+  <span class="tag">&lt;strong&gt;</span>Document:<span class="tag">&lt;/strong&gt;</span>
+  <span class="inline"><span class="inline-delimiter">&lt;%=</span> link_to <span class="string"><span class="delimiter">&quot;</span><span class="content">File</span><span class="delimiter">&quot;</span></span>, root_url.chop + <span class="instance-variable">@expense</span>.document.url <span class="inline-delimiter">%&gt;</span></span>
+<span class="tag">&lt;/p&gt;</span>
+<span class="inline"><span class="inline-delimiter">&lt;%</span> <span class="keyword">end</span> <span class="inline-delimiter">%&gt;</span></span>
+</pre></div>
+</div>
+</div>
 
 <p>That, I believe, was all! You should now have a working file upload function, one that even lets you download the file too! If you try this and have trouble, let me know in the comments below.</p>
 ]]></content>

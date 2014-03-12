@@ -21,7 +21,7 @@ First, I added Dragonfly to my gemfile and ran bundler.
 gem 'dragonfly', "~>1.0.3"
 ~~~
 
-~~~
+~~~ terminal
 $ bundle install
 ~~~
 
@@ -33,7 +33,7 @@ dragonfly_accessor :document
 
 Back at the command line, I setup a migration to add a document column to my expenses model. 
 
-~~~
+~~~ terminal
 $ Rails generate migration AddDocumentToExpenses
 ~~~
 
@@ -50,13 +50,13 @@ end
 
 Then came migrating the database.
 
-~~~
+~~~ terminal
 rake db:migrate
 ~~~
 
 Next was altering my app/views/expenses/_form.html.erb to include a field for file uploads. 
 
-~~~ ruby
+~~~ erb
 <div class="field">
 	<%= f.label :document %><br>
 	<%= f.file_field :document %>
@@ -80,11 +80,13 @@ datastore :file,
 
 Finally, I added a file link (with a condition to make sure it didn't appear if no file was present with the record) on the app/views/expenses/show.html.erb. 
 
+~~~ erb
 <% if @expense.document %>
 <p>
   <strong>Document:</strong>
   <%= link_to "File", root_url.chop + @expense.document.url %>
 </p>
 <% end %>
+~~~
 
 That, I believe, was all! You should now have a working file upload function, one that even lets you download the file too! If you try this and have trouble, let me know in the comments below.
