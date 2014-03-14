@@ -9,7 +9,7 @@
   <meta name="author" content="John Keith">
 
   
-  <meta name="description" content="Gems are amazing. As a rookie developer, it is incredible to come into the Ruby/Rails community and discover the wealth of code that is available out &hellip;">
+  <meta name="description" content="Reader beware: I’m learning Rails right now. In no way, shape or form should this post or any posts here for at least the next month and a half be &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -83,6 +83,92 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/03/14/dynamically-control-button-labels-with-a-helper-method/">Dynamically Control Button Labels With a Helper Method</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-03-14T19:20:08-04:00" pubdate data-updated="true">Mar 14<span>th</span>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><em>Reader beware: I’m learning Rails right now. In no way, shape or form should this post or any posts here for at least the next month and a half be taken as gospel truth of how to do things right in Rails. They probably are way, way out in right field.</em></p>
+
+<p>Okay, say you have a view and in that view you have a beautiful button. If you want to assign a name to that button dynamically, say based on the truthiness of some variable, here’s an easy way to do it. </p>
+
+<ol>
+  <li>Open up the ***_helper.rb file for your model. In your _helper file, write a method that will provide you two pieces of text, depending on a certain condition.</li>
+</ol>
+
+<div><div class="CodeRay">
+  <div class="code"><pre><span class="keyword">def</span> <span class="function">sign_up_btn</span>
+  <span class="keyword">if</span> <span class="constant">User</span>.sign_up_allowed == <span class="predefined-constant">true</span>
+    <span class="string"><span class="delimiter">&quot;</span><span class="content">Prevent new account creation</span><span class="delimiter">&quot;</span></span>
+  <span class="keyword">else</span>
+    <span class="string"><span class="delimiter">&quot;</span><span class="content">Allow new account creation</span><span class="delimiter">&quot;</span></span>
+  <span class="keyword">end</span>
+<span class="keyword">end</span>
+</pre></div>
+</div>
+</div>
+
+<p>Or, if you want to be fancy, try this refactored-while-in-the-midst-of-blogging-version. </p>
+
+<div><div class="CodeRay">
+  <div class="code"><pre><span class="keyword">def</span> <span class="function">sign_up_btn</span>
+  <span class="constant">User</span>.sign_up_allowed ? <span class="string"><span class="delimiter">&quot;</span><span class="content">Prevent new account creation</span><span class="delimiter">&quot;</span></span> : <span class="string"><span class="delimiter">&quot;</span><span class="content">Allow new account creation</span><span class="delimiter">&quot;</span></span>
+<span class="keyword">end</span>
+
+</pre></div>
+</div>
+</div>
+
+<p>Then, back over in your view file, add this bit to create the button and assign it a title based on the results of the method above. </p>
+
+<div><div class="CodeRay">
+  <div class="code"><pre><span class="inline"><span class="inline-delimiter">&lt;%=</span> button_to <span class="key">action</span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">disallow_sign_up</span><span class="delimiter">&quot;</span></span> <span class="keyword">do</span> <span class="inline-delimiter">%&gt;</span></span><span class="inline"><span class="inline-delimiter">&lt;%=</span> <span class="string"><span class="delimiter">&quot;</span><span class="inline"><span class="inline-delimiter">#{</span>sign_up_btn<span class="inline-delimiter">}</span></span><span class="delimiter">&quot;</span></span> <span class="inline-delimiter">%&gt;</span></span><span class="inline"><span class="inline-delimiter">&lt;%</span> <span class="keyword">end</span> <span class="inline-delimiter">%&gt;</span></span>
+</pre></div>
+</div>
+</div>
+
+<p>(Just so you get a fuller picture, here’s my disallow_sign_up method from my users_controller. I wrote it as a way for an admin to turn off access to the sign up page in the expense tracking app I’m working on.)</p>
+
+<div><div class="CodeRay">
+  <div class="code"><pre><span class="keyword">def</span> <span class="function">disallow_sign_up</span>
+  <span class="constant">User</span>.sign_up_allowed ? <span class="constant">User</span>.sign_up_allowed = <span class="predefined-constant">false</span> : <span class="constant">User</span>.sign_up_allowed = <span class="predefined-constant">true</span>
+  redirect_to users_index_path
+<span class="keyword">end</span>
+</pre></div>
+</div>
+</div>
+
+<p>I have a serious fixation on the ternary operator, if you haven’t noticed. </p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
