@@ -30,7 +30,7 @@ Additionally, I've built a few portfolio pages to test out things I've been lear
 
 ### Contact
 
-You can reach me through [LinkedIn](http://www.linkedin.com/pub/john-keith/48/139/8a0), [Twitter](https://twitter.com/mrjohnkeith), or [email](mailto:johnkeith@outlook.com). 
+You can reach me through [LinkedIn](http://www.linkedin.com/in/johnterrellkeith), [Twitter](https://twitter.com/mrjohnkeith), or [email](mailto:johnkeith@outlook.com). 
 
 You can also [view my resume here](https://www.dropbox.com/s/dzajeiutr5n5sky/JohnTerrellKeith-site.pdf).
 
