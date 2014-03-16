@@ -98,9 +98,7 @@
 
 <p>Okay, say you have a view and in that view you have a beautiful button. If you want to assign a name to that button dynamically, say based on the truthiness of some variable, here’s an easy way to do it. </p>
 
-<ol>
-  <li>Open up the ***_helper.rb file for your model. In your _helper file, write a method that will provide you two pieces of text, depending on a certain condition.</li>
-</ol>
+<p>Open up the _helper.rb file for your model. In your _helper file, write a method that will provide you two pieces of text, depending on a certain condition.</p>
 
 <div><div class="CodeRay">
   <div class="code"><pre><span class="keyword">def</span> <span class="function">sign_up_btn</span>
@@ -120,7 +118,6 @@
   <div class="code"><pre><span class="keyword">def</span> <span class="function">sign_up_btn</span>
   <span class="constant">User</span>.sign_up_allowed ? <span class="string"><span class="delimiter">&quot;</span><span class="content">Prevent new account creation</span><span class="delimiter">&quot;</span></span> : <span class="string"><span class="delimiter">&quot;</span><span class="content">Allow new account creation</span><span class="delimiter">&quot;</span></span>
 <span class="keyword">end</span>
-
 </pre></div>
 </div>
 </div>
