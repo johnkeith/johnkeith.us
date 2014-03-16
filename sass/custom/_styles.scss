@@ -23,6 +23,9 @@ body {
       @media only screen and (min-width: 550px) {
         padding-top:80px;
       }
+    h1 {
+      font-size:3em;
+    }
     img {
       display:block;
       margin:0 auto;
@@ -30,6 +33,9 @@ body {
     header h2 a{
       text-decoration: none;
       color: $nav-color-hover;
+    }
+    hgroup {
+      padding-top:40px;
     } 
   }
   
@@ -44,7 +50,7 @@ body {
       position:fixed;
     }
     a {
-      font-family: $serif;
+      font-family: $sans;
       font-size: 1em;
     }
     ul li a i:hover {
@@ -88,7 +94,4 @@ article {
 }
 pre {
   background:#fff;
-}
-a, a:visited, a:hover {
-  text-decoration: none;
 }
