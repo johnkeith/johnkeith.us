@@ -9,7 +9,7 @@
   <meta name="author" content="John Keith">
 
   
-  <meta name="description" content="As another part of our pre-work for Launch Academy, we’ve been asked to setup a blog. Luckily, I actually (miraculously) got this Octopress &hellip;">
+  <meta name="description" content="Refactoring is really fun, especially in those moments when you have an “Aha!” flash and one of those little details clicks into place. I had that &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -81,6 +81,90 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/03/19/always-remember-the-small-stuff/">Always Remember the Small Stuff</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-03-19T17:47:29-04:00" pubdate data-updated="true">Mar 19<span>th</span>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Refactoring is really fun, especially in those moments when you have an “Aha!” flash and one of those little details clicks into place. I had that today with method I wrote for changing the sorting on a table in a Rails view. </p>
+
+<div><div class="CodeRay">
+  <div class="code"><pre><span class="keyword">def</span> <span class="function">sortable</span>(column, title = <span class="predefined-constant">nil</span>)
+  title ||= column.titleize
+  direction = (column == sort_column &amp;&amp; sort_direction == <span class="string"><span class="delimiter">&quot;</span><span class="content">asc</span><span class="delimiter">&quot;</span></span>) ? <span class="string"><span class="delimiter">&quot;</span><span class="content">desc</span><span class="delimiter">&quot;</span></span> : <span class="string"><span class="delimiter">&quot;</span><span class="content">asc</span><span class="delimiter">&quot;</span></span>
+  font_awesome_direction = direction == <span class="string"><span class="delimiter">&quot;</span><span class="content">asc</span><span class="delimiter">&quot;</span></span> ? <span class="string"><span class="delimiter">&quot;</span><span class="content">up</span><span class="delimiter">&quot;</span></span> : <span class="string"><span class="delimiter">&quot;</span><span class="content">down</span><span class="delimiter">&quot;</span></span>
+  css_class = column == sort_column ? <span class="string"><span class="delimiter">&quot;</span><span class="content">fa-caret-</span><span class="inline"><span class="inline-delimiter">#{</span>font_awesome_direction<span class="inline-delimiter">}</span></span><span class="delimiter">&quot;</span></span> : <span class="predefined-constant">nil</span>
+  link_to title, {<span class="symbol">:sort</span> =&gt; column, <span class="symbol">:direction</span> =&gt; direction}, {<span class="key">class</span>: css_class}
+<span class="keyword">end</span>
+</pre></div>
+</div>
+</div>
+
+<p>That sortable method was placed in my application_helper.rb. It works with these two methods from my view controller. </p>
+
+<div><div class="CodeRay">
+  <div class="code"><pre><span class="keyword">def</span> <span class="function">sort_direction</span>
+  <span class="string"><span class="delimiter">%w[</span><span class="content">asc desc</span><span class="delimiter">]</span></span>.include?(params[<span class="symbol">:direction</span>]) ?  params[<span class="symbol">:direction</span>] : <span class="string"><span class="delimiter">&quot;</span><span class="content">asc</span><span class="delimiter">&quot;</span></span>
+<span class="keyword">end</span>
+
+<span class="keyword">def</span> <span class="function">sort_column</span>
+  <span class="constant">Expense</span>.column_names.include?(params[<span class="symbol">:sort</span>]) ? params[<span class="symbol">:sort</span>] : <span class="string"><span class="delimiter">&quot;</span><span class="content">date</span><span class="delimiter">&quot;</span></span>
+<span class="keyword">end</span>
+</pre></div>
+</div>
+</div>
+
+<p>And all of these are put into place with the index method in that same view controller. </p>
+
+<div><div class="CodeRay">
+  <div class="code"><pre><span class="keyword">def</span> <span class="function">index</span>
+  <span class="instance-variable">@expenses</span> = <span class="constant">Expense</span>.order(sort_column + <span class="string"><span class="delimiter">'</span><span class="content"> </span><span class="delimiter">'</span></span> + sort_direction).paginate(<span class="key">page</span>: params[<span class="symbol">:page</span>])
+<span class="keyword">end</span>
+</pre></div>
+</div>
+</div>
+
+<p>Initially, what I’d written wasn’t terrible: it worked in the browser, my columns resorted themselves on prompting, and a nice little caret was provided as feedback and a guide post for the user. That said, I was irked by the way the caret was smushed right up against the text and the way that adding the caret threw off the font sizing and styling I had going at the top of my table. </p>
+
+<p>So, I took a step back and tried to determine out if it was possible to embed HTML inside of a link_to in Rails. A couple minutes later, I had figured out it was perfectly acceptable and learned a little bit about the nifty #html_safe method that Rails provides. This led me to a rewritten last line that I think provides a much more pleasing output. </p>
+
+<div><div class="CodeRay">
+  <div class="code"><pre>link_to <span class="string"><span class="delimiter">&quot;</span><span class="content">&lt;i class='fa </span><span class="inline"><span class="inline-delimiter">#{</span>css_class<span class="inline-delimiter">}</span></span><span class="content">'&gt;&lt;/i&gt; </span><span class="delimiter">&quot;</span></span>.html_safe+title, {<span class="symbol">:sort</span> =&gt; column, <span class="symbol">:direction</span> =&gt; direction}
+</pre></div>
+</div>
+</div>
+
+<p>It was also great to have one of those moments when all that reading comes in handy. I couldn’t get the icons to appear the first time I fired up the page, because I had wrapped my icon HTML in single quotes instead of double. Using double quotes on the outside and then single on the inside allows Ruby to interpolate the css_class variable. Nothing fancy, but still a good learning experience that will hopefully keep me more consistent with my use of quotes. </p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -611,58 +695,6 @@ my_todo_list.open_app
 </pre></div>
 </div>
 </div>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/03/04/image-hosting-for-a-heroku-octopress-site/">Image Hosting for a Heroku Octopress Site</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-03-04T17:44:27-05:00" pubdate data-updated="true">Mar 4<span>th</span>, 2014</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Since Heroku only allows for 300 MB of storage for their free tier of hosting, it makes sense to store the images for an Octopress site in a separate location. Previously, I used Flickr for a few posts, but the process of uploading the files and hunting down the embed link was tiresome. </p>
-
-<p>The better way, it seems, is to use Google Drive, despite the fact that Google doesn’t provide an easy way to embed either. What makes using Google Drive much friendlier than Flickr, however, is a site called <a href="http://gdurl.com/​">gdURL</a>. </p>
-
-<p>With gdURL, all you need to do is share an image file on Google Drive, change the privacy settings to “Anyone who has the link can view”, then run the link Google Drive provides you through the gdURL service and you receive a tidy, bite-sized link for embedding your image. </p>
-
-<p>For instance, I used gdURL in the following line to link to a picture of this site’s new theme.</p>
-
-<div><div class="CodeRay">
-  <div class="code"><pre>![So Fresh and So Green](http://gdurl.com/i4Wr)​
-</pre></div>
-</div>
-</div>
-
-<p><img src="http://gdurl.com/i4Wr" alt="So Fresh and So Green" />​</p>
-
-<p>Quick, easy, and keeps the size of your Octopress repo down.</p>
 </div>
   
   

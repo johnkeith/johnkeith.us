@@ -1,8 +1,8 @@
 .CodeRay {
-  background-color: #fff;
+  background-color: #FFF;
   font-family: Monaco, "Courier New", "DejaVu Sans Mono", "Bitstream Vera Sans Mono", monospace;
   color: #000;
-  padding: 0 0px 1.5em 0;
+  padding: 0 0px 1.4em 0;
 }
 
 .CodeRay pre {
@@ -10,9 +10,6 @@
   border:1px solid #f2f2f2;
 }
 
-pre {
-    color:#000;
-}
 div.CodeRay { }
 span.CodeRay { white-space: pre; border: 0px; padding: 2px }
 
@@ -41,7 +38,7 @@ table.CodeRay td {
 ol.CodeRay { font-size: 10pt }
 ol.CodeRay li { white-space: pre }
 
-.CodeRay .code pre { overflow: auto; background: #efefef; }
+.CodeRay .code pre { overflow: auto }
 .CodeRay .debug { color:white ! important; background:blue ! important; }
 
 .CodeRay .annotation { color:#007 }

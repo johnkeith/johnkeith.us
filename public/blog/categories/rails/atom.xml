@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Rails | John Keith]]></title>
   <link href="http://johnk.herokuapp.com/blog/categories/rails/atom.xml" rel="self"/>
   <link href="http://johnk.herokuapp.com/"/>
-  <updated>2014-03-16T15:38:13-04:00</updated>
+  <updated>2014-03-19T19:38:09-04:00</updated>
   <id>http://johnk.herokuapp.com/</id>
   <author>
     <name><![CDATA[John Keith]]></name>
@@ -12,6 +12,63 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Always Remember the Small Stuff]]></title>
+    <link href="http://johnk.herokuapp.com/blog/2014/03/19/always-remember-the-small-stuff/"/>
+    <updated>2014-03-19T17:47:29-04:00</updated>
+    <id>http://johnk.herokuapp.com/blog/2014/03/19/always-remember-the-small-stuff</id>
+    <content type="html"><![CDATA[<p>Refactoring is really fun, especially in those moments when you have an “Aha!” flash and one of those little details clicks into place. I had that today with method I wrote for changing the sorting on a table in a Rails view. </p>
+
+<div><div class="CodeRay">
+  <div class="code"><pre><span class="keyword">def</span> <span class="function">sortable</span>(column, title = <span class="predefined-constant">nil</span>)
+  title ||= column.titleize
+  direction = (column == sort_column &amp;&amp; sort_direction == <span class="string"><span class="delimiter">&quot;</span><span class="content">asc</span><span class="delimiter">&quot;</span></span>) ? <span class="string"><span class="delimiter">&quot;</span><span class="content">desc</span><span class="delimiter">&quot;</span></span> : <span class="string"><span class="delimiter">&quot;</span><span class="content">asc</span><span class="delimiter">&quot;</span></span>
+  font_awesome_direction = direction == <span class="string"><span class="delimiter">&quot;</span><span class="content">asc</span><span class="delimiter">&quot;</span></span> ? <span class="string"><span class="delimiter">&quot;</span><span class="content">up</span><span class="delimiter">&quot;</span></span> : <span class="string"><span class="delimiter">&quot;</span><span class="content">down</span><span class="delimiter">&quot;</span></span>
+  css_class = column == sort_column ? <span class="string"><span class="delimiter">&quot;</span><span class="content">fa-caret-</span><span class="inline"><span class="inline-delimiter">#{</span>font_awesome_direction<span class="inline-delimiter">}</span></span><span class="delimiter">&quot;</span></span> : <span class="predefined-constant">nil</span>
+  link_to title, {<span class="symbol">:sort</span> =&gt; column, <span class="symbol">:direction</span> =&gt; direction}, {<span class="key">class</span>: css_class}
+<span class="keyword">end</span>
+</pre></div>
+</div>
+</div>
+
+<p>That sortable method was placed in my application_helper.rb. It works with these two methods from my view controller. </p>
+
+<div><div class="CodeRay">
+  <div class="code"><pre><span class="keyword">def</span> <span class="function">sort_direction</span>
+  <span class="string"><span class="delimiter">%w[</span><span class="content">asc desc</span><span class="delimiter">]</span></span>.include?(params[<span class="symbol">:direction</span>]) ?  params[<span class="symbol">:direction</span>] : <span class="string"><span class="delimiter">&quot;</span><span class="content">asc</span><span class="delimiter">&quot;</span></span>
+<span class="keyword">end</span>
+
+<span class="keyword">def</span> <span class="function">sort_column</span>
+  <span class="constant">Expense</span>.column_names.include?(params[<span class="symbol">:sort</span>]) ? params[<span class="symbol">:sort</span>] : <span class="string"><span class="delimiter">&quot;</span><span class="content">date</span><span class="delimiter">&quot;</span></span>
+<span class="keyword">end</span>
+</pre></div>
+</div>
+</div>
+
+<p>And all of these are put into place with the index method in that same view controller. </p>
+
+<div><div class="CodeRay">
+  <div class="code"><pre><span class="keyword">def</span> <span class="function">index</span>
+  <span class="instance-variable">@expenses</span> = <span class="constant">Expense</span>.order(sort_column + <span class="string"><span class="delimiter">'</span><span class="content"> </span><span class="delimiter">'</span></span> + sort_direction).paginate(<span class="key">page</span>: params[<span class="symbol">:page</span>])
+<span class="keyword">end</span>
+</pre></div>
+</div>
+</div>
+
+<p>Initially, what I’d written wasn’t terrible: it worked in the browser, my columns resorted themselves on prompting, and a nice little caret was provided as feedback and a guide post for the user. That said, I was irked by the way the caret was smushed right up against the text and the way that adding the caret threw off the font sizing and styling I had going at the top of my table. </p>
+
+<p>So, I took a step back and tried to determine out if it was possible to embed HTML inside of a link_to in Rails. A couple minutes later, I had figured out it was perfectly acceptable and learned a little bit about the nifty #html_safe method that Rails provides. This led me to a rewritten last line that I think provides a much more pleasing output. </p>
+
+<div><div class="CodeRay">
+  <div class="code"><pre>link_to <span class="string"><span class="delimiter">&quot;</span><span class="content">&lt;i class='fa </span><span class="inline"><span class="inline-delimiter">#{</span>css_class<span class="inline-delimiter">}</span></span><span class="content">'&gt;&lt;/i&gt; </span><span class="delimiter">&quot;</span></span>.html_safe+title, {<span class="symbol">:sort</span> =&gt; column, <span class="symbol">:direction</span> =&gt; direction}
+</pre></div>
+</div>
+</div>
+
+<p>It was also great to have one of those moments when all that reading comes in handy. I couldn’t get the icons to appear the first time I fired up the page, because I had wrapped my icon HTML in single quotes instead of double. Using double quotes on the outside and then single on the inside allows Ruby to interpolate the css_class variable. Nothing fancy, but still a good learning experience that will hopefully keep me more consistent with my use of quotes. </p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Dynamically Control Button Labels With a Helper Method]]></title>
