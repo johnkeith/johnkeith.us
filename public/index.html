@@ -9,8 +9,7 @@
   <meta name="author" content="John Keith">
 
   
-  <meta name="description" content="Hi! This is a demo of an Octopress theme. If you want to read the real blog that the posts come from, head over to johnkeith.us. Enjoy!
-">
+  <meta name="description" content="JSON is one of the major data formats out there on the web, known for its readability. Personally, I was a little unsure about that readability &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -88,7 +87,7 @@
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2014/04/02/demo-of-theme/">Demo of Theme</a></h1>
+      <h1 class="entry-title"><a href="/blog/2014/04/01/json-and-nested-hashes-in-ruby/">JSON and Nested Hashes in Ruby</a></h1>
     
     
       <p class="meta">
@@ -104,56 +103,86 @@
   
 
 
-<time datetime="2014-04-02T18:31:28-04:00" pubdate data-updated="true">Apr 2<span>nd</span>, 2014</time>
+<time datetime="2014-04-01T21:33:09-04:00" pubdate data-updated="true">Apr 1<span>st</span>, 2014</time>
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><p>Hi! This is a demo of an Octopress theme. If you want to read the real blog that the posts come from, head over to <a href="http://www.johnkeith.us">johnkeith.us</a>. Enjoy!</p>
-</div>
-  
-  
+  <div class="entry-content"><p>JSON is one of the major data formats out there on the web, known for its readability. Personally, I was a little unsure about that readability aspect after pulling up my first JSON document and seeing this mess.</p>
 
+<p><img src="http://gdurl.com/PP1x" alt="Crazy JSON!" /> </p>
 
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/03/31/working-with-json-in-ruby-and-jquery/">Working With JSON in Ruby and jQuery</a></h1>
-    
-    
-      <p class="meta">
-        
+<p>The first step towards wrapping your head around JSON is to see it printed in a prettier fashion. Head over to <a href="http://www.jsoneditoronline.org">JSON Online Editor</a> and using the “Open URL” option you can paste the URL to a JSON document and see this format is actually much more presentable than it lets on. (If you need a JSON example to play with while reading this, don’t hesitate to use <a href="http://teamtreehouse.com/johnkeith.json">my Treehouse profile</a>, as this provides you with a complex, multidimensional set of data to manipulate).</p>
 
+<p>I decided to start by figuring out how to work with JSON in Ruby, as currently I feel more comfortable with Ruby than Javascript. Luckily, Ruby makes handling JSON from the web easy with a few of its built in libraries and modules.</p>
 
+<p>At the top of your Ruby file (or in IRB if you would rather try this out in the terminal), you will need to require the Net/HTTP library and the JSON module.</p>
 
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="nb">require</span> <span class="s1">&#39;net/http&#39;</span>
+</span><span class="line"><span class="nb">require</span> <span class="s1">&#39;json&#39;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
+<p>Net/HTTP allows you to do all types connect to websites within Ruby and do all types of nifty stuff. For instance, the following code will assign our JSON document’s contents to the variable response. </p>
 
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="n">response</span> <span class="o">=</span> <span class="ss">Net</span><span class="p">:</span><span class="ss">:HTTP</span><span class="o">.</span><span class="n">get_response</span><span class="p">(</span><span class="no">URI</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="s1">&#39;http://teamtreehouse.com/johnkeith.json&#39;</span><span class="p">))</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
+<p>The get_response method returns a Net::HTTPResponse object that contains header and body information from the website specified. Since we are are specifying a JSON document, there is no header, but you can check the output of your response object with <code>response.body.inspect</code>.</p>
 
+<p>Now that we have the JSON document retreived from the web, we need to parse it and turn the data into something more easily used by Ruby.</p>
 
-  
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="n">result</span> <span class="o">=</span> <span class="no">JSON</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">body</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
+<p>(I found it helpful to look at the difference between the raw Net::HTTP response and the parse JSON - try running <code>puts JSON.pretty_generate(result)</code> and <code>puts response.body</code> to see how the parse method formats the data into a Ruby readable hash.) </p>
 
-<time datetime="2014-03-31T21:48:49-04:00" pubdate data-updated="true">Mar 31<span>st</span>, 2014</time>
-        
-      </p>
-    
-  </header>
+<p>Next, we need to access the data within our newly parsed hash of JSON data. You can access Ruby hashes with a similar syntax to the one used for arrays - start with the hash name, then a key from the hash in brackets. </p>
 
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="n">result</span><span class="o">[</span><span class="s2">&quot;badges&quot;</span><span class="o">]</span>
+</span><span class="line"><span class="n">result</span><span class="o">[</span><span class="s2">&quot;badges&quot;</span><span class="o">][</span><span class="mi">0</span><span class="o">]</span>
+</span><span class="line"><span class="n">result</span><span class="o">[</span><span class="s2">&quot;badges&quot;</span><span class="o">][</span><span class="mi">0</span><span class="o">][</span><span class="s2">&quot;name&quot;</span><span class="o">]</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
-  <div class="entry-content"><p>JSON is one of the major data formats out there on the web, known for its readability. Now, I was a little unsure about that readability aspect after pulling up my first JSON document and seeing this mess.</p>
+<p>The examples above show you how you can move through a nested hash and access data within different sections of your JSON document. Putting this syntax to use, you can quickly pull out all the URLs for the badge icons from this Treehouse JSON. </p>
 
-<p><img src="http://gdurl.com/PP1x" alt="Crazy JSON!" /><br />
-The first step towards wrapping your head around JSON is to see it printed in a prettier fashion. Head over to <a href="http://www.jsoneditoronline.org">JSON Online Editor</a> and using the “Open URL” option you can see that JSON data is actually much more presentable than it lets on. (If you need a JSON example to play with while reading this, don’t hesitate to use <a href="http://teamtreehouse.com/johnkeith.json">my Treehouse profile</a>, as this provides you with a complex, multidimensional set of data to manipulate).</p>
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="n">result</span><span class="o">[</span><span class="s2">&quot;badges&quot;</span><span class="o">].</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">item</span><span class="o">|</span>
+</span><span class="line">  <span class="nb">puts</span> <span class="n">item</span><span class="o">[</span><span class="s2">&quot;icon_url&quot;</span><span class="o">]</span>
+</span><span class="line"><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
-<p>I decided to start by figuring out how to work with JSON in Ruby, as currently I certainly feel more comfortable with Ruby than Javascript. Luckily, Ruby makes handling JSON from the web easy with a few of its built in libraries and modules.</p>
+<p>While I thought it was awesome to be able to drill down to these URLs, I decided I wanted to do something with this data. To round out my exploration of JSON and Ruby, I wrote a small script to grab all of the images located at these URLs and save them to my computer. </p>
 
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="nb">require</span> <span class="s1">&#39;open-uri&#39;</span>
+</span><span class="line"><span class="n">result</span><span class="o">[</span><span class="s2">&quot;badges&quot;</span><span class="o">].</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">item</span><span class="o">|</span>
+</span><span class="line">  <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;badge</span><span class="si">#{</span><span class="n">item</span><span class="o">[</span><span class="s2">&quot;id&quot;</span><span class="o">]</span><span class="si">}</span><span class="s2">.png&quot;</span><span class="p">,</span> <span class="s2">&quot;w+&quot;</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">file</span><span class="o">|</span>
+</span><span class="line">    <span class="nb">open</span><span class="p">(</span><span class="n">item</span><span class="o">[</span><span class="s2">&quot;icon_url&quot;</span><span class="o">]</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">image</span><span class="o">|</span>
+</span><span class="line">      <span class="n">file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">image</span><span class="o">.</span><span class="n">read</span><span class="p">)</span>
+</span><span class="line">    <span class="k">end</span>
+</span><span class="line">  <span class="k">end</span>
+</span><span class="line"><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>The Open URI module, according to the Ruby docs, allows you “to open an http, https, or ftp URL as though it were a file.” The code above uses this capability in the <code>open(item["icon_url"] do |image|</code> line in order to open the URL we extracted from the hash and then save that image data into a file.</p>
 </div>
   
   
@@ -418,6 +447,146 @@ The first step towards wrapping your head around JSON is to see it printed in a 
 </div>
 
 <p>I have a serious fixation on the ternary operator, if you haven’t noticed. </p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/03/11/simple-file-uploads-to-rails-with-dragonfly/">Simple File Uploads to Rails With Dragonfly</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-03-11T17:42:53-04:00" pubdate data-updated="true">Mar 11<span>th</span>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Gems are amazing. As a rookie developer, it is incredible to come into the Ruby/Rails community and discover the wealth of code that is available out there, packaged and ready to be used. I’d encountered and enjoyed open source software before, but it was not until I started writing code that I really came to appreciate what the concept means.</p>
+
+<p>Take for instance file uploading with Rails. You can perform basic uploads using what Rails offers natively or you can choose from a multitude of gems (Paperclip, Carrierwave, Dragonfly, the <a href="https://www.ruby-toolbox.com/categories/rails_file_uploads">list goes on</a>) that add more advanced methods of uploading and storing files in your Rails app. </p>
+
+<p>For the expense tracker I am currently working on, I selected <a href="https://github.com/markevans/dragonfly">Dragonfly</a>. I’ll admit, I tried Paperclip first and I was unable to make it function correctly. My lack of success with Paperclip, however, was only half the reason I ended up with Dragonfly. </p>
+
+<p>As I was envisioning document uploads in my app, I wanted the document (a receipt or invoice of a purchase) to become part of the Expenses table that I had already set up with a multitude of fields. With Paperclip, as far as I understood from the tutorials provided, it seemed like the documents would be set up as a separate model in the database, then associated with my current Expenses model. I can see advantages to the Paperclip approach (making all the documents easily accessible in one section of the database), but I wanted keep the relationships in this app as simple as possible, if only for my own sanity.</p>
+
+<p>The great part about Dragonfly is it makes adding a :document column to your current model incredibly easy. The instructions below were what I did to install and integrate Dragonfly to upload documents when creating a new record in my Expense model. </p>
+
+<p>First, I added Dragonfly to my gemfile and ran bundler.</p>
+
+<div><div class="CodeRay">
+  <div class="code"><pre>gem <span class="string"><span class="delimiter">'</span><span class="content">dragonfly</span><span class="delimiter">'</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">~&gt;1.0.3</span><span class="delimiter">&quot;</span></span>
+</pre></div>
+</div>
+</div>
+
+<div><div class="CodeRay">
+  <div class="code"><pre>$ bundle install
+</pre></div>
+</div>
+</div>
+
+<p>Then, in my app/models/expense.rb, I added an accessor for my document.</p>
+
+<div><div class="CodeRay">
+  <div class="code"><pre>dragonfly_accessor <span class="symbol">:document</span>
+</pre></div>
+</div>
+</div>
+
+<p>Back at the command line, I setup a migration to add a document column to my expenses model. </p>
+
+<div><div class="CodeRay">
+  <div class="code"><pre>$ Rails generate migration AddDocumentToExpenses
+</pre></div>
+</div>
+</div>
+
+<p>Inside the migration document, I added two columns, one for the :document_uid and :document_name, per the <a href="http://markevans.github.io/dragonfly/">Dragonfly wiki</a>.</p>
+
+<div><div class="CodeRay">
+  <div class="code"><pre><span class="keyword">class</span> <span class="class">AddDocumentToExpenses</span> &lt; <span class="constant">ActiveRecord</span>::<span class="constant">Migration</span>
+  <span class="keyword">def</span> <span class="function">change</span>
+    add_column <span class="symbol">:expenses</span>, <span class="symbol">:document_uid</span>, <span class="symbol">:string</span>
+    add_column <span class="symbol">:expenses</span>, <span class="symbol">:document_name</span>, <span class="symbol">:string</span>
+  <span class="keyword">end</span>
+<span class="keyword">end</span>
+</pre></div>
+</div>
+</div>
+
+<p>Then came migrating the database.</p>
+
+<div><div class="CodeRay">
+  <div class="code"><pre>rake db:migrate
+</pre></div>
+</div>
+</div>
+
+<p>Next was altering my app/views/expenses/_form.html.erb to include a field for file uploads. </p>
+
+<div><div class="CodeRay">
+  <div class="code"><pre><span class="tag">&lt;div</span> <span class="attribute-name">class</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">field</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span>
+    <span class="inline"><span class="inline-delimiter">&lt;%=</span> f.label <span class="symbol">:document</span> <span class="inline-delimiter">%&gt;</span></span><span class="tag">&lt;br&gt;</span>
+    <span class="inline"><span class="inline-delimiter">&lt;%=</span> f.file_field <span class="symbol">:document</span> <span class="inline-delimiter">%&gt;</span></span>
+<span class="tag">&lt;/div&gt;</span>
+</pre></div>
+</div>
+</div>
+<p>Then, inside my app/controllers/expenses_controller.rb, I added :document to the list of permitted parameters near the bottom. </p>
+
+<div><div class="CodeRay">
+  <div class="code"><pre><span class="keyword">def</span> <span class="function">expense_params</span>
+    params.require(<span class="symbol">:expense</span>).permit(<span class="symbol">:user_id</span>, <span class="symbol">:date</span>, <span class="symbol">:reseller</span>, <span class="symbol">:item_or_service</span>, <span class="symbol">:payment_form</span>, <span class="symbol">:charged_to</span>, <span class="symbol">:cost</span>, <span class="symbol">:amount_from_budget</span>, <span class="symbol">:notes</span>, <span class="symbol">:document</span>)
+<span class="keyword">end</span>
+</pre></div>
+</div>
+</div>
+
+<p>With the next step, I was unsure if this was the correct course to take. I was worried about my files being uploaded to the public folder, as I assumed anything in that area would be easily accessible from the outside. I created a directory in the root of my app called secure_storage, though I have no idea if that name is a complete misnomer. Then, I opened the config/initializers/dragonfly.rb and changed the default location for where files would be stored. Again, hopefully this will put them in a better location than the public directory, but I am not a hundred precent sure. </p>
+
+<div><div class="CodeRay">
+  <div class="code"><pre>datastore <span class="symbol">:file</span>,
+  <span class="key">root_path</span>: <span class="constant">Rails</span>.root.join(<span class="string"><span class="delimiter">'</span><span class="content">secure_storage/system/dragonfly</span><span class="delimiter">'</span></span>, <span class="constant">Rails</span>.env),
+  <span class="key">server_root</span>: <span class="constant">Rails</span>.root.join(<span class="string"><span class="delimiter">'</span><span class="content">secure_storage</span><span class="delimiter">'</span></span>)
+</pre></div>
+</div>
+</div>
+
+<p>Finally, I added a file link (with a condition to make sure it didn’t appear if no file was present with the record) on the app/views/expenses/show.html.erb. </p>
+
+<div><div class="CodeRay">
+  <div class="code"><pre><span class="inline"><span class="inline-delimiter">&lt;%</span> <span class="keyword">if</span> <span class="instance-variable">@expense</span>.document <span class="inline-delimiter">%&gt;</span></span>
+<span class="tag">&lt;p&gt;</span>
+  <span class="tag">&lt;strong&gt;</span>Document:<span class="tag">&lt;/strong&gt;</span>
+  <span class="inline"><span class="inline-delimiter">&lt;%=</span> link_to <span class="string"><span class="delimiter">&quot;</span><span class="content">File</span><span class="delimiter">&quot;</span></span>, root_url.chop + <span class="instance-variable">@expense</span>.document.url <span class="inline-delimiter">%&gt;</span></span>
+<span class="tag">&lt;/p&gt;</span>
+<span class="inline"><span class="inline-delimiter">&lt;%</span> <span class="keyword">end</span> <span class="inline-delimiter">%&gt;</span></span>
+</pre></div>
+</div>
+</div>
+
+<p>That, I believe, was all! You should now have a working file upload function, one that even lets you download the file too! If you try this and have trouble, let me know in the comments below.</p>
 </div>
   
   
