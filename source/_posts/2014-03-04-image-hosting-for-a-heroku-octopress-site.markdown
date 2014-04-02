@@ -13,9 +13,9 @@ With gdURL, all you need to do is share an image file on Google Drive, change th
 
 For instance, I used gdURL in the following line to link to a picture of this site's new theme.
 
-~~~ markdown
+```
 ![So Fresh and So Green](http://gdurl.com/i4Wr)​
-~~~
+```
 
 ![So Fresh and So Green](http://gdurl.com/i4Wr)​
 

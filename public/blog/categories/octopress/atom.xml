@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Octopress | John Keith]]></title>
   <link href="http://johnk.herokuapp.com/blog/categories/octopress/atom.xml" rel="self"/>
   <link href="http://johnk.herokuapp.com/"/>
-  <updated>2014-04-02T18:54:35-04:00</updated>
+  <updated>2014-04-02T18:59:53-04:00</updated>
   <id>http://johnk.herokuapp.com/</id>
   <author>
     <name><![CDATA[John Keith]]></name>
@@ -18,19 +18,17 @@
     <link href="http://johnk.herokuapp.com/blog/2014/03/04/image-hosting-for-a-heroku-octopress-site/"/>
     <updated>2014-03-04T17:44:27-05:00</updated>
     <id>http://johnk.herokuapp.com/blog/2014/03/04/image-hosting-for-a-heroku-octopress-site</id>
-    <content type="html"><![CDATA[<p>Since Heroku only allows for 300 MB of storage for their free tier of hosting, it makes sense to store the images for an Octopress site in a separate location. Previously, I used Flickr for a few posts, but the process of uploading the files and hunting down the embed link was tiresome. </p>
+    <content type="html"><![CDATA[<p>Since Heroku only allows for 300 MB of storage for their free tier of hosting, it makes sense to store the images for an Octopress site in a separate location. Previously, I used Flickr for a few posts, but the process of uploading the files and hunting down the embed link was tiresome.</p>
 
-<p>The better way, it seems, is to use Google Drive, despite the fact that Google doesn’t provide an easy way to embed either. What makes using Google Drive much friendlier than Flickr, however, is a site called <a href="http://gdurl.com/​">gdURL</a>. </p>
+<p>The better way, it seems, is to use Google Drive, despite the fact that Google doesn&rsquo;t provide an easy way to embed either. What makes using Google Drive much friendlier than Flickr, however, is a site called <a href="http://gdurl.com/%E2%80%8B">gdURL</a>.</p>
 
-<p>With gdURL, all you need to do is share an image file on Google Drive, change the privacy settings to “Anyone who has the link can view”, then run the link Google Drive provides you through the gdURL service and you receive a tidy, bite-sized link for embedding your image. </p>
+<p>With gdURL, all you need to do is share an image file on Google Drive, change the privacy settings to &ldquo;Anyone who has the link can view&rdquo;, then run the link Google Drive provides you through the gdURL service and you receive a tidy, bite-sized link for embedding your image.</p>
 
-<p>For instance, I used gdURL in the following line to link to a picture of this site’s new theme.</p>
+<p>For instance, I used gdURL in the following line to link to a picture of this site&rsquo;s new theme.</p>
 
-<div><div class="CodeRay">
-  <div class="code"><pre>![So Fresh and So Green](http://gdurl.com/i4Wr)​
-</pre></div>
-</div>
-</div>
+<p><code>
+![So Fresh and So Green](http://gdurl.com/i4Wr)​
+</code></p>
 
 <p><img src="http://gdurl.com/i4Wr" alt="So Fresh and So Green" />​</p>
 
@@ -43,17 +41,18 @@
     <link href="http://johnk.herokuapp.com/blog/2014/03/02/new-theme/"/>
     <updated>2014-03-02T21:20:50-05:00</updated>
     <id>http://johnk.herokuapp.com/blog/2014/03/02/new-theme</id>
-    <content type="html"><![CDATA[<p>I’ve been meaning to build an Octopress theme since I put this site up back in January. To start with, this blog was using the <a href="https://github.com/lucaslew/whitespace">Whitespace theme</a>, which was a fantastic starting point, but I wanted to create something with a little more…color! </p>
+    <content type="html"><![CDATA[<p>I&rsquo;ve been meaning to build an Octopress theme since I put this site up back in January. To start with, this blog was using the <a href="https://github.com/lucaslew/whitespace">Whitespace theme</a>, which was a fantastic starting point, but I wanted to create something with a little more&hellip;color!</p>
 
-<p>After reading Vladi’s post about creating a theme called <a href="http://vladigleba.com/blog/2013/10/31/introducing-readify-a-new-octopress-theme-focused-on-readibility/">Readify</a>, I was inspired to take a shot at it. </p>
+<p>After reading Vladi&rsquo;s post about creating a theme called <a href="http://vladigleba.com/blog/2013/10/31/introducing-readify-a-new-octopress-theme-focused-on-readibility/">Readify</a>, I was inspired to take a shot at it.</p>
 
-<p>To that end…here’s what I’ve got so far. The code is <a href="https://github.com/johnkeith/sofreshandsogreen">available here</a>, should you want to install it on your own Octopress! I reworked the Classc theme to include a few basic changes that hopefully will make it more readable and usable.</p>
+<p>To that end&hellip;here&rsquo;s what I&rsquo;ve got so far. The code is <a href="https://github.com/johnkeith/sofreshandsogreen">available here</a>, should you want to install it on your own Octopress! I reworked the Classc theme to include a few basic changes that hopefully will make it more readable and usable.</p>
 
 <ul>
-  <li>Larger font and line heights</li>
-  <li>Fixed navbar that becomes unfixed on mobile devices</li>
-  <li>Green everywhere!</li>
+<li>Larger font and line heights</li>
+<li>Fixed navbar that becomes unfixed on mobile devices</li>
+<li>Green everywhere!</li>
 </ul>
+
 ]]></content>
   </entry>
   

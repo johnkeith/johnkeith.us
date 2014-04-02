@@ -19,7 +19,7 @@ There is one little quirk that I can't seem to shake: when you mark a todo as fi
 
 In the end, this was a great way to get practice using the File and IO classes of Ruby and exploring their methods. Not to mention, I get a pretty nifty little command line todo list manager (which I'll stick in Dropbox for easy access) out of it! 
 
-~~~ ruby
+``` ruby
 require 'rbconfig'
 
 class Todo
@@ -164,4 +164,4 @@ end
 my_todo_list = Todo.new
 
 my_todo_list.open_app
-~~~
+```

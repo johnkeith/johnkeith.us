@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Ruby | John Keith]]></title>
   <link href="http://johnk.herokuapp.com/blog/categories/ruby/atom.xml" rel="self"/>
   <link href="http://johnk.herokuapp.com/"/>
-  <updated>2014-04-02T18:54:35-04:00</updated>
+  <updated>2014-04-02T18:59:53-04:00</updated>
   <id>http://johnk.herokuapp.com/</id>
   <author>
     <name><![CDATA[John Keith]]></name>
@@ -20,9 +20,9 @@
     <id>http://johnk.herokuapp.com/blog/2014/04/01/json-and-nested-hashes-in-ruby</id>
     <content type="html"><![CDATA[<p>JSON is one of the major data formats out there on the web, known for its readability. Personally, I was a little unsure about that readability aspect after pulling up my first JSON document and seeing this mess.</p>
 
-<p><img src="http://gdurl.com/PP1x" alt="Crazy JSON!" /> </p>
+<p><img src="http://gdurl.com/PP1x" alt="Crazy JSON!" /></p>
 
-<p>The first step towards wrapping your head around JSON is to see it printed in a prettier fashion. Head over to <a href="http://www.jsoneditoronline.org">JSON Online Editor</a> and using the “Open URL” option you can paste the URL to a JSON document and see this format is actually much more presentable than it lets on. (If you need a JSON example to play with while reading this, don’t hesitate to use <a href="http://teamtreehouse.com/johnkeith.json">my Treehouse profile</a>, as this provides you with a complex, multidimensional set of data to manipulate).</p>
+<p>The first step towards wrapping your head around JSON is to see it printed in a prettier fashion. Head over to <a href="http://www.jsoneditoronline.org">JSON Online Editor</a> and using the &ldquo;Open URL&rdquo; option you can paste the URL to a JSON document and see this format is actually much more presentable than it lets on. (If you need a JSON example to play with while reading this, don&rsquo;t hesitate to use <a href="http://teamtreehouse.com/johnkeith.json">my Treehouse profile</a>, as this provides you with a complex, multidimensional set of data to manipulate).</p>
 
 <p>I decided to start by figuring out how to work with JSON in Ruby, as currently I feel more comfortable with Ruby than Javascript. Luckily, Ruby makes handling JSON from the web easy with a few of its built in libraries and modules.</p>
 
@@ -33,7 +33,7 @@ require 'net/http'
 require 'json'
 </code></p>
 
-<p>Net/HTTP allows you to do all types connect to websites within Ruby and do all types of nifty stuff. For instance, the following code will assign our JSON document’s contents to the variable response. </p>
+<p>Net/HTTP allows you to do all types connect to websites within Ruby and do all types of nifty stuff. For instance, the following code will assign our JSON document&rsquo;s contents to the variable response.</p>
 
 <p><code>ruby
 response = Net::HTTP.get_response(URI.parse('http://teamtreehouse.com/johnkeith.json'))
@@ -47,9 +47,9 @@ response = Net::HTTP.get_response(URI.parse('http://teamtreehouse.com/johnkeith.
 result = JSON.parse(response.body)
 </code></p>
 
-<p>(I found it helpful to look at the difference between the raw Net::HTTP response and the parse JSON - try running <code>puts JSON.pretty_generate(result)</code> and <code>puts response.body</code> to see how the parse method formats the data into a Ruby readable hash.) </p>
+<p>(I found it helpful to look at the difference between the raw Net::HTTP response and the parse JSON &ndash; try running <code>puts JSON.pretty_generate(result)</code> and <code>puts response.body</code> to see how the parse method formats the data into a Ruby readable hash.)</p>
 
-<p>Next, we need to access the data within our newly parsed hash of JSON data. You can access Ruby hashes with a similar syntax to the one used for arrays - start with the hash name, then a key from the hash in brackets. </p>
+<p>Next, we need to access the data within our newly parsed hash of JSON data. You can access Ruby hashes with a similar syntax to the one used for arrays &ndash; start with the hash name, then a key from the hash in brackets.</p>
 
 <p><code>ruby
 result["badges"]
@@ -57,28 +57,31 @@ result["badges"][0]
 result["badges"][0]["name"]
 </code></p>
 
-<p>The examples above show you how you can move through a nested hash and access data within different sections of your JSON document. Putting this syntax to use, you can quickly pull out all the URLs for the badge icons from this Treehouse JSON. </p>
+<p>The examples above show you how you can move through a nested hash and access data within different sections of your JSON document. Putting this syntax to use, you can quickly pull out all the URLs for the badge icons from this Treehouse JSON.</p>
 
 <p><code>ruby
 result["badges"].each do |item|
   puts item["icon_url"]
 end
-</code> </p>
-
-<p>While I thought it was awesome to be able to drill down to these URLs, I decided I wanted to do something with this data. To round out my exploration of JSON and Ruby, I wrote a small script to grab all of the images located at these URLs and save them to my computer. </p>
-
-<p><code>ruby
-require 'open-uri'
-result["badges"].each do |item|
-  open("badge#{item["id"]}.png", "w+") do |file|
-    open(item["icon_url"]) do |image|
-      file.write(image.read)
-    end
-  end
-end
 </code></p>
 
-<p>The Open URI module, according to the Ruby docs, allows you “to open an http, https, or ftp URL as though it were a file.” The code above uses this capability in the <code>open(item["icon_url"] do |image|</code> line in order to open the URL we extracted from the hash and then save that image data into a file.</p>
+<p>While I thought it was awesome to be able to drill down to these URLs, I decided I wanted to do something with this data. To round out my exploration of JSON and Ruby, I wrote a small script to grab all of the images located at these URLs and save them to my computer.</p>
+
+<p>``` ruby
+require &lsquo;open-uri&rsquo;
+result[&ldquo;badges&rdquo;].each do |item|
+  open(&ldquo;badge#{item["id&rdquo;]}.png", &ldquo;w+&rdquo;) do |file|</p>
+
+<pre><code>open(item["icon_url"]) do |image|
+  file.write(image.read)
+end
+</code></pre>
+
+<p>  end
+end
+```</p>
+
+<p>The Open URI module, according to the Ruby docs, allows you &ldquo;to open an http, https, or ftp URL as though it were a file.&rdquo; The code above uses this capability in the <code>open(item["icon_url"] do |image|</code> line in order to open the URL we extracted from the hash and then save that image data into a file.</p>
 ]]></content>
   </entry>
   
@@ -87,18 +90,18 @@ end
     <link href="http://johnk.herokuapp.com/blog/2014/03/27/spaced-repetition-and-the-novice-programmer/"/>
     <updated>2014-03-27T11:41:27-04:00</updated>
     <id>http://johnk.herokuapp.com/blog/2014/03/27/spaced-repetition-and-the-novice-programmer</id>
-    <content type="html"><![CDATA[<p>Nothing compares with that moment when an idea hits you over the head like a ton of bricks labeled “Duh!” I experienced one of those today after coming across this great <a href="https://medium.com/medium-redef/5481606b087a">Medium piece</a> by Mattan Griffel about using <em>spaced repetition</em> for improving recall, then following that to an article by Derek Sivers about <a href="http://sivers.org/srs">studying programming languages</a> using the same technique. At the end of Sivers’ article (and after reading that this idea has been around for <a href="http://en.wikipedia.org/wiki/Spacing_effect">over a century</a>!), I was left wondering why spaced repetition is not a foundational part of any and all learning we do.</p>
+    <content type="html"><![CDATA[<p>Nothing compares with that moment when an idea hits you over the head like a ton of bricks labeled &ldquo;Duh!&rdquo; I experienced one of those today after coming across this great <a href="https://medium.com/medium-redef/5481606b087a">Medium piece</a> by Mattan Griffel about using <em>spaced repetition</em> for improving recall, then following that to an article by Derek Sivers about <a href="http://sivers.org/srs">studying programming languages</a> using the same technique. At the end of Sivers' article (and after reading that this idea has been around for <a href="http://en.wikipedia.org/wiki/Spacing_effect">over a century</a>!), I was left wondering why spaced repetition is not a foundational part of any and all learning we do.</p>
 
-<p>It is hardly a complex concept: spaced repetition is the reviewing of learned information at specifically defined intervals, with those intervals being determined by your comfort with the information. You commonly run across this technique in flashcard apps - the <a href="https://www.brainscape.com">Brainscape</a> suite of apps is a good example, along with the more DIY example of <a href="http://ankisrs.net/index.html">Anki</a> that Griffel explores. The difference from the 3 x 5 colored notecards you made in middle school is that Anki and Brainscape are both powered by algorithms that decide when you should view each flashcard. This allows for a much more focused reviewing - the cards with basic information only show up sporadically, while the cards containing more involved ideas or information that you find yourself struggling with appear more frequently. </p>
+<p>It is hardly a complex concept: spaced repetition is the reviewing of learned information at specifically defined intervals, with those intervals being determined by your comfort with the information. You commonly run across this technique in flashcard apps &ndash; the <a href="https://www.brainscape.com">Brainscape</a> suite of apps is a good example, along with the more DIY example of <a href="http://ankisrs.net/index.html">Anki</a> that Griffel explores. The difference from the 3 x 5 colored notecards you made in middle school is that Anki and Brainscape are both powered by algorithms that decide when you should view each flashcard. This allows for a much more focused reviewing &ndash; the cards with basic information only show up sporadically, while the cards containing more involved ideas or information that you find yourself struggling with appear more frequently.</p>
 
 <p><img src="http://gdurl.com/r6mx" alt="Brainscape web version" />
 (The colored rating buttons at the bottom of the image above are part of the mechanism for determining when you will see certain cards in Brainscape. The higher you rate how well you knew the information, the less you will see the card.)</p>
 
-<p>What baffles me is that spaced repetition is not built into every online learning platform. Imagine working on a Treehouse track or a Codeacademy course and being intermittently offered opportunities to quickly review the information you have been absorbing from other lessons. For the novice programmer, this repetition would be invaluable, as so often you learn about a new function (Ruby’s <em>inject</em> always comes to mind for me) or quirk of the language and then do not see it again for a long stretch of time. The huge amount of information to absorb and explore in the early stages of learning a language makes deliberate and meaningful repetition of what you’ve covered essential. </p>
+<p>What baffles me is that spaced repetition is not built into every online learning platform. Imagine working on a Treehouse track or a Codeacademy course and being intermittently offered opportunities to quickly review the information you have been absorbing from other lessons. For the novice programmer, this repetition would be invaluable, as so often you learn about a new function (Ruby&rsquo;s <em>inject</em> always comes to mind for me) or quirk of the language and then do not see it again for a long stretch of time. The huge amount of information to absorb and explore in the early stages of learning a language makes deliberate and meaningful repetition of what you&rsquo;ve covered essential.</p>
 
-<p>What also surprises me is that we do not see spaced repetition more in offline curriculum. I cannot imagine how much better my long term understanding and ability to use what I learned in <em>insert any high school subject here</em> would be had we been taught to use spaced repetition tools. It seems our whole education system is focused on the forward - the next chapter, the next test, the next year - and is a system that does not reward the concentrated study that leads to mastery. You have to wonder too if part of the motive for this forward inertia in our educational structure is profit: how many SAT cram courses/books/apps are you going to sell if students actually learn the material they need to know the first time they are taught it?</p>
+<p>What also surprises me is that we do not see spaced repetition more in offline curriculum. I cannot imagine how much better my long term understanding and ability to use what I learned in <em>insert any high school subject here</em> would be had we been taught to use spaced repetition tools. It seems our whole education system is focused on the forward &ndash; the next chapter, the next test, the next year &ndash; and is a system that does not reward the concentrated study that leads to mastery. You have to wonder too if part of the motive for this forward inertia in our educational structure is profit: how many SAT cram courses/books/apps are you going to sell if students actually learn the material they need to know the first time they are taught it?</p>
 
-<p>That said, I’m going to dive into the Anki app and see what I can create as far as a flashcards repository for learning Ruby and Rails. Depending on how the app works, I’ll try to post what I develop here for download. </p>
+<p>That said, I&rsquo;m going to dive into the Anki app and see what I can create as far as a flashcards repository for learning Ruby and Rails. Depending on how the app works, I&rsquo;ll try to post what I develop here for download.</p>
 ]]></content>
   </entry>
   
@@ -107,55 +110,47 @@ end
     <link href="http://johnk.herokuapp.com/blog/2014/03/19/trying-to-remember-the-small-stuff/"/>
     <updated>2014-03-19T17:47:29-04:00</updated>
     <id>http://johnk.herokuapp.com/blog/2014/03/19/trying-to-remember-the-small-stuff</id>
-    <content type="html"><![CDATA[<p>Refactoring is really fun, especially in those moments when you have an “Aha!” flash and one of those little details clicks into place. I had that today with method I wrote for changing the sorting on a table in a Rails view. </p>
+    <content type="html"><![CDATA[<p>Refactoring is really fun, especially in those moments when you have an &ldquo;Aha!&rdquo; flash and one of those little details clicks into place. I had that today with method I wrote for changing the sorting on a table in a Rails view.</p>
 
-<div><div class="CodeRay">
-  <div class="code"><pre><span class="keyword">def</span> <span class="function">sortable</span>(column, title = <span class="predefined-constant">nil</span>)
+<p><code>ruby
+def sortable(column, title = nil)
   title ||= column.titleize
-  direction = (column == sort_column &amp;&amp; sort_direction == <span class="string"><span class="delimiter">&quot;</span><span class="content">asc</span><span class="delimiter">&quot;</span></span>) ? <span class="string"><span class="delimiter">&quot;</span><span class="content">desc</span><span class="delimiter">&quot;</span></span> : <span class="string"><span class="delimiter">&quot;</span><span class="content">asc</span><span class="delimiter">&quot;</span></span>
-  font_awesome_direction = direction == <span class="string"><span class="delimiter">&quot;</span><span class="content">asc</span><span class="delimiter">&quot;</span></span> ? <span class="string"><span class="delimiter">&quot;</span><span class="content">up</span><span class="delimiter">&quot;</span></span> : <span class="string"><span class="delimiter">&quot;</span><span class="content">down</span><span class="delimiter">&quot;</span></span>
-  css_class = column == sort_column ? <span class="string"><span class="delimiter">&quot;</span><span class="content">fa-caret-</span><span class="inline"><span class="inline-delimiter">#{</span>font_awesome_direction<span class="inline-delimiter">}</span></span><span class="delimiter">&quot;</span></span> : <span class="predefined-constant">nil</span>
-  link_to title, {<span class="symbol">:sort</span> =&gt; column, <span class="symbol">:direction</span> =&gt; direction}, {<span class="key">class</span>: css_class}
-<span class="keyword">end</span>
-</pre></div>
-</div>
-</div>
+  direction = (column == sort_column &amp;&amp; sort_direction == "asc") ? "desc" : "asc"
+  font_awesome_direction = direction == "asc" ? "up" : "down"
+  css_class = column == sort_column ? "fa-caret-#{font_awesome_direction}" : nil
+  link_to title, {:sort =&gt; column, :direction =&gt; direction}, {class: css_class}
+end
+</code></p>
 
-<p>That sortable method was placed in my application_helper.rb. It works with these two methods from my view controller. </p>
+<p>That sortable method was placed in my application_helper.rb. It works with these two methods from my view controller.</p>
 
-<div><div class="CodeRay">
-  <div class="code"><pre><span class="keyword">def</span> <span class="function">sort_direction</span>
-  <span class="string"><span class="delimiter">%w[</span><span class="content">asc desc</span><span class="delimiter">]</span></span>.include?(params[<span class="symbol">:direction</span>]) ?  params[<span class="symbol">:direction</span>] : <span class="string"><span class="delimiter">&quot;</span><span class="content">asc</span><span class="delimiter">&quot;</span></span>
-<span class="keyword">end</span>
+<p>``` ruby
+def sort_direction
+  %w[asc desc].include?(params[:direction]) ?  params[:direction] : &ldquo;asc&rdquo;
+end</p>
 
-<span class="keyword">def</span> <span class="function">sort_column</span>
-  <span class="constant">Expense</span>.column_names.include?(params[<span class="symbol">:sort</span>]) ? params[<span class="symbol">:sort</span>] : <span class="string"><span class="delimiter">&quot;</span><span class="content">date</span><span class="delimiter">&quot;</span></span>
-<span class="keyword">end</span>
-</pre></div>
-</div>
-</div>
+<p>def sort_column
+  Expense.column_names.include?(params[:sort]) ? params[:sort] : &ldquo;date&rdquo;
+end
+```</p>
 
-<p>And all of these are put into place with the index method in that same view controller. </p>
+<p>And all of these are put into place with the index method in that same view controller.</p>
 
-<div><div class="CodeRay">
-  <div class="code"><pre><span class="keyword">def</span> <span class="function">index</span>
-  <span class="instance-variable">@expenses</span> = <span class="constant">Expense</span>.order(sort_column + <span class="string"><span class="delimiter">'</span><span class="content"> </span><span class="delimiter">'</span></span> + sort_direction).paginate(<span class="key">page</span>: params[<span class="symbol">:page</span>])
-<span class="keyword">end</span>
-</pre></div>
-</div>
-</div>
+<p><code>ruby
+def index
+  @expenses = Expense.order(sort_column + ' ' + sort_direction).paginate(page: params[:page])
+end
+</code></p>
 
-<p>Initially, what I’d written wasn’t terrible: it worked in the browser, my columns resorted themselves on prompting, and a nice little caret was provided as feedback and a guide post for the user. That said, I was irked by the way the caret was smushed right up against the text and the way that adding the caret threw off the font sizing and styling I had going at the top of my table. </p>
+<p>Initially, what I&rsquo;d written wasn&rsquo;t terrible: it worked in the browser, my columns resorted themselves on prompting, and a nice little caret was provided as feedback and a guide post for the user. That said, I was irked by the way the caret was smushed right up against the text and the way that adding the caret threw off the font sizing and styling I had going at the top of my table.</p>
 
-<p>So, I took a step back and tried to determine out if it was possible to embed HTML inside of a link_to in Rails. A couple minutes later, I had figured out it was perfectly acceptable and learned a little bit about the nifty #html_safe method that Rails provides. This led me to a rewritten last line that I think provides a much more pleasing output. </p>
+<p>So, I took a step back and tried to determine out if it was possible to embed HTML inside of a link_to in Rails. A couple minutes later, I had figured out it was perfectly acceptable and learned a little bit about the nifty #html_safe method that Rails provides. This led me to a rewritten last line that I think provides a much more pleasing output.</p>
 
-<div><div class="CodeRay">
-  <div class="code"><pre>link_to <span class="string"><span class="delimiter">&quot;</span><span class="content">&lt;i class='fa </span><span class="inline"><span class="inline-delimiter">#{</span>css_class<span class="inline-delimiter">}</span></span><span class="content">'&gt;&lt;/i&gt; </span><span class="delimiter">&quot;</span></span>.html_safe+title, {<span class="symbol">:sort</span> =&gt; column, <span class="symbol">:direction</span> =&gt; direction}
-</pre></div>
-</div>
-</div>
+<p><code>ruby
+link_to "&lt;i class='fa #{css_class}'&gt;&lt;/i&gt; ".html_safe+title, {:sort =&gt; column, :direction =&gt; direction}
+</code></p>
 
-<p>It was also great to have one of those moments when all that reading comes in handy. I couldn’t get the icons to appear the first time I fired up the page, because I had wrapped my icon HTML in single quotes instead of double. Using double quotes on the outside and then single on the inside allows Ruby to interpolate the css_class variable. Nothing fancy, but still a good learning experience that will hopefully keep me more consistent with my use of quotes. </p>
+<p>It was also great to have one of those moments when all that reading comes in handy. I couldn&rsquo;t get the icons to appear the first time I fired up the page, because I had wrapped my icon HTML in single quotes instead of double. Using double quotes on the outside and then single on the inside allows Ruby to interpolate the css_class variable. Nothing fancy, but still a good learning experience that will hopefully keep me more consistent with my use of quotes.</p>
 ]]></content>
   </entry>
   
@@ -164,170 +159,175 @@ end
     <link href="http://johnk.herokuapp.com/blog/2014/03/06/build-what-you-use-when-learning/"/>
     <updated>2014-03-06T17:38:44-05:00</updated>
     <id>http://johnk.herokuapp.com/blog/2014/03/06/build-what-you-use-when-learning</id>
-    <content type="html"><![CDATA[<p>I can’t remember where I read it, but recently I came across the advice that one of the best ways to practice programming is to recreate the type of applications you use everyday. No need to make them flashy, simply implement their core features in order to achieve the same results. </p>
+    <content type="html"><![CDATA[<p>I can&rsquo;t remember where I read it, but recently I came across the advice that one of the best ways to practice programming is to recreate the type of applications you use everyday. No need to make them flashy, simply implement their core features in order to achieve the same results.</p>
 
-<p>I decided to give it a try today and build a tiny todo app in Ruby. I wanted to write the app keeping in mind the directives from Sandi’s Metz’s <a href="http://www.amazon.com/Practical-Object-Oriented-Design-Ruby-Addison-Wesley/dp/0321721330">Practical Object-Oriented Design in Ruby</a>.</p>
+<p>I decided to give it a try today and build a tiny todo app in Ruby. I wanted to write the app keeping in mind the directives from Sandi&rsquo;s Metz&rsquo;s <a href="http://www.amazon.com/Practical-Object-Oriented-Design-Ruby-Addison-Wesley/dp/0321721330">Practical Object-Oriented Design in Ruby</a>.</p>
 
-<blockquote>
-  <p>“Remember that a class should do the smallest possible useful thing. That
+<blockquote><p>&ldquo;Remember that a class should do the smallest possible useful thing. That
 thing ought to be simple to describe. If the simplest description you can devise uses the
-word “and,” the class likely has more than one responsibility.​” - Metz</p>
-</blockquote>
+word "and,” the class likely has more than one responsibility.​&rdquo; &ndash; Metz</p></blockquote>
 
-<p>While it ended up that my app only had one class, I tried to follow in the spirit of the quote above by keeping my methods as focused as possible. I also tried to heed her advice to stave off design decisions for as long as possible - an interesting strategy that had me trying to store all completed and incomplete todos in the same file. I quickly realized, though, that this was an inefficient way of doing things, since my completed items list would (hopefully) be a far larger file than my active items list and there is no reason to load that large file every time the app is opened.</p>
+<p>While it ended up that my app only had one class, I tried to follow in the spirit of the quote above by keeping my methods as focused as possible. I also tried to heed her advice to stave off design decisions for as long as possible &ndash; an interesting strategy that had me trying to store all completed and incomplete todos in the same file. I quickly realized, though, that this was an inefficient way of doing things, since my completed items list would (hopefully) be a far larger file than my active items list and there is no reason to load that large file every time the app is opened.</p>
 
-<p>There is one little quirk that I can’t seem to shake: when you mark a todo as finished, the item is removed from the activelist.txt file, but is not added to the completelist.txt file until you close the program. I’m sure it has something to do with the file opening modes I selected, but I can’t figure out why I am able to modify and then view the modifications done to activelist.txt while in the app, but not do the same with completelist.txt.</p>
+<p>There is one little quirk that I can&rsquo;t seem to shake: when you mark a todo as finished, the item is removed from the activelist.txt file, but is not added to the completelist.txt file until you close the program. I&rsquo;m sure it has something to do with the file opening modes I selected, but I can&rsquo;t figure out why I am able to modify and then view the modifications done to activelist.txt while in the app, but not do the same with completelist.txt.</p>
 
-<p>In the end, this was a great way to get practice using the File and IO classes of Ruby and exploring their methods. Not to mention, I get a pretty nifty little command line todo list manager (which I’ll stick in Dropbox for easy access) out of it! </p>
+<p>In the end, this was a great way to get practice using the File and IO classes of Ruby and exploring their methods. Not to mention, I get a pretty nifty little command line todo list manager (which I&rsquo;ll stick in Dropbox for easy access) out of it!</p>
 
-<div><div class="CodeRay">
-  <div class="code"><pre>require <span class="string"><span class="delimiter">'</span><span class="content">rbconfig</span><span class="delimiter">'</span></span>
+<p>``` ruby
+require &lsquo;rbconfig&rsquo;</p>
 
-<span class="keyword">class</span> <span class="class">Todo</span>
-    <span class="keyword">def</span> <span class="function">clear_screen</span>
-        host_os = <span class="constant">RbConfig</span>::<span class="constant">CONFIG</span>[<span class="string"><span class="delimiter">'</span><span class="content">host_os</span><span class="delimiter">'</span></span>]
+<p>class Todo</p>
 
-        <span class="keyword">case</span> host_os
-            <span class="keyword">when</span> <span class="regexp"><span class="delimiter">/</span><span class="content">mswin|msys|mingw|cygwin|bccwin|wince|emc</span><span class="delimiter">/</span></span>
-                system <span class="string"><span class="delimiter">&quot;</span><span class="content">cls</span><span class="delimiter">&quot;</span></span>
-            <span class="keyword">when</span> <span class="regexp"><span class="delimiter">/</span><span class="content">darwin|mac os|linux|solaris|bsd</span><span class="delimiter">/</span></span>
-                puts <span class="string"><span class="delimiter">&quot;</span><span class="char">\e</span><span class="content">[H</span><span class="char">\e</span><span class="content">[2J</span><span class="delimiter">&quot;</span></span>
-        <span class="keyword">end</span>
-    <span class="keyword">end</span>
+<pre><code>def clear_screen
+    host_os = RbConfig::CONFIG['host_os']
 
-    <span class="keyword">def</span> <span class="function">open_app</span>
-        view_all
-    <span class="keyword">end</span>
+    case host_os
+        when /mswin|msys|mingw|cygwin|bccwin|wince|emc/
+            system "cls"
+        when /darwin|mac os|linux|solaris|bsd/
+            puts "\e[H\e[2J"
+    end
+end
 
-    <span class="keyword">def</span> <span class="function">view_all</span>
-        clear_screen
+def open_app
+    view_all
+end
 
-        list_read = read_active_list
-        
-        puts <span class="string"><span class="delimiter">&quot;</span><span class="content">------INCOMPLETE------</span><span class="char">\n</span><span class="char">\n</span><span class="delimiter">&quot;</span></span>
-        list_read.each <span class="keyword">do</span> |line|
-            puts line
-        <span class="keyword">end</span>
-        puts <span class="string"><span class="delimiter">&quot;</span><span class="char">\n</span><span class="content">----------------------</span><span class="delimiter">&quot;</span></span>
+def view_all
+    clear_screen
 
-        choose_action
-    <span class="keyword">end</span>
+    list_read = read_active_list
 
-    <span class="keyword">def</span> <span class="function">read_active_list</span>
-        list = <span class="constant">File</span>.open(<span class="string"><span class="delimiter">&quot;</span><span class="content">activelist.txt</span><span class="delimiter">&quot;</span></span>,<span class="string"><span class="delimiter">&quot;</span><span class="content">a+</span><span class="delimiter">&quot;</span></span>).readlines
-    <span class="keyword">end</span>
+    puts "------INCOMPLETE------\n\n"
+    list_read.each do |line|
+        puts line
+    end
+    puts "\n----------------------"
 
-    <span class="keyword">def</span> <span class="function">choose_action</span>
-        puts <span class="string"><span class="delimiter">%/</span><span class="content">
-        What would you like to do with your list?
-        1. Add a todo
-        2. Mark complete
-        3. View incomplete
-        4. View completed
-        5. Exit</span><span class="delimiter">/</span></span>
+    choose_action
+end
 
-        choice = gets.chomp.downcase
+def read_active_list
+    list = File.open("activelist.txt","a+").readlines
+end
 
-        <span class="keyword">case</span> choice
-            <span class="keyword">when</span> <span class="string"><span class="delimiter">&quot;</span><span class="content">1</span><span class="delimiter">&quot;</span></span> <span class="keyword">then</span> input_todo
-            <span class="keyword">when</span> <span class="string"><span class="delimiter">&quot;</span><span class="content">1.</span><span class="delimiter">&quot;</span></span> <span class="keyword">then</span> input_todo
-            <span class="keyword">when</span> <span class="string"><span class="delimiter">&quot;</span><span class="content">add</span><span class="delimiter">&quot;</span></span> <span class="keyword">then</span> input_todo
-            <span class="keyword">when</span> <span class="string"><span class="delimiter">&quot;</span><span class="content">add todo</span><span class="delimiter">&quot;</span></span> <span class="keyword">then</span> input_todo
-        
-            <span class="keyword">when</span> <span class="string"><span class="delimiter">&quot;</span><span class="content">2</span><span class="delimiter">&quot;</span></span> <span class="keyword">then</span> mark_done
-            <span class="keyword">when</span> <span class="string"><span class="delimiter">&quot;</span><span class="content">2.</span><span class="delimiter">&quot;</span></span> <span class="keyword">then</span> mark_done
-            <span class="keyword">when</span> <span class="string"><span class="delimiter">&quot;</span><span class="content">mark</span><span class="delimiter">&quot;</span></span> <span class="keyword">then</span> mark_done
-            <span class="keyword">when</span> <span class="string"><span class="delimiter">&quot;</span><span class="content">mark done</span><span class="delimiter">&quot;</span></span> <span class="keyword">then</span> mark_done
+def choose_action
+    puts %/
+    What would you like to do with your list?
+    1. Add a todo
+    2. Mark complete
+    3. View incomplete
+    4. View completed
+    5. Exit/
 
-            <span class="keyword">when</span> <span class="string"><span class="delimiter">&quot;</span><span class="content">3</span><span class="delimiter">&quot;</span></span> <span class="keyword">then</span> view_incomplete
-            <span class="keyword">when</span> <span class="string"><span class="delimiter">&quot;</span><span class="content">3.</span><span class="delimiter">&quot;</span></span> <span class="keyword">then</span> view_incomplete
-            <span class="keyword">when</span> <span class="string"><span class="delimiter">&quot;</span><span class="content">view incomplete</span><span class="delimiter">&quot;</span></span> <span class="keyword">then</span> view_incomplete
-            
-            <span class="keyword">when</span> <span class="string"><span class="delimiter">&quot;</span><span class="content">4</span><span class="delimiter">&quot;</span></span> <span class="keyword">then</span> view_complete
-            <span class="keyword">when</span> <span class="string"><span class="delimiter">&quot;</span><span class="content">4.</span><span class="delimiter">&quot;</span></span> <span class="keyword">then</span> view_complete
-            <span class="keyword">when</span> <span class="string"><span class="delimiter">&quot;</span><span class="content">view completed</span><span class="delimiter">&quot;</span></span> <span class="keyword">then</span> view_complete
+    choice = gets.chomp.downcase
 
-            <span class="keyword">when</span> <span class="string"><span class="delimiter">&quot;</span><span class="content">5</span><span class="delimiter">&quot;</span></span> <span class="keyword">then</span> <span class="keyword">return</span>
-            <span class="keyword">when</span> <span class="string"><span class="delimiter">&quot;</span><span class="content">5.</span><span class="delimiter">&quot;</span></span> <span class="keyword">then</span> <span class="keyword">return</span>
-            <span class="keyword">when</span> <span class="string"><span class="delimiter">&quot;</span><span class="content">exit</span><span class="delimiter">&quot;</span></span> <span class="keyword">then</span> <span class="keyword">return</span>
+    case choice
+        when "1" then input_todo
+        when "1." then input_todo
+        when "add" then input_todo
+        when "add todo" then input_todo
 
-            <span class="keyword">else</span>
-                p <span class="string"><span class="delimiter">&quot;</span><span class="content">Not a valid choice</span><span class="delimiter">&quot;</span></span>
-                choose_action
-        <span class="keyword">end</span>
-    <span class="keyword">end</span>
+        when "2" then mark_done
+        when "2." then mark_done
+        when "mark" then mark_done
+        when "mark done" then mark_done
 
-<span class="comment">#ask for todo</span>
-    <span class="keyword">def</span> <span class="function">input_todo</span>
-        puts <span class="string"><span class="delimiter">&quot;</span><span class="char">\n</span><span class="content">Enter your new todo:</span><span class="delimiter">&quot;</span></span>
-        todo = gets.chomp
-        add_todo(todo)
-        view_all
-    <span class="keyword">end</span>
+        when "3" then view_incomplete
+        when "3." then view_incomplete
+        when "view incomplete" then view_incomplete
 
-<span class="comment">#write method</span>
-    <span class="keyword">def</span> <span class="function">add_todo</span>(todo)
-        <span class="constant">File</span>.open(<span class="string"><span class="delimiter">&quot;</span><span class="content">activelist.txt</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">a</span><span class="delimiter">&quot;</span></span>) { |f| f.write <span class="string"><span class="delimiter">&quot;</span><span class="inline"><span class="inline-delimiter">#{</span>todo<span class="inline-delimiter">}</span></span><span class="char">\n</span><span class="delimiter">&quot;</span></span> }
-    <span class="keyword">end</span>
+        when "4" then view_complete
+        when "4." then view_complete
+        when "view completed" then view_complete
 
-<span class="comment">#mark done method</span>
-    <span class="keyword">def</span> <span class="function">mark_done</span>
-        clear_screen
+        when "5" then return
+        when "5." then return
+        when "exit" then return
 
-        list_read = <span class="constant">File</span>.open(<span class="string"><span class="delimiter">&quot;</span><span class="content">activelist.txt</span><span class="delimiter">&quot;</span></span>,<span class="string"><span class="delimiter">&quot;</span><span class="content">a+</span><span class="delimiter">&quot;</span></span>).readlines
+        else
+            p "Not a valid choice"
+            choose_action
+    end
+end
+</code></pre>
 
-        puts <span class="string"><span class="delimiter">&quot;</span><span class="content">------INCOMPLETE------</span><span class="char">\n</span><span class="char">\n</span><span class="delimiter">&quot;</span></span>
-        list_read.each_with_index <span class="keyword">do</span> |line, index|
-            puts <span class="string"><span class="delimiter">&quot;</span><span class="inline"><span class="inline-delimiter">#{</span>index + <span class="integer">1</span><span class="inline-delimiter">}</span></span><span class="content">. </span><span class="delimiter">&quot;</span></span> + line
-        <span class="keyword">end</span>
-        puts <span class="string"><span class="delimiter">&quot;</span><span class="char">\n</span><span class="content">----------------------</span><span class="delimiter">&quot;</span></span>
+<h1>ask for todo</h1>
 
-        puts <span class="string"><span class="delimiter">&quot;</span><span class="char">\n</span><span class="content">Which todo do you want to mark complete? (Type the number or zero to cancel).</span><span class="delimiter">&quot;</span></span>
-        
-        choice = gets.chomp.to_i
+<pre><code>def input_todo
+    puts "\nEnter your new todo:"
+    todo = gets.chomp
+    add_todo(todo)
+    view_all
+end
+</code></pre>
 
-        <span class="constant">File</span>.open(<span class="string"><span class="delimiter">&quot;</span><span class="content">activelist.txt</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">w</span><span class="delimiter">&quot;</span></span>) <span class="keyword">do</span> |f|
-            list_read.each_with_index <span class="keyword">do</span> |line, index|
-                <span class="keyword">if</span> (index + <span class="integer">1</span>) == choice 
-                    add_to_complete_list line
-                <span class="keyword">else</span>
-                    f.write <span class="string"><span class="delimiter">&quot;</span><span class="inline"><span class="inline-delimiter">#{</span>line<span class="inline-delimiter">}</span></span><span class="delimiter">&quot;</span></span>
-                <span class="keyword">end</span>
-            <span class="keyword">end</span>
-        <span class="keyword">end</span>
+<h1>write method</h1>
 
-        view_all
-    <span class="keyword">end</span>
+<pre><code>def add_todo(todo)
+    File.open("activelist.txt", "a") { |f| f.write "#{todo}\n" }
+end
+</code></pre>
 
-    <span class="keyword">def</span> <span class="function">add_to_complete_list</span> line
-        <span class="constant">File</span>.open(<span class="string"><span class="delimiter">&quot;</span><span class="content">completelist.txt</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">a</span><span class="delimiter">&quot;</span></span>).write <span class="string"><span class="delimiter">&quot;</span><span class="inline"><span class="inline-delimiter">#{</span>line<span class="inline-delimiter">}</span></span><span class="delimiter">&quot;</span></span>
-    <span class="keyword">end</span>
+<h1>mark done method</h1>
 
-    <span class="keyword">def</span> <span class="function">view_complete</span>
-        clear_screen
+<pre><code>def mark_done
+    clear_screen
 
-        complete_list = <span class="constant">File</span>.open(<span class="string"><span class="delimiter">&quot;</span><span class="content">completelist.txt</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">a+</span><span class="delimiter">&quot;</span></span>).readlines
+    list_read = File.open("activelist.txt","a+").readlines
 
-        puts <span class="string"><span class="delimiter">&quot;</span><span class="content">------COMPLETED------</span><span class="char">\n</span><span class="char">\n</span><span class="delimiter">&quot;</span></span>
-        complete_list.each <span class="keyword">do</span> |line|
-            puts line
-        <span class="keyword">end</span>
-        puts <span class="string"><span class="delimiter">&quot;</span><span class="char">\n</span><span class="content">---------------------</span><span class="delimiter">&quot;</span></span>
+    puts "------INCOMPLETE------\n\n"
+    list_read.each_with_index do |line, index|
+        puts "#{index + 1}. " + line
+    end
+    puts "\n----------------------"
 
-        choose_action
-    <span class="keyword">end</span>
+    puts "\nWhich todo do you want to mark complete? (Type the number or zero to cancel)."
 
-    <span class="keyword">def</span> <span class="function">view_incomplete</span>
-        view_all
-    <span class="keyword">end</span>
-<span class="keyword">end</span>
+    choice = gets.chomp.to_i
 
-my_todo_list = <span class="constant">Todo</span>.new
+    File.open("activelist.txt", "w") do |f|
+        list_read.each_with_index do |line, index|
+            if (index + 1) == choice 
+                add_to_complete_list line
+            else
+                f.write "#{line}"
+            end
+        end
+    end
 
-my_todo_list.open_app
-</pre></div>
-</div>
-</div>
+    view_all
+end
+
+def add_to_complete_list line
+    File.open("completelist.txt", "a").write "#{line}"
+end
+
+def view_complete
+    clear_screen
+
+    complete_list = File.open("completelist.txt", "a+").readlines
+
+    puts "------COMPLETED------\n\n"
+    complete_list.each do |line|
+        puts line
+    end
+    puts "\n---------------------"
+
+    choose_action
+end
+
+def view_incomplete
+    view_all
+end
+</code></pre>
+
+<p>end</p>
+
+<p>my_todo_list = Todo.new</p>
+
+<p>my_todo_list.open_app
+```</p>
 ]]></content>
   </entry>
   

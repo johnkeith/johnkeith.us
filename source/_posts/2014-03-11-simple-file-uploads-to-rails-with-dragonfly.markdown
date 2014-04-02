@@ -17,76 +17,76 @@ The great part about Dragonfly is it makes adding a :document column to your cur
 
 First, I added Dragonfly to my gemfile and ran bundler.
 
-~~~ ruby
+``` ruby
 gem 'dragonfly', "~>1.0.3"
-~~~
+```
 
-~~~ terminal
+```
 $ bundle install
-~~~
+```
 
 Then, in my app/models/expense.rb, I added an accessor for my document.
 
-~~~ ruby
+``` ruby
 dragonfly_accessor :document
-~~~
+```
 
 Back at the command line, I setup a migration to add a document column to my expenses model. 
 
-~~~ terminal
+```
 $ Rails generate migration AddDocumentToExpenses
-~~~
+```
 
 Inside the migration document, I added two columns, one for the :document_uid and :document_name, per the [Dragonfly wiki](http://markevans.github.io/dragonfly/).
 
-~~~ ruby
+``` ruby
 class AddDocumentToExpenses < ActiveRecord::Migration
   def change
     add_column :expenses, :document_uid, :string
     add_column :expenses, :document_name, :string
   end
 end
-~~~
+```
 
 Then came migrating the database.
 
-~~~ terminal
+```
 rake db:migrate
-~~~
+```
 
 Next was altering my app/views/expenses/_form.html.erb to include a field for file uploads. 
 
-~~~ erb
+``` erb
 <div class="field">
 	<%= f.label :document %><br>
 	<%= f.file_field :document %>
 </div>
-~~~
+```
 Then, inside my app/controllers/expenses_controller.rb, I added :document to the list of permitted parameters near the bottom. 
 
-~~~ ruby
+``` ruby
 def expense_params
 	params.require(:expense).permit(:user_id, :date, :reseller, :item_or_service, :payment_form, :charged_to, :cost, :amount_from_budget, :notes, :document)
 end
-~~~
+```
 
 With the next step, I was unsure if this was the correct course to take. I was worried about my files being uploaded to the public folder, as I assumed anything in that area would be easily accessible from the outside. I created a directory in the root of my app called secure_storage, though I have no idea if that name is a complete misnomer. Then, I opened the config/initializers/dragonfly.rb and changed the default location for where files would be stored. Again, hopefully this will put them in a better location than the public directory, but I am not a hundred precent sure. 
 
-~~~ ruby
+``` ruby
 datastore :file,
   root_path: Rails.root.join('secure_storage/system/dragonfly', Rails.env),
   server_root: Rails.root.join('secure_storage')
-~~~
+```
 
 Finally, I added a file link (with a condition to make sure it didn't appear if no file was present with the record) on the app/views/expenses/show.html.erb. 
 
-~~~ erb
+``` erb
 <% if @expense.document %>
 <p>
   <strong>Document:</strong>
   <%= link_to "File", root_url.chop + @expense.document.url %>
 </p>
 <% end %>
-~~~
+```
 
 That, I believe, was all! You should now have a working file upload function, one that even lets you download the file too! If you try this and have trouble, let me know in the comments below.

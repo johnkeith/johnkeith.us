@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Json | John Keith]]></title>
   <link href="http://johnk.herokuapp.com/blog/categories/json/atom.xml" rel="self"/>
   <link href="http://johnk.herokuapp.com/"/>
-  <updated>2014-04-02T18:54:35-04:00</updated>
+  <updated>2014-04-02T18:59:53-04:00</updated>
   <id>http://johnk.herokuapp.com/</id>
   <author>
     <name><![CDATA[John Keith]]></name>
@@ -20,9 +20,9 @@
     <id>http://johnk.herokuapp.com/blog/2014/04/01/json-and-nested-hashes-in-ruby</id>
     <content type="html"><![CDATA[<p>JSON is one of the major data formats out there on the web, known for its readability. Personally, I was a little unsure about that readability aspect after pulling up my first JSON document and seeing this mess.</p>
 
-<p><img src="http://gdurl.com/PP1x" alt="Crazy JSON!" /> </p>
+<p><img src="http://gdurl.com/PP1x" alt="Crazy JSON!" /></p>
 
-<p>The first step towards wrapping your head around JSON is to see it printed in a prettier fashion. Head over to <a href="http://www.jsoneditoronline.org">JSON Online Editor</a> and using the “Open URL” option you can paste the URL to a JSON document and see this format is actually much more presentable than it lets on. (If you need a JSON example to play with while reading this, don’t hesitate to use <a href="http://teamtreehouse.com/johnkeith.json">my Treehouse profile</a>, as this provides you with a complex, multidimensional set of data to manipulate).</p>
+<p>The first step towards wrapping your head around JSON is to see it printed in a prettier fashion. Head over to <a href="http://www.jsoneditoronline.org">JSON Online Editor</a> and using the &ldquo;Open URL&rdquo; option you can paste the URL to a JSON document and see this format is actually much more presentable than it lets on. (If you need a JSON example to play with while reading this, don&rsquo;t hesitate to use <a href="http://teamtreehouse.com/johnkeith.json">my Treehouse profile</a>, as this provides you with a complex, multidimensional set of data to manipulate).</p>
 
 <p>I decided to start by figuring out how to work with JSON in Ruby, as currently I feel more comfortable with Ruby than Javascript. Luckily, Ruby makes handling JSON from the web easy with a few of its built in libraries and modules.</p>
 
@@ -33,7 +33,7 @@ require 'net/http'
 require 'json'
 </code></p>
 
-<p>Net/HTTP allows you to do all types connect to websites within Ruby and do all types of nifty stuff. For instance, the following code will assign our JSON document’s contents to the variable response. </p>
+<p>Net/HTTP allows you to do all types connect to websites within Ruby and do all types of nifty stuff. For instance, the following code will assign our JSON document&rsquo;s contents to the variable response.</p>
 
 <p><code>ruby
 response = Net::HTTP.get_response(URI.parse('http://teamtreehouse.com/johnkeith.json'))
@@ -47,9 +47,9 @@ response = Net::HTTP.get_response(URI.parse('http://teamtreehouse.com/johnkeith.
 result = JSON.parse(response.body)
 </code></p>
 
-<p>(I found it helpful to look at the difference between the raw Net::HTTP response and the parse JSON - try running <code>puts JSON.pretty_generate(result)</code> and <code>puts response.body</code> to see how the parse method formats the data into a Ruby readable hash.) </p>
+<p>(I found it helpful to look at the difference between the raw Net::HTTP response and the parse JSON &ndash; try running <code>puts JSON.pretty_generate(result)</code> and <code>puts response.body</code> to see how the parse method formats the data into a Ruby readable hash.)</p>
 
-<p>Next, we need to access the data within our newly parsed hash of JSON data. You can access Ruby hashes with a similar syntax to the one used for arrays - start with the hash name, then a key from the hash in brackets. </p>
+<p>Next, we need to access the data within our newly parsed hash of JSON data. You can access Ruby hashes with a similar syntax to the one used for arrays &ndash; start with the hash name, then a key from the hash in brackets.</p>
 
 <p><code>ruby
 result["badges"]
@@ -57,28 +57,31 @@ result["badges"][0]
 result["badges"][0]["name"]
 </code></p>
 
-<p>The examples above show you how you can move through a nested hash and access data within different sections of your JSON document. Putting this syntax to use, you can quickly pull out all the URLs for the badge icons from this Treehouse JSON. </p>
+<p>The examples above show you how you can move through a nested hash and access data within different sections of your JSON document. Putting this syntax to use, you can quickly pull out all the URLs for the badge icons from this Treehouse JSON.</p>
 
 <p><code>ruby
 result["badges"].each do |item|
   puts item["icon_url"]
 end
-</code> </p>
-
-<p>While I thought it was awesome to be able to drill down to these URLs, I decided I wanted to do something with this data. To round out my exploration of JSON and Ruby, I wrote a small script to grab all of the images located at these URLs and save them to my computer. </p>
-
-<p><code>ruby
-require 'open-uri'
-result["badges"].each do |item|
-  open("badge#{item["id"]}.png", "w+") do |file|
-    open(item["icon_url"]) do |image|
-      file.write(image.read)
-    end
-  end
-end
 </code></p>
 
-<p>The Open URI module, according to the Ruby docs, allows you “to open an http, https, or ftp URL as though it were a file.” The code above uses this capability in the <code>open(item["icon_url"] do |image|</code> line in order to open the URL we extracted from the hash and then save that image data into a file.</p>
+<p>While I thought it was awesome to be able to drill down to these URLs, I decided I wanted to do something with this data. To round out my exploration of JSON and Ruby, I wrote a small script to grab all of the images located at these URLs and save them to my computer.</p>
+
+<p>``` ruby
+require &lsquo;open-uri&rsquo;
+result[&ldquo;badges&rdquo;].each do |item|
+  open(&ldquo;badge#{item["id&rdquo;]}.png", &ldquo;w+&rdquo;) do |file|</p>
+
+<pre><code>open(item["icon_url"]) do |image|
+  file.write(image.read)
+end
+</code></pre>
+
+<p>  end
+end
+```</p>
+
+<p>The Open URI module, according to the Ruby docs, allows you &ldquo;to open an http, https, or ftp URL as though it were a file.&rdquo; The code above uses this capability in the <code>open(item["icon_url"] do |image|</code> line in order to open the URL we extracted from the hash and then save that image data into a file.</p>
 ]]></content>
   </entry>
   

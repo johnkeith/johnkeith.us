@@ -9,7 +9,7 @@
   <meta name="author" content="John Keith">
 
   
-  <meta name="description" content="Refactoring is really fun, especially in those moments when you have an “Aha!” flash and one of those little details clicks into place. I had that &hellip;">
+  <meta name="description" content="Refactoring is really fun, especially in those moments when you have an &ldquo;Aha!&rdquo; flash and one of those little details clicks into place. I &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -50,7 +50,7 @@
   <header role="banner"><hgroup>
   <h1><a href="/">John Keith</a></h1>
   
-    <h2>Ruby. Rails. <a href="http://www.launchacademy.com/">Launch Academy</a>.</h2>
+    <h2>Learning full stack development and heading to <a href="http://www.launchacademy.com/">Launch Academy</a>.</h2>
   
 </hgroup>
 
@@ -99,55 +99,67 @@
   </header>
 
 
-<div class="entry-content"><p>Refactoring is really fun, especially in those moments when you have an “Aha!” flash and one of those little details clicks into place. I had that today with method I wrote for changing the sorting on a table in a Rails view. </p>
+<div class="entry-content"><p>Refactoring is really fun, especially in those moments when you have an &ldquo;Aha!&rdquo; flash and one of those little details clicks into place. I had that today with method I wrote for changing the sorting on a table in a Rails view.</p>
 
-<div><div class="CodeRay">
-  <div class="code"><pre><span class="keyword">def</span> <span class="function">sortable</span>(column, title = <span class="predefined-constant">nil</span>)
-  title ||= column.titleize
-  direction = (column == sort_column &amp;&amp; sort_direction == <span class="string"><span class="delimiter">&quot;</span><span class="content">asc</span><span class="delimiter">&quot;</span></span>) ? <span class="string"><span class="delimiter">&quot;</span><span class="content">desc</span><span class="delimiter">&quot;</span></span> : <span class="string"><span class="delimiter">&quot;</span><span class="content">asc</span><span class="delimiter">&quot;</span></span>
-  font_awesome_direction = direction == <span class="string"><span class="delimiter">&quot;</span><span class="content">asc</span><span class="delimiter">&quot;</span></span> ? <span class="string"><span class="delimiter">&quot;</span><span class="content">up</span><span class="delimiter">&quot;</span></span> : <span class="string"><span class="delimiter">&quot;</span><span class="content">down</span><span class="delimiter">&quot;</span></span>
-  css_class = column == sort_column ? <span class="string"><span class="delimiter">&quot;</span><span class="content">fa-caret-</span><span class="inline"><span class="inline-delimiter">#{</span>font_awesome_direction<span class="inline-delimiter">}</span></span><span class="delimiter">&quot;</span></span> : <span class="predefined-constant">nil</span>
-  link_to title, {<span class="symbol">:sort</span> =&gt; column, <span class="symbol">:direction</span> =&gt; direction}, {<span class="key">class</span>: css_class}
-<span class="keyword">end</span>
-</pre></div>
-</div>
-</div>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">sortable</span><span class="p">(</span><span class="n">column</span><span class="p">,</span> <span class="n">title</span> <span class="o">=</span> <span class="kp">nil</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">title</span> <span class="o">||=</span> <span class="n">column</span><span class="o">.</span><span class="n">titleize</span>
+</span><span class='line'>  <span class="n">direction</span> <span class="o">=</span> <span class="p">(</span><span class="n">column</span> <span class="o">==</span> <span class="n">sort_column</span> <span class="o">&amp;&amp;</span> <span class="n">sort_direction</span> <span class="o">==</span> <span class="s2">&quot;asc&quot;</span><span class="p">)</span> <span class="p">?</span> <span class="s2">&quot;desc&quot;</span> <span class="p">:</span> <span class="s2">&quot;asc&quot;</span>
+</span><span class='line'>  <span class="n">font_awesome_direction</span> <span class="o">=</span> <span class="n">direction</span> <span class="o">==</span> <span class="s2">&quot;asc&quot;</span> <span class="p">?</span> <span class="s2">&quot;up&quot;</span> <span class="p">:</span> <span class="s2">&quot;down&quot;</span>
+</span><span class='line'>  <span class="n">css_class</span> <span class="o">=</span> <span class="n">column</span> <span class="o">==</span> <span class="n">sort_column</span> <span class="p">?</span> <span class="s2">&quot;fa-caret-</span><span class="si">#{</span><span class="n">font_awesome_direction</span><span class="si">}</span><span class="s2">&quot;</span> <span class="p">:</span> <span class="kp">nil</span>
+</span><span class='line'>  <span class="n">link_to</span> <span class="n">title</span><span class="p">,</span> <span class="p">{</span><span class="ss">:sort</span> <span class="o">=&gt;</span> <span class="n">column</span><span class="p">,</span> <span class="ss">:direction</span> <span class="o">=&gt;</span> <span class="n">direction</span><span class="p">},</span> <span class="p">{</span><span class="ss">class</span><span class="p">:</span> <span class="n">css_class</span><span class="p">}</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
 
-<p>That sortable method was placed in my application_helper.rb. It works with these two methods from my view controller. </p>
 
-<div><div class="CodeRay">
-  <div class="code"><pre><span class="keyword">def</span> <span class="function">sort_direction</span>
-  <span class="string"><span class="delimiter">%w[</span><span class="content">asc desc</span><span class="delimiter">]</span></span>.include?(params[<span class="symbol">:direction</span>]) ?  params[<span class="symbol">:direction</span>] : <span class="string"><span class="delimiter">&quot;</span><span class="content">asc</span><span class="delimiter">&quot;</span></span>
-<span class="keyword">end</span>
+<p>That sortable method was placed in my application_helper.rb. It works with these two methods from my view controller.</p>
 
-<span class="keyword">def</span> <span class="function">sort_column</span>
-  <span class="constant">Expense</span>.column_names.include?(params[<span class="symbol">:sort</span>]) ? params[<span class="symbol">:sort</span>] : <span class="string"><span class="delimiter">&quot;</span><span class="content">date</span><span class="delimiter">&quot;</span></span>
-<span class="keyword">end</span>
-</pre></div>
-</div>
-</div>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">sort_direction</span>
+</span><span class='line'>  <span class="sx">%w[asc desc]</span><span class="o">.</span><span class="n">include?</span><span class="p">(</span><span class="n">params</span><span class="o">[</span><span class="ss">:direction</span><span class="o">]</span><span class="p">)</span> <span class="p">?</span>  <span class="n">params</span><span class="o">[</span><span class="ss">:direction</span><span class="o">]</span> <span class="p">:</span> <span class="s2">&quot;asc&quot;</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">def</span> <span class="nf">sort_column</span>
+</span><span class='line'>  <span class="no">Expense</span><span class="o">.</span><span class="n">column_names</span><span class="o">.</span><span class="n">include?</span><span class="p">(</span><span class="n">params</span><span class="o">[</span><span class="ss">:sort</span><span class="o">]</span><span class="p">)</span> <span class="p">?</span> <span class="n">params</span><span class="o">[</span><span class="ss">:sort</span><span class="o">]</span> <span class="p">:</span> <span class="s2">&quot;date&quot;</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
 
-<p>And all of these are put into place with the index method in that same view controller. </p>
 
-<div><div class="CodeRay">
-  <div class="code"><pre><span class="keyword">def</span> <span class="function">index</span>
-  <span class="instance-variable">@expenses</span> = <span class="constant">Expense</span>.order(sort_column + <span class="string"><span class="delimiter">'</span><span class="content"> </span><span class="delimiter">'</span></span> + sort_direction).paginate(<span class="key">page</span>: params[<span class="symbol">:page</span>])
-<span class="keyword">end</span>
-</pre></div>
-</div>
-</div>
+<p>And all of these are put into place with the index method in that same view controller.</p>
 
-<p>Initially, what I’d written wasn’t terrible: it worked in the browser, my columns resorted themselves on prompting, and a nice little caret was provided as feedback and a guide post for the user. That said, I was irked by the way the caret was smushed right up against the text and the way that adding the caret threw off the font sizing and styling I had going at the top of my table. </p>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">index</span>
+</span><span class='line'>  <span class="vi">@expenses</span> <span class="o">=</span> <span class="no">Expense</span><span class="o">.</span><span class="n">order</span><span class="p">(</span><span class="n">sort_column</span> <span class="o">+</span> <span class="s1">&#39; &#39;</span> <span class="o">+</span> <span class="n">sort_direction</span><span class="p">)</span><span class="o">.</span><span class="n">paginate</span><span class="p">(</span><span class="ss">page</span><span class="p">:</span> <span class="n">params</span><span class="o">[</span><span class="ss">:page</span><span class="o">]</span><span class="p">)</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
 
-<p>So, I took a step back and tried to determine out if it was possible to embed HTML inside of a link_to in Rails. A couple minutes later, I had figured out it was perfectly acceptable and learned a little bit about the nifty #html_safe method that Rails provides. This led me to a rewritten last line that I think provides a much more pleasing output. </p>
 
-<div><div class="CodeRay">
-  <div class="code"><pre>link_to <span class="string"><span class="delimiter">&quot;</span><span class="content">&lt;i class='fa </span><span class="inline"><span class="inline-delimiter">#{</span>css_class<span class="inline-delimiter">}</span></span><span class="content">'&gt;&lt;/i&gt; </span><span class="delimiter">&quot;</span></span>.html_safe+title, {<span class="symbol">:sort</span> =&gt; column, <span class="symbol">:direction</span> =&gt; direction}
-</pre></div>
-</div>
-</div>
+<p></p>
 
-<p>It was also great to have one of those moments when all that reading comes in handy. I couldn’t get the icons to appear the first time I fired up the page, because I had wrapped my icon HTML in single quotes instead of double. Using double quotes on the outside and then single on the inside allows Ruby to interpolate the css_class variable. Nothing fancy, but still a good learning experience that will hopefully keep me more consistent with my use of quotes. </p>
+<p>Initially, what I&rsquo;d written wasn&rsquo;t terrible: it worked in the browser, my columns resorted themselves on prompting, and a nice little caret was provided as feedback and a guide post for the user. That said, I was irked by the way the caret was smushed right up against the text and the way that adding the caret threw off the font sizing and styling I had going at the top of my table.</p>
+
+<p>So, I took a step back and tried to determine out if it was possible to embed HTML inside of a link_to in Rails. A couple minutes later, I had figured out it was perfectly acceptable and learned a little bit about the nifty #html_safe method that Rails provides. This led me to a rewritten last line that I think provides a much more pleasing output.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">link_to</span> <span class="s2">&quot;&lt;i class=&#39;fa </span><span class="si">#{</span><span class="n">css_class</span><span class="si">}</span><span class="s2">&#39;&gt;&lt;/i&gt; &quot;</span><span class="o">.</span><span class="n">html_safe</span><span class="o">+</span><span class="n">title</span><span class="p">,</span> <span class="p">{</span><span class="ss">:sort</span> <span class="o">=&gt;</span> <span class="n">column</span><span class="p">,</span> <span class="ss">:direction</span> <span class="o">=&gt;</span> <span class="n">direction</span><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>It was also great to have one of those moments when all that reading comes in handy. I couldn&rsquo;t get the icons to appear the first time I fired up the page, because I had wrapped my icon HTML in single quotes instead of double. Using double quotes on the outside and then single on the inside allows Ruby to interpolate the css_class variable. Nothing fancy, but still a good learning experience that will hopefully keep me more consistent with my use of quotes.</p>
 </div>
 
 

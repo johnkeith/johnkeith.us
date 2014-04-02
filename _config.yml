@@ -4,7 +4,7 @@
 
 url: http://johnk.herokuapp.com
 title: John Keith
-subtitle: Ruby. Rails. <a href="http://www.launchacademy.com/">Launch Academy</a>.
+subtitle: Learning full stack development and heading to <a href="http://www.launchacademy.com/">Launch Academy</a>.
 author: John Keith
 simple_search: http://google.com/search
 description:
@@ -36,7 +36,7 @@ destination: public
 plugins: plugins
 code_dir: downloads/code
 category_dir: blog/categories
-markdown: kramdown
+markdown: rdiscount
 kramdown:
   use_coderay: true
   coderay:

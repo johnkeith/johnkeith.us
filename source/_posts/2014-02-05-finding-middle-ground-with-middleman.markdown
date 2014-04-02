@@ -11,7 +11,7 @@ That said, after finding and playing with [Middleman](http://www.middlemanapp.co
 
 I was really thrilled when I managed to figure out how to insert Markdown files into a HAML template built in a Middleman project. 
 
-~~~ haml
+``` haml
 .main-contain
   .pure-g-r
     .pure-u-1-2
@@ -20,7 +20,7 @@ I was really thrilled when I managed to figure out how to insert Markdown files 
       %p What up?
       :markdown
         #{File.read(File.join(File.dirname(__FILE__), "test.md"))}
-~~~
+```
 
 
 The code is nothing special, but being able to read a file of Markdown text and insert it into my template was pretty exciting. I'm planning to use this trick to create a text-heavy site that keeps its content as separate from the presentation as possible by inserting all the large chunks of text as Markdown files into templates. 

@@ -9,7 +9,7 @@
   <meta name="author" content="John Keith">
 
   
-  <meta name="description" content="Reader beware: I’m learning Rails right now. In no way, shape or form should this post or any posts here for at least the next month and a half be &hellip;">
+  <meta name="description" content="Reader beware: I&rsquo;m learning Rails right now. In no way, shape or form should this post or any posts here for at least the next month and a half &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -50,7 +50,7 @@
   <header role="banner"><hgroup>
   <h1><a href="/">John Keith</a></h1>
   
-    <h2>Ruby. Rails. <a href="http://www.launchacademy.com/">Launch Academy</a>.</h2>
+    <h2>Learning full stack development and heading to <a href="http://www.launchacademy.com/">Launch Academy</a>.</h2>
   
 </hgroup>
 
@@ -99,54 +99,61 @@
   </header>
 
 
-<div class="entry-content"><p><em>Reader beware: I’m learning Rails right now. In no way, shape or form should this post or any posts here for at least the next month and a half be taken as gospel truth of how to do things right in Rails. They probably are way, way out in right field.</em></p>
+<div class="entry-content"><p><em>Reader beware: I&rsquo;m learning Rails right now. In no way, shape or form should this post or any posts here for at least the next month and a half be taken as gospel truth of how to do things right in Rails. They probably are way, way out in right field.</em></p>
 
-<p>Okay, say you have a view and in that view you have a beautiful button. If you want to assign a name to that button dynamically, say based on the truthiness of some variable, here’s an easy way to do it. </p>
+<p>Okay, say you have a view and in that view you have a beautiful button. If you want to assign a name to that button dynamically, say based on the truthiness of some variable, here&rsquo;s an easy way to do it.</p>
 
-<p>Open up the _helper.rb file for your model. In your _helper file, write a method that will provide you two pieces of text, depending on a certain condition.</p>
+<p>Open up the <em>helper.rb file for your model. In your </em>helper file, write a method that will provide you two pieces of text, depending on a certain condition.</p>
 
-<div><div class="CodeRay">
-  <div class="code"><pre><span class="keyword">def</span> <span class="function">sign_up_btn</span>
-  <span class="keyword">if</span> <span class="constant">User</span>.sign_up_allowed == <span class="predefined-constant">true</span>
-    <span class="string"><span class="delimiter">&quot;</span><span class="content">Prevent new account creation</span><span class="delimiter">&quot;</span></span>
-  <span class="keyword">else</span>
-    <span class="string"><span class="delimiter">&quot;</span><span class="content">Allow new account creation</span><span class="delimiter">&quot;</span></span>
-  <span class="keyword">end</span>
-<span class="keyword">end</span>
-</pre></div>
-</div>
-</div>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">sign_up_btn</span>
+</span><span class='line'>  <span class="k">if</span> <span class="no">User</span><span class="o">.</span><span class="n">sign_up_allowed</span> <span class="o">==</span> <span class="kp">true</span>
+</span><span class='line'>    <span class="s2">&quot;Prevent new account creation&quot;</span>
+</span><span class='line'>  <span class="k">else</span>
+</span><span class='line'>    <span class="s2">&quot;Allow new account creation&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
 
-<p>Or, if you want to be fancy, try this refactored-while-in-the-midst-of-blogging-version. </p>
 
-<div><div class="CodeRay">
-  <div class="code"><pre><span class="keyword">def</span> <span class="function">sign_up_btn</span>
-  <span class="constant">User</span>.sign_up_allowed ? <span class="string"><span class="delimiter">&quot;</span><span class="content">Prevent new account creation</span><span class="delimiter">&quot;</span></span> : <span class="string"><span class="delimiter">&quot;</span><span class="content">Allow new account creation</span><span class="delimiter">&quot;</span></span>
-<span class="keyword">end</span>
-</pre></div>
-</div>
-</div>
+<p>Or, if you want to be fancy, try this refactored-while-in-the-midst-of-blogging-version.</p>
 
-<p>Then, back over in your view file, add this bit to create the button and assign it a title based on the results of the method above. </p>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">sign_up_btn</span>
+</span><span class='line'>  <span class="no">User</span><span class="o">.</span><span class="n">sign_up_allowed</span> <span class="p">?</span> <span class="s2">&quot;Prevent new account creation&quot;</span> <span class="p">:</span> <span class="s2">&quot;Allow new account creation&quot;</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
 
-<div><div class="CodeRay">
-  <div class="code"><pre><span class="inline"><span class="inline-delimiter">&lt;%=</span> button_to <span class="key">action</span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">disallow_sign_up</span><span class="delimiter">&quot;</span></span> <span class="keyword">do</span> <span class="inline-delimiter">%&gt;</span></span><span class="inline"><span class="inline-delimiter">&lt;%=</span> <span class="string"><span class="delimiter">&quot;</span><span class="inline"><span class="inline-delimiter">#{</span>sign_up_btn<span class="inline-delimiter">}</span></span><span class="delimiter">&quot;</span></span> <span class="inline-delimiter">%&gt;</span></span><span class="inline"><span class="inline-delimiter">&lt;%</span> <span class="keyword">end</span> <span class="inline-delimiter">%&gt;</span></span>
-</pre></div>
-</div>
-</div>
 
-<p>(Just so you get a fuller picture, here’s my disallow_sign_up method from my users_controller. I wrote it as a way for an admin to turn off access to the sign up page in the expense tracking app I’m working on.)</p>
+<p>Then, back over in your view file, add this bit to create the button and assign it a title based on the results of the method above.</p>
 
-<div><div class="CodeRay">
-  <div class="code"><pre><span class="keyword">def</span> <span class="function">disallow_sign_up</span>
-  <span class="constant">User</span>.sign_up_allowed ? <span class="constant">User</span>.sign_up_allowed = <span class="predefined-constant">false</span> : <span class="constant">User</span>.sign_up_allowed = <span class="predefined-constant">true</span>
-  redirect_to users_index_path
-<span class="keyword">end</span>
-</pre></div>
-</div>
-</div>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="cp">&lt;%=</span> <span class="n">button_to</span> <span class="ss">action</span><span class="p">:</span> <span class="s2">&quot;disallow_sign_up&quot;</span> <span class="k">do</span> <span class="cp">%&gt;&lt;%=</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="n">sign_up_btn</span><span class="si">}</span><span class="s2">&quot;</span> <span class="cp">%&gt;&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span></code></pre></td></tr></table></div></figure>
 
-<p>I have a serious fixation on the ternary operator, if you haven’t noticed. </p>
+
+<p>(Just so you get a fuller picture, here&rsquo;s my disallow_sign_up method from my users_controller. I wrote it as a way for an admin to turn off access to the sign up page in the expense tracking app I&rsquo;m working on.)</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">disallow_sign_up</span>
+</span><span class='line'>  <span class="no">User</span><span class="o">.</span><span class="n">sign_up_allowed</span> <span class="p">?</span> <span class="no">User</span><span class="o">.</span><span class="n">sign_up_allowed</span> <span class="o">=</span> <span class="kp">false</span> <span class="p">:</span> <span class="no">User</span><span class="o">.</span><span class="n">sign_up_allowed</span> <span class="o">=</span> <span class="kp">true</span>
+</span><span class='line'>  <span class="n">redirect_to</span> <span class="n">users_index_path</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>I have a serious fixation on the ternary operator, if you haven&rsquo;t noticed.</p>
 </div>
 
 

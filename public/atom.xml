@@ -4,7 +4,7 @@
   <title><![CDATA[John Keith]]></title>
   <link href="http://johnk.herokuapp.com/atom.xml" rel="self"/>
   <link href="http://johnk.herokuapp.com/"/>
-  <updated>2014-04-02T18:54:35-04:00</updated>
+  <updated>2014-04-02T18:59:53-04:00</updated>
   <id>http://johnk.herokuapp.com/</id>
   <author>
     <name><![CDATA[John Keith]]></name>
@@ -20,77 +20,85 @@
     <id>http://johnk.herokuapp.com/blog/2014/04/01/json-and-nested-hashes-in-ruby</id>
     <content type="html"><![CDATA[<p>JSON is one of the major data formats out there on the web, known for its readability. Personally, I was a little unsure about that readability aspect after pulling up my first JSON document and seeing this mess.</p>
 
-<p><img src="http://gdurl.com/PP1x" alt="Crazy JSON!" /> </p>
+<p><img src="http://gdurl.com/PP1x" alt="Crazy JSON!" /></p>
 
-<p>The first step towards wrapping your head around JSON is to see it printed in a prettier fashion. Head over to <a href="http://www.jsoneditoronline.org">JSON Online Editor</a> and using the “Open URL” option you can paste the URL to a JSON document and see this format is actually much more presentable than it lets on. (If you need a JSON example to play with while reading this, don’t hesitate to use <a href="http://teamtreehouse.com/johnkeith.json">my Treehouse profile</a>, as this provides you with a complex, multidimensional set of data to manipulate).</p>
+<p>The first step towards wrapping your head around JSON is to see it printed in a prettier fashion. Head over to <a href="http://www.jsoneditoronline.org">JSON Online Editor</a> and using the &ldquo;Open URL&rdquo; option you can paste the URL to a JSON document and see this format is actually much more presentable than it lets on. (If you need a JSON example to play with while reading this, don&rsquo;t hesitate to use <a href="http://teamtreehouse.com/johnkeith.json">my Treehouse profile</a>, as this provides you with a complex, multidimensional set of data to manipulate).</p>
 
 <p>I decided to start by figuring out how to work with JSON in Ruby, as currently I feel more comfortable with Ruby than Javascript. Luckily, Ruby makes handling JSON from the web easy with a few of its built in libraries and modules.</p>
 
 <p>At the top of your Ruby file (or in IRB if you would rather try this out in the terminal), you will need to require the Net/HTTP library and the JSON module.</p>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="nb">require</span> <span class="s1">&#39;net/http&#39;</span>
-</span><span class="line"><span class="nb">require</span> <span class="s1">&#39;json&#39;</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;net/http&#39;</span>
+</span><span class='line'><span class="nb">require</span> <span class="s1">&#39;json&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
 
-<p>Net/HTTP allows you to do all types connect to websites within Ruby and do all types of nifty stuff. For instance, the following code will assign our JSON document’s contents to the variable response. </p>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="n">response</span> <span class="o">=</span> <span class="ss">Net</span><span class="p">:</span><span class="ss">:HTTP</span><span class="o">.</span><span class="n">get_response</span><span class="p">(</span><span class="no">URI</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="s1">&#39;http://teamtreehouse.com/johnkeith.json&#39;</span><span class="p">))</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
+<p>Net/HTTP allows you to do all types connect to websites within Ruby and do all types of nifty stuff. For instance, the following code will assign our JSON document&rsquo;s contents to the variable response.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">response</span> <span class="o">=</span> <span class="ss">Net</span><span class="p">:</span><span class="ss">:HTTP</span><span class="o">.</span><span class="n">get_response</span><span class="p">(</span><span class="no">URI</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="s1">&#39;http://teamtreehouse.com/johnkeith.json&#39;</span><span class="p">))</span>
+</span></code></pre></td></tr></table></div></figure>
+
 
 <p>The get_response method returns a Net::HTTPResponse object that contains header and body information from the website specified. Since we are are specifying a JSON document, there is no header, but you can check the output of your response object with <code>response.body.inspect</code>.</p>
 
 <p>Now that we have the JSON document retreived from the web, we need to parse it and turn the data into something more easily used by Ruby.</p>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="n">result</span> <span class="o">=</span> <span class="no">JSON</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">body</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">result</span> <span class="o">=</span> <span class="no">JSON</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">body</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
 
-<p>(I found it helpful to look at the difference between the raw Net::HTTP response and the parse JSON - try running <code>puts JSON.pretty_generate(result)</code> and <code>puts response.body</code> to see how the parse method formats the data into a Ruby readable hash.) </p>
 
-<p>Next, we need to access the data within our newly parsed hash of JSON data. You can access Ruby hashes with a similar syntax to the one used for arrays - start with the hash name, then a key from the hash in brackets. </p>
+<p>(I found it helpful to look at the difference between the raw Net::HTTP response and the parse JSON &ndash; try running <code>puts JSON.pretty_generate(result)</code> and <code>puts response.body</code> to see how the parse method formats the data into a Ruby readable hash.)</p>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="n">result</span><span class="o">[</span><span class="s2">&quot;badges&quot;</span><span class="o">]</span>
-</span><span class="line"><span class="n">result</span><span class="o">[</span><span class="s2">&quot;badges&quot;</span><span class="o">][</span><span class="mi">0</span><span class="o">]</span>
-</span><span class="line"><span class="n">result</span><span class="o">[</span><span class="s2">&quot;badges&quot;</span><span class="o">][</span><span class="mi">0</span><span class="o">][</span><span class="s2">&quot;name&quot;</span><span class="o">]</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
+<p>Next, we need to access the data within our newly parsed hash of JSON data. You can access Ruby hashes with a similar syntax to the one used for arrays &ndash; start with the hash name, then a key from the hash in brackets.</p>
 
-<p>The examples above show you how you can move through a nested hash and access data within different sections of your JSON document. Putting this syntax to use, you can quickly pull out all the URLs for the badge icons from this Treehouse JSON. </p>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">result</span><span class="o">[</span><span class="s2">&quot;badges&quot;</span><span class="o">]</span>
+</span><span class='line'><span class="n">result</span><span class="o">[</span><span class="s2">&quot;badges&quot;</span><span class="o">][</span><span class="mi">0</span><span class="o">]</span>
+</span><span class='line'><span class="n">result</span><span class="o">[</span><span class="s2">&quot;badges&quot;</span><span class="o">][</span><span class="mi">0</span><span class="o">][</span><span class="s2">&quot;name&quot;</span><span class="o">]</span>
+</span></code></pre></td></tr></table></div></figure>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="n">result</span><span class="o">[</span><span class="s2">&quot;badges&quot;</span><span class="o">].</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">item</span><span class="o">|</span>
-</span><span class="line">  <span class="nb">puts</span> <span class="n">item</span><span class="o">[</span><span class="s2">&quot;icon_url&quot;</span><span class="o">]</span>
-</span><span class="line"><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
 
-<p>While I thought it was awesome to be able to drill down to these URLs, I decided I wanted to do something with this data. To round out my exploration of JSON and Ruby, I wrote a small script to grab all of the images located at these URLs and save them to my computer. </p>
+<p>The examples above show you how you can move through a nested hash and access data within different sections of your JSON document. Putting this syntax to use, you can quickly pull out all the URLs for the badge icons from this Treehouse JSON.</p>
 
-<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
-<span class="line-number">2</span>
-<span class="line-number">3</span>
-<span class="line-number">4</span>
-<span class="line-number">5</span>
-<span class="line-number">6</span>
-<span class="line-number">7</span>
-<span class="line-number">8</span>
-</pre></td><td class="code"><pre><code class="ruby"><span class="line"><span class="nb">require</span> <span class="s1">&#39;open-uri&#39;</span>
-</span><span class="line"><span class="n">result</span><span class="o">[</span><span class="s2">&quot;badges&quot;</span><span class="o">].</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">item</span><span class="o">|</span>
-</span><span class="line">  <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;badge</span><span class="si">#{</span><span class="n">item</span><span class="o">[</span><span class="s2">&quot;id&quot;</span><span class="o">]</span><span class="si">}</span><span class="s2">.png&quot;</span><span class="p">,</span> <span class="s2">&quot;w+&quot;</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">file</span><span class="o">|</span>
-</span><span class="line">    <span class="nb">open</span><span class="p">(</span><span class="n">item</span><span class="o">[</span><span class="s2">&quot;icon_url&quot;</span><span class="o">]</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">image</span><span class="o">|</span>
-</span><span class="line">      <span class="n">file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">image</span><span class="o">.</span><span class="n">read</span><span class="p">)</span>
-</span><span class="line">    <span class="k">end</span>
-</span><span class="line">  <span class="k">end</span>
-</span><span class="line"><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure></notextile></div>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">result</span><span class="o">[</span><span class="s2">&quot;badges&quot;</span><span class="o">].</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">item</span><span class="o">|</span>
+</span><span class='line'>  <span class="nb">puts</span> <span class="n">item</span><span class="o">[</span><span class="s2">&quot;icon_url&quot;</span><span class="o">]</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
 
-<p>The Open URI module, according to the Ruby docs, allows you “to open an http, https, or ftp URL as though it were a file.” The code above uses this capability in the <code>open(item["icon_url"] do |image|</code> line in order to open the URL we extracted from the hash and then save that image data into a file.</p>
+
+<p></p>
+
+<p>While I thought it was awesome to be able to drill down to these URLs, I decided I wanted to do something with this data. To round out my exploration of JSON and Ruby, I wrote a small script to grab all of the images located at these URLs and save them to my computer.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;open-uri&#39;</span>
+</span><span class='line'><span class="n">result</span><span class="o">[</span><span class="s2">&quot;badges&quot;</span><span class="o">].</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">item</span><span class="o">|</span>
+</span><span class='line'>  <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;badge</span><span class="si">#{</span><span class="n">item</span><span class="o">[</span><span class="s2">&quot;id&quot;</span><span class="o">]</span><span class="si">}</span><span class="s2">.png&quot;</span><span class="p">,</span> <span class="s2">&quot;w+&quot;</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">file</span><span class="o">|</span>
+</span><span class='line'>    <span class="nb">open</span><span class="p">(</span><span class="n">item</span><span class="o">[</span><span class="s2">&quot;icon_url&quot;</span><span class="o">]</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">image</span><span class="o">|</span>
+</span><span class='line'>      <span class="n">file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">image</span><span class="o">.</span><span class="n">read</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The Open URI module, according to the Ruby docs, allows you &ldquo;to open an http, https, or ftp URL as though it were a file.&rdquo; The code above uses this capability in the <code>open(item["icon_url"] do |image|</code> line in order to open the URL we extracted from the hash and then save that image data into a file.</p>
 ]]></content>
   </entry>
   
@@ -99,18 +107,18 @@
     <link href="http://johnk.herokuapp.com/blog/2014/03/27/spaced-repetition-and-the-novice-programmer/"/>
     <updated>2014-03-27T11:41:27-04:00</updated>
     <id>http://johnk.herokuapp.com/blog/2014/03/27/spaced-repetition-and-the-novice-programmer</id>
-    <content type="html"><![CDATA[<p>Nothing compares with that moment when an idea hits you over the head like a ton of bricks labeled “Duh!” I experienced one of those today after coming across this great <a href="https://medium.com/medium-redef/5481606b087a">Medium piece</a> by Mattan Griffel about using <em>spaced repetition</em> for improving recall, then following that to an article by Derek Sivers about <a href="http://sivers.org/srs">studying programming languages</a> using the same technique. At the end of Sivers’ article (and after reading that this idea has been around for <a href="http://en.wikipedia.org/wiki/Spacing_effect">over a century</a>!), I was left wondering why spaced repetition is not a foundational part of any and all learning we do.</p>
+    <content type="html"><![CDATA[<p>Nothing compares with that moment when an idea hits you over the head like a ton of bricks labeled &ldquo;Duh!&rdquo; I experienced one of those today after coming across this great <a href="https://medium.com/medium-redef/5481606b087a">Medium piece</a> by Mattan Griffel about using <em>spaced repetition</em> for improving recall, then following that to an article by Derek Sivers about <a href="http://sivers.org/srs">studying programming languages</a> using the same technique. At the end of Sivers&#8217; article (and after reading that this idea has been around for <a href="http://en.wikipedia.org/wiki/Spacing_effect">over a century</a>!), I was left wondering why spaced repetition is not a foundational part of any and all learning we do.</p>
 
-<p>It is hardly a complex concept: spaced repetition is the reviewing of learned information at specifically defined intervals, with those intervals being determined by your comfort with the information. You commonly run across this technique in flashcard apps - the <a href="https://www.brainscape.com">Brainscape</a> suite of apps is a good example, along with the more DIY example of <a href="http://ankisrs.net/index.html">Anki</a> that Griffel explores. The difference from the 3 x 5 colored notecards you made in middle school is that Anki and Brainscape are both powered by algorithms that decide when you should view each flashcard. This allows for a much more focused reviewing - the cards with basic information only show up sporadically, while the cards containing more involved ideas or information that you find yourself struggling with appear more frequently. </p>
+<p>It is hardly a complex concept: spaced repetition is the reviewing of learned information at specifically defined intervals, with those intervals being determined by your comfort with the information. You commonly run across this technique in flashcard apps &ndash; the <a href="https://www.brainscape.com">Brainscape</a> suite of apps is a good example, along with the more DIY example of <a href="http://ankisrs.net/index.html">Anki</a> that Griffel explores. The difference from the 3 x 5 colored notecards you made in middle school is that Anki and Brainscape are both powered by algorithms that decide when you should view each flashcard. This allows for a much more focused reviewing &ndash; the cards with basic information only show up sporadically, while the cards containing more involved ideas or information that you find yourself struggling with appear more frequently.</p>
 
 <p><img src="http://gdurl.com/r6mx" alt="Brainscape web version" />
 (The colored rating buttons at the bottom of the image above are part of the mechanism for determining when you will see certain cards in Brainscape. The higher you rate how well you knew the information, the less you will see the card.)</p>
 
-<p>What baffles me is that spaced repetition is not built into every online learning platform. Imagine working on a Treehouse track or a Codeacademy course and being intermittently offered opportunities to quickly review the information you have been absorbing from other lessons. For the novice programmer, this repetition would be invaluable, as so often you learn about a new function (Ruby’s <em>inject</em> always comes to mind for me) or quirk of the language and then do not see it again for a long stretch of time. The huge amount of information to absorb and explore in the early stages of learning a language makes deliberate and meaningful repetition of what you’ve covered essential. </p>
+<p>What baffles me is that spaced repetition is not built into every online learning platform. Imagine working on a Treehouse track or a Codeacademy course and being intermittently offered opportunities to quickly review the information you have been absorbing from other lessons. For the novice programmer, this repetition would be invaluable, as so often you learn about a new function (Ruby&rsquo;s <em>inject</em> always comes to mind for me) or quirk of the language and then do not see it again for a long stretch of time. The huge amount of information to absorb and explore in the early stages of learning a language makes deliberate and meaningful repetition of what you&rsquo;ve covered essential.</p>
 
-<p>What also surprises me is that we do not see spaced repetition more in offline curriculum. I cannot imagine how much better my long term understanding and ability to use what I learned in <em>insert any high school subject here</em> would be had we been taught to use spaced repetition tools. It seems our whole education system is focused on the forward - the next chapter, the next test, the next year - and is a system that does not reward the concentrated study that leads to mastery. You have to wonder too if part of the motive for this forward inertia in our educational structure is profit: how many SAT cram courses/books/apps are you going to sell if students actually learn the material they need to know the first time they are taught it?</p>
+<p>What also surprises me is that we do not see spaced repetition more in offline curriculum. I cannot imagine how much better my long term understanding and ability to use what I learned in <em>insert any high school subject here</em> would be had we been taught to use spaced repetition tools. It seems our whole education system is focused on the forward &ndash; the next chapter, the next test, the next year &ndash; and is a system that does not reward the concentrated study that leads to mastery. You have to wonder too if part of the motive for this forward inertia in our educational structure is profit: how many SAT cram courses/books/apps are you going to sell if students actually learn the material they need to know the first time they are taught it?</p>
 
-<p>That said, I’m going to dive into the Anki app and see what I can create as far as a flashcards repository for learning Ruby and Rails. Depending on how the app works, I’ll try to post what I develop here for download. </p>
+<p>That said, I&rsquo;m going to dive into the Anki app and see what I can create as far as a flashcards repository for learning Ruby and Rails. Depending on how the app works, I&rsquo;ll try to post what I develop here for download.</p>
 ]]></content>
   </entry>
   
@@ -119,55 +127,67 @@
     <link href="http://johnk.herokuapp.com/blog/2014/03/19/trying-to-remember-the-small-stuff/"/>
     <updated>2014-03-19T17:47:29-04:00</updated>
     <id>http://johnk.herokuapp.com/blog/2014/03/19/trying-to-remember-the-small-stuff</id>
-    <content type="html"><![CDATA[<p>Refactoring is really fun, especially in those moments when you have an “Aha!” flash and one of those little details clicks into place. I had that today with method I wrote for changing the sorting on a table in a Rails view. </p>
+    <content type="html"><![CDATA[<p>Refactoring is really fun, especially in those moments when you have an &ldquo;Aha!&rdquo; flash and one of those little details clicks into place. I had that today with method I wrote for changing the sorting on a table in a Rails view.</p>
 
-<div><div class="CodeRay">
-  <div class="code"><pre><span class="keyword">def</span> <span class="function">sortable</span>(column, title = <span class="predefined-constant">nil</span>)
-  title ||= column.titleize
-  direction = (column == sort_column &amp;&amp; sort_direction == <span class="string"><span class="delimiter">&quot;</span><span class="content">asc</span><span class="delimiter">&quot;</span></span>) ? <span class="string"><span class="delimiter">&quot;</span><span class="content">desc</span><span class="delimiter">&quot;</span></span> : <span class="string"><span class="delimiter">&quot;</span><span class="content">asc</span><span class="delimiter">&quot;</span></span>
-  font_awesome_direction = direction == <span class="string"><span class="delimiter">&quot;</span><span class="content">asc</span><span class="delimiter">&quot;</span></span> ? <span class="string"><span class="delimiter">&quot;</span><span class="content">up</span><span class="delimiter">&quot;</span></span> : <span class="string"><span class="delimiter">&quot;</span><span class="content">down</span><span class="delimiter">&quot;</span></span>
-  css_class = column == sort_column ? <span class="string"><span class="delimiter">&quot;</span><span class="content">fa-caret-</span><span class="inline"><span class="inline-delimiter">#{</span>font_awesome_direction<span class="inline-delimiter">}</span></span><span class="delimiter">&quot;</span></span> : <span class="predefined-constant">nil</span>
-  link_to title, {<span class="symbol">:sort</span> =&gt; column, <span class="symbol">:direction</span> =&gt; direction}, {<span class="key">class</span>: css_class}
-<span class="keyword">end</span>
-</pre></div>
-</div>
-</div>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">sortable</span><span class="p">(</span><span class="n">column</span><span class="p">,</span> <span class="n">title</span> <span class="o">=</span> <span class="kp">nil</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">title</span> <span class="o">||=</span> <span class="n">column</span><span class="o">.</span><span class="n">titleize</span>
+</span><span class='line'>  <span class="n">direction</span> <span class="o">=</span> <span class="p">(</span><span class="n">column</span> <span class="o">==</span> <span class="n">sort_column</span> <span class="o">&amp;&amp;</span> <span class="n">sort_direction</span> <span class="o">==</span> <span class="s2">&quot;asc&quot;</span><span class="p">)</span> <span class="p">?</span> <span class="s2">&quot;desc&quot;</span> <span class="p">:</span> <span class="s2">&quot;asc&quot;</span>
+</span><span class='line'>  <span class="n">font_awesome_direction</span> <span class="o">=</span> <span class="n">direction</span> <span class="o">==</span> <span class="s2">&quot;asc&quot;</span> <span class="p">?</span> <span class="s2">&quot;up&quot;</span> <span class="p">:</span> <span class="s2">&quot;down&quot;</span>
+</span><span class='line'>  <span class="n">css_class</span> <span class="o">=</span> <span class="n">column</span> <span class="o">==</span> <span class="n">sort_column</span> <span class="p">?</span> <span class="s2">&quot;fa-caret-</span><span class="si">#{</span><span class="n">font_awesome_direction</span><span class="si">}</span><span class="s2">&quot;</span> <span class="p">:</span> <span class="kp">nil</span>
+</span><span class='line'>  <span class="n">link_to</span> <span class="n">title</span><span class="p">,</span> <span class="p">{</span><span class="ss">:sort</span> <span class="o">=&gt;</span> <span class="n">column</span><span class="p">,</span> <span class="ss">:direction</span> <span class="o">=&gt;</span> <span class="n">direction</span><span class="p">},</span> <span class="p">{</span><span class="ss">class</span><span class="p">:</span> <span class="n">css_class</span><span class="p">}</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
 
-<p>That sortable method was placed in my application_helper.rb. It works with these two methods from my view controller. </p>
 
-<div><div class="CodeRay">
-  <div class="code"><pre><span class="keyword">def</span> <span class="function">sort_direction</span>
-  <span class="string"><span class="delimiter">%w[</span><span class="content">asc desc</span><span class="delimiter">]</span></span>.include?(params[<span class="symbol">:direction</span>]) ?  params[<span class="symbol">:direction</span>] : <span class="string"><span class="delimiter">&quot;</span><span class="content">asc</span><span class="delimiter">&quot;</span></span>
-<span class="keyword">end</span>
+<p>That sortable method was placed in my application_helper.rb. It works with these two methods from my view controller.</p>
 
-<span class="keyword">def</span> <span class="function">sort_column</span>
-  <span class="constant">Expense</span>.column_names.include?(params[<span class="symbol">:sort</span>]) ? params[<span class="symbol">:sort</span>] : <span class="string"><span class="delimiter">&quot;</span><span class="content">date</span><span class="delimiter">&quot;</span></span>
-<span class="keyword">end</span>
-</pre></div>
-</div>
-</div>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">sort_direction</span>
+</span><span class='line'>  <span class="sx">%w[asc desc]</span><span class="o">.</span><span class="n">include?</span><span class="p">(</span><span class="n">params</span><span class="o">[</span><span class="ss">:direction</span><span class="o">]</span><span class="p">)</span> <span class="p">?</span>  <span class="n">params</span><span class="o">[</span><span class="ss">:direction</span><span class="o">]</span> <span class="p">:</span> <span class="s2">&quot;asc&quot;</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">def</span> <span class="nf">sort_column</span>
+</span><span class='line'>  <span class="no">Expense</span><span class="o">.</span><span class="n">column_names</span><span class="o">.</span><span class="n">include?</span><span class="p">(</span><span class="n">params</span><span class="o">[</span><span class="ss">:sort</span><span class="o">]</span><span class="p">)</span> <span class="p">?</span> <span class="n">params</span><span class="o">[</span><span class="ss">:sort</span><span class="o">]</span> <span class="p">:</span> <span class="s2">&quot;date&quot;</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
 
-<p>And all of these are put into place with the index method in that same view controller. </p>
 
-<div><div class="CodeRay">
-  <div class="code"><pre><span class="keyword">def</span> <span class="function">index</span>
-  <span class="instance-variable">@expenses</span> = <span class="constant">Expense</span>.order(sort_column + <span class="string"><span class="delimiter">'</span><span class="content"> </span><span class="delimiter">'</span></span> + sort_direction).paginate(<span class="key">page</span>: params[<span class="symbol">:page</span>])
-<span class="keyword">end</span>
-</pre></div>
-</div>
-</div>
+<p>And all of these are put into place with the index method in that same view controller.</p>
 
-<p>Initially, what I’d written wasn’t terrible: it worked in the browser, my columns resorted themselves on prompting, and a nice little caret was provided as feedback and a guide post for the user. That said, I was irked by the way the caret was smushed right up against the text and the way that adding the caret threw off the font sizing and styling I had going at the top of my table. </p>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">index</span>
+</span><span class='line'>  <span class="vi">@expenses</span> <span class="o">=</span> <span class="no">Expense</span><span class="o">.</span><span class="n">order</span><span class="p">(</span><span class="n">sort_column</span> <span class="o">+</span> <span class="s1">&#39; &#39;</span> <span class="o">+</span> <span class="n">sort_direction</span><span class="p">)</span><span class="o">.</span><span class="n">paginate</span><span class="p">(</span><span class="ss">page</span><span class="p">:</span> <span class="n">params</span><span class="o">[</span><span class="ss">:page</span><span class="o">]</span><span class="p">)</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
 
-<p>So, I took a step back and tried to determine out if it was possible to embed HTML inside of a link_to in Rails. A couple minutes later, I had figured out it was perfectly acceptable and learned a little bit about the nifty #html_safe method that Rails provides. This led me to a rewritten last line that I think provides a much more pleasing output. </p>
 
-<div><div class="CodeRay">
-  <div class="code"><pre>link_to <span class="string"><span class="delimiter">&quot;</span><span class="content">&lt;i class='fa </span><span class="inline"><span class="inline-delimiter">#{</span>css_class<span class="inline-delimiter">}</span></span><span class="content">'&gt;&lt;/i&gt; </span><span class="delimiter">&quot;</span></span>.html_safe+title, {<span class="symbol">:sort</span> =&gt; column, <span class="symbol">:direction</span> =&gt; direction}
-</pre></div>
-</div>
-</div>
+<p></p>
 
-<p>It was also great to have one of those moments when all that reading comes in handy. I couldn’t get the icons to appear the first time I fired up the page, because I had wrapped my icon HTML in single quotes instead of double. Using double quotes on the outside and then single on the inside allows Ruby to interpolate the css_class variable. Nothing fancy, but still a good learning experience that will hopefully keep me more consistent with my use of quotes. </p>
+<p>Initially, what I&rsquo;d written wasn&rsquo;t terrible: it worked in the browser, my columns resorted themselves on prompting, and a nice little caret was provided as feedback and a guide post for the user. That said, I was irked by the way the caret was smushed right up against the text and the way that adding the caret threw off the font sizing and styling I had going at the top of my table.</p>
+
+<p>So, I took a step back and tried to determine out if it was possible to embed HTML inside of a link_to in Rails. A couple minutes later, I had figured out it was perfectly acceptable and learned a little bit about the nifty #html_safe method that Rails provides. This led me to a rewritten last line that I think provides a much more pleasing output.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">link_to</span> <span class="s2">&quot;&lt;i class=&#39;fa </span><span class="si">#{</span><span class="n">css_class</span><span class="si">}</span><span class="s2">&#39;&gt;&lt;/i&gt; &quot;</span><span class="o">.</span><span class="n">html_safe</span><span class="o">+</span><span class="n">title</span><span class="p">,</span> <span class="p">{</span><span class="ss">:sort</span> <span class="o">=&gt;</span> <span class="n">column</span><span class="p">,</span> <span class="ss">:direction</span> <span class="o">=&gt;</span> <span class="n">direction</span><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>It was also great to have one of those moments when all that reading comes in handy. I couldn&rsquo;t get the icons to appear the first time I fired up the page, because I had wrapped my icon HTML in single quotes instead of double. Using double quotes on the outside and then single on the inside allows Ruby to interpolate the css_class variable. Nothing fancy, but still a good learning experience that will hopefully keep me more consistent with my use of quotes.</p>
 ]]></content>
   </entry>
   
@@ -176,21 +196,21 @@
     <link href="http://johnk.herokuapp.com/blog/2014/03/16/why-launch-academy-in-a-nutshell/"/>
     <updated>2014-03-16T14:53:05-04:00</updated>
     <id>http://johnk.herokuapp.com/blog/2014/03/16/why-launch-academy-in-a-nutshell</id>
-    <content type="html"><![CDATA[<p>As another part of our pre-work for Launch Academy, we’ve been asked to setup a blog. Luckily, I actually (miraculously) got this Octopress installation started back when I was applying to Launch. That said, I liked one of the writing prompts provided to us as part of this exercise - “Three Reasons I Felt Launch Academy Was the Best Fit for Me” - and I thought offering my three cents on why I’m heading to Launch could be informative for anyone else looking to apply to development bootcamps.</p>
+    <content type="html"><![CDATA[<p>As another part of our pre-work for Launch Academy, we&rsquo;ve been asked to setup a blog. Luckily, I actually (miraculously) got this Octopress installation started back when I was applying to Launch. That said, I liked one of the writing prompts provided to us as part of this exercise &ndash; &ldquo;Three Reasons I Felt Launch Academy Was the Best Fit for Me&rdquo; &ndash; and I thought offering my three cents on why I&rsquo;m heading to Launch could be informative for anyone else looking to apply to development bootcamps.</p>
 
 <p><strong>Student-centric approach to everything</strong></p>
 
-<p>Above all else, Launch Academy feels very student-centered. From the moment you start looking at their webpage to your first conversations with their experience engineers, the immediate impression you receive is that Launch is completely dedicated to their mission of transforming students from all walks of life into software engineers. Now, I’m sure many, many of the other bootcamps out there are equally fixated on this goal, but I felt that Launch Academy had the greatest commitment to their students of any of the programs I talked with. </p>
+<p>Above all else, Launch Academy feels very student-centered. From the moment you start looking at their webpage to your first conversations with their experience engineers, the immediate impression you receive is that Launch is completely dedicated to their mission of transforming students from all walks of life into software engineers. Now, I&rsquo;m sure many, many of the other bootcamps out there are equally fixated on this goal, but I felt that Launch Academy had the greatest commitment to their students of any of the programs I talked with.</p>
 
 <p><strong>Excellent, comprehensive curriculum</strong></p>
 
-<p>One of the parts of Launch Academy that I spent the most time dissecting before making my commitment to attend was the curriculum. I wanted to make sure that after Launch I would feel prepared to jump into the job market as a web developer. I can say from many conversations and emails with the Launch staff that I feel confident the program will provide the broad exposure and focus on fundamental skills to transform us into capable and confident web developers. </p>
+<p>One of the parts of Launch Academy that I spent the most time dissecting before making my commitment to attend was the curriculum. I wanted to make sure that after Launch I would feel prepared to jump into the job market as a web developer. I can say from many conversations and emails with the Launch staff that I feel confident the program will provide the broad exposure and focus on fundamental skills to transform us into capable and confident web developers.</p>
 
 <p><strong>Post-graduation assistance</strong></p>
 
-<p>This may be part and parcel of Launch’s commitment to their students, but the career assistance that Launch offers to its graduates was another huge reason that I decided on them over other bootcamps. While many other programs talk about their tuition breaks for taking a job through a partner company, I believe Launch is much more focused on helping you find a job where you will both succeed and be happy, rather than one that benefits their partnerships. </p>
+<p>This may be part and parcel of Launch&rsquo;s commitment to their students, but the career assistance that Launch offers to its graduates was another huge reason that I decided on them over other bootcamps. While many other programs talk about their tuition breaks for taking a job through a partner company, I believe Launch is much more focused on helping you find a job where you will both succeed and be happy, rather than one that benefits their partnerships.</p>
 
-<p>And of course, Boston! Having come back from Korea almost three years ago, I’m ready for a new adventure and a radical change of scenery. While I will miss Columbia (weather-wise and otherwise), I cannot wait to come up to Boston in May. </p>
+<p>And of course, Boston! Having come back from Korea almost three years ago, I&rsquo;m ready for a new adventure and a radical change of scenery. While I will miss Columbia (weather-wise and otherwise), I cannot wait to come up to Boston in May.</p>
 ]]></content>
   </entry>
   
@@ -199,54 +219,61 @@
     <link href="http://johnk.herokuapp.com/blog/2014/03/14/dynamically-control-button-labels-with-a-helper-method/"/>
     <updated>2014-03-14T19:20:08-04:00</updated>
     <id>http://johnk.herokuapp.com/blog/2014/03/14/dynamically-control-button-labels-with-a-helper-method</id>
-    <content type="html"><![CDATA[<p><em>Reader beware: I’m learning Rails right now. In no way, shape or form should this post or any posts here for at least the next month and a half be taken as gospel truth of how to do things right in Rails. They probably are way, way out in right field.</em></p>
+    <content type="html"><![CDATA[<p><em>Reader beware: I&rsquo;m learning Rails right now. In no way, shape or form should this post or any posts here for at least the next month and a half be taken as gospel truth of how to do things right in Rails. They probably are way, way out in right field.</em></p>
 
-<p>Okay, say you have a view and in that view you have a beautiful button. If you want to assign a name to that button dynamically, say based on the truthiness of some variable, here’s an easy way to do it. </p>
+<p>Okay, say you have a view and in that view you have a beautiful button. If you want to assign a name to that button dynamically, say based on the truthiness of some variable, here&rsquo;s an easy way to do it.</p>
 
-<p>Open up the _helper.rb file for your model. In your _helper file, write a method that will provide you two pieces of text, depending on a certain condition.</p>
+<p>Open up the <em>helper.rb file for your model. In your </em>helper file, write a method that will provide you two pieces of text, depending on a certain condition.</p>
 
-<div><div class="CodeRay">
-  <div class="code"><pre><span class="keyword">def</span> <span class="function">sign_up_btn</span>
-  <span class="keyword">if</span> <span class="constant">User</span>.sign_up_allowed == <span class="predefined-constant">true</span>
-    <span class="string"><span class="delimiter">&quot;</span><span class="content">Prevent new account creation</span><span class="delimiter">&quot;</span></span>
-  <span class="keyword">else</span>
-    <span class="string"><span class="delimiter">&quot;</span><span class="content">Allow new account creation</span><span class="delimiter">&quot;</span></span>
-  <span class="keyword">end</span>
-<span class="keyword">end</span>
-</pre></div>
-</div>
-</div>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">sign_up_btn</span>
+</span><span class='line'>  <span class="k">if</span> <span class="no">User</span><span class="o">.</span><span class="n">sign_up_allowed</span> <span class="o">==</span> <span class="kp">true</span>
+</span><span class='line'>    <span class="s2">&quot;Prevent new account creation&quot;</span>
+</span><span class='line'>  <span class="k">else</span>
+</span><span class='line'>    <span class="s2">&quot;Allow new account creation&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
 
-<p>Or, if you want to be fancy, try this refactored-while-in-the-midst-of-blogging-version. </p>
 
-<div><div class="CodeRay">
-  <div class="code"><pre><span class="keyword">def</span> <span class="function">sign_up_btn</span>
-  <span class="constant">User</span>.sign_up_allowed ? <span class="string"><span class="delimiter">&quot;</span><span class="content">Prevent new account creation</span><span class="delimiter">&quot;</span></span> : <span class="string"><span class="delimiter">&quot;</span><span class="content">Allow new account creation</span><span class="delimiter">&quot;</span></span>
-<span class="keyword">end</span>
-</pre></div>
-</div>
-</div>
+<p>Or, if you want to be fancy, try this refactored-while-in-the-midst-of-blogging-version.</p>
 
-<p>Then, back over in your view file, add this bit to create the button and assign it a title based on the results of the method above. </p>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">sign_up_btn</span>
+</span><span class='line'>  <span class="no">User</span><span class="o">.</span><span class="n">sign_up_allowed</span> <span class="p">?</span> <span class="s2">&quot;Prevent new account creation&quot;</span> <span class="p">:</span> <span class="s2">&quot;Allow new account creation&quot;</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
 
-<div><div class="CodeRay">
-  <div class="code"><pre><span class="inline"><span class="inline-delimiter">&lt;%=</span> button_to <span class="key">action</span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">disallow_sign_up</span><span class="delimiter">&quot;</span></span> <span class="keyword">do</span> <span class="inline-delimiter">%&gt;</span></span><span class="inline"><span class="inline-delimiter">&lt;%=</span> <span class="string"><span class="delimiter">&quot;</span><span class="inline"><span class="inline-delimiter">#{</span>sign_up_btn<span class="inline-delimiter">}</span></span><span class="delimiter">&quot;</span></span> <span class="inline-delimiter">%&gt;</span></span><span class="inline"><span class="inline-delimiter">&lt;%</span> <span class="keyword">end</span> <span class="inline-delimiter">%&gt;</span></span>
-</pre></div>
-</div>
-</div>
 
-<p>(Just so you get a fuller picture, here’s my disallow_sign_up method from my users_controller. I wrote it as a way for an admin to turn off access to the sign up page in the expense tracking app I’m working on.)</p>
+<p>Then, back over in your view file, add this bit to create the button and assign it a title based on the results of the method above.</p>
 
-<div><div class="CodeRay">
-  <div class="code"><pre><span class="keyword">def</span> <span class="function">disallow_sign_up</span>
-  <span class="constant">User</span>.sign_up_allowed ? <span class="constant">User</span>.sign_up_allowed = <span class="predefined-constant">false</span> : <span class="constant">User</span>.sign_up_allowed = <span class="predefined-constant">true</span>
-  redirect_to users_index_path
-<span class="keyword">end</span>
-</pre></div>
-</div>
-</div>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="cp">&lt;%=</span> <span class="n">button_to</span> <span class="ss">action</span><span class="p">:</span> <span class="s2">&quot;disallow_sign_up&quot;</span> <span class="k">do</span> <span class="cp">%&gt;&lt;%=</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="n">sign_up_btn</span><span class="si">}</span><span class="s2">&quot;</span> <span class="cp">%&gt;&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span></code></pre></td></tr></table></div></figure>
 
-<p>I have a serious fixation on the ternary operator, if you haven’t noticed. </p>
+
+<p>(Just so you get a fuller picture, here&rsquo;s my disallow_sign_up method from my users_controller. I wrote it as a way for an admin to turn off access to the sign up page in the expense tracking app I&rsquo;m working on.)</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">disallow_sign_up</span>
+</span><span class='line'>  <span class="no">User</span><span class="o">.</span><span class="n">sign_up_allowed</span> <span class="p">?</span> <span class="no">User</span><span class="o">.</span><span class="n">sign_up_allowed</span> <span class="o">=</span> <span class="kp">false</span> <span class="p">:</span> <span class="no">User</span><span class="o">.</span><span class="n">sign_up_allowed</span> <span class="o">=</span> <span class="kp">true</span>
+</span><span class='line'>  <span class="n">redirect_to</span> <span class="n">users_index_path</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>I have a serious fixation on the ternary operator, if you haven&rsquo;t noticed.</p>
 ]]></content>
   </entry>
   
@@ -255,109 +282,119 @@
     <link href="http://johnk.herokuapp.com/blog/2014/03/11/simple-file-uploads-to-rails-with-dragonfly/"/>
     <updated>2014-03-11T17:42:53-04:00</updated>
     <id>http://johnk.herokuapp.com/blog/2014/03/11/simple-file-uploads-to-rails-with-dragonfly</id>
-    <content type="html"><![CDATA[<p>Gems are amazing. As a rookie developer, it is incredible to come into the Ruby/Rails community and discover the wealth of code that is available out there, packaged and ready to be used. I’d encountered and enjoyed open source software before, but it was not until I started writing code that I really came to appreciate what the concept means.</p>
+    <content type="html"><![CDATA[<p>Gems are amazing. As a rookie developer, it is incredible to come into the Ruby/Rails community and discover the wealth of code that is available out there, packaged and ready to be used. I&rsquo;d encountered and enjoyed open source software before, but it was not until I started writing code that I really came to appreciate what the concept means.</p>
 
-<p>Take for instance file uploading with Rails. You can perform basic uploads using what Rails offers natively or you can choose from a multitude of gems (Paperclip, Carrierwave, Dragonfly, the <a href="https://www.ruby-toolbox.com/categories/rails_file_uploads">list goes on</a>) that add more advanced methods of uploading and storing files in your Rails app. </p>
+<p>Take for instance file uploading with Rails. You can perform basic uploads using what Rails offers natively or you can choose from a multitude of gems (Paperclip, Carrierwave, Dragonfly, the <a href="https://www.ruby-toolbox.com/categories/rails_file_uploads">list goes on</a>) that add more advanced methods of uploading and storing files in your Rails app.</p>
 
-<p>For the expense tracker I am currently working on, I selected <a href="https://github.com/markevans/dragonfly">Dragonfly</a>. I’ll admit, I tried Paperclip first and I was unable to make it function correctly. My lack of success with Paperclip, however, was only half the reason I ended up with Dragonfly. </p>
+<p>For the expense tracker I am currently working on, I selected <a href="https://github.com/markevans/dragonfly">Dragonfly</a>. I&rsquo;ll admit, I tried Paperclip first and I was unable to make it function correctly. My lack of success with Paperclip, however, was only half the reason I ended up with Dragonfly.</p>
 
 <p>As I was envisioning document uploads in my app, I wanted the document (a receipt or invoice of a purchase) to become part of the Expenses table that I had already set up with a multitude of fields. With Paperclip, as far as I understood from the tutorials provided, it seemed like the documents would be set up as a separate model in the database, then associated with my current Expenses model. I can see advantages to the Paperclip approach (making all the documents easily accessible in one section of the database), but I wanted keep the relationships in this app as simple as possible, if only for my own sanity.</p>
 
-<p>The great part about Dragonfly is it makes adding a :document column to your current model incredibly easy. The instructions below were what I did to install and integrate Dragonfly to upload documents when creating a new record in my Expense model. </p>
+<p>The great part about Dragonfly is it makes adding a :document column to your current model incredibly easy. The instructions below were what I did to install and integrate Dragonfly to upload documents when creating a new record in my Expense model.</p>
 
 <p>First, I added Dragonfly to my gemfile and ran bundler.</p>
 
-<div><div class="CodeRay">
-  <div class="code"><pre>gem <span class="string"><span class="delimiter">'</span><span class="content">dragonfly</span><span class="delimiter">'</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">~&gt;1.0.3</span><span class="delimiter">&quot;</span></span>
-</pre></div>
-</div>
-</div>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">gem</span> <span class="s1">&#39;dragonfly&#39;</span><span class="p">,</span> <span class="s2">&quot;~&gt;1.0.3&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
 
-<div><div class="CodeRay">
-  <div class="code"><pre>$ bundle install
-</pre></div>
-</div>
-</div>
+
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="err">$</span> <span class="n">bundle</span> <span class="n">install</span>
+</span></code></pre></td></tr></table></div></figure>
+
 
 <p>Then, in my app/models/expense.rb, I added an accessor for my document.</p>
 
-<div><div class="CodeRay">
-  <div class="code"><pre>dragonfly_accessor <span class="symbol">:document</span>
-</pre></div>
-</div>
-</div>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">dragonfly_accessor</span> <span class="ss">:document</span>
+</span></code></pre></td></tr></table></div></figure>
 
-<p>Back at the command line, I setup a migration to add a document column to my expenses model. </p>
 
-<div><div class="CodeRay">
-  <div class="code"><pre>$ Rails generate migration AddDocumentToExpenses
-</pre></div>
-</div>
-</div>
+<p>Back at the command line, I setup a migration to add a document column to my expenses model.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="err">$</span> <span class="no">Rails</span> <span class="n">generate</span> <span class="n">migration</span> <span class="no">AddDocumentToExpenses</span>
+</span></code></pre></td></tr></table></div></figure>
+
 
 <p>Inside the migration document, I added two columns, one for the :document_uid and :document_name, per the <a href="http://markevans.github.io/dragonfly/">Dragonfly wiki</a>.</p>
 
-<div><div class="CodeRay">
-  <div class="code"><pre><span class="keyword">class</span> <span class="class">AddDocumentToExpenses</span> &lt; <span class="constant">ActiveRecord</span>::<span class="constant">Migration</span>
-  <span class="keyword">def</span> <span class="function">change</span>
-    add_column <span class="symbol">:expenses</span>, <span class="symbol">:document_uid</span>, <span class="symbol">:string</span>
-    add_column <span class="symbol">:expenses</span>, <span class="symbol">:document_name</span>, <span class="symbol">:string</span>
-  <span class="keyword">end</span>
-<span class="keyword">end</span>
-</pre></div>
-</div>
-</div>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">AddDocumentToExpenses</span> <span class="o">&lt;</span> <span class="ss">ActiveRecord</span><span class="p">:</span><span class="ss">:Migration</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">change</span>
+</span><span class='line'>    <span class="n">add_column</span> <span class="ss">:expenses</span><span class="p">,</span> <span class="ss">:document_uid</span><span class="p">,</span> <span class="ss">:string</span>
+</span><span class='line'>    <span class="n">add_column</span> <span class="ss">:expenses</span><span class="p">,</span> <span class="ss">:document_name</span><span class="p">,</span> <span class="ss">:string</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
 
 <p>Then came migrating the database.</p>
 
-<div><div class="CodeRay">
-  <div class="code"><pre>rake db:migrate
-</pre></div>
-</div>
-</div>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">rake</span> <span class="ss">db</span><span class="p">:</span><span class="n">migrate</span>
+</span></code></pre></td></tr></table></div></figure>
 
-<p>Next was altering my app/views/expenses/_form.html.erb to include a field for file uploads. </p>
 
-<div><div class="CodeRay">
-  <div class="code"><pre><span class="tag">&lt;div</span> <span class="attribute-name">class</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">field</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span>
-    <span class="inline"><span class="inline-delimiter">&lt;%=</span> f.label <span class="symbol">:document</span> <span class="inline-delimiter">%&gt;</span></span><span class="tag">&lt;br&gt;</span>
-    <span class="inline"><span class="inline-delimiter">&lt;%=</span> f.file_field <span class="symbol">:document</span> <span class="inline-delimiter">%&gt;</span></span>
-<span class="tag">&lt;/div&gt;</span>
-</pre></div>
-</div>
-</div>
-<p>Then, inside my app/controllers/expenses_controller.rb, I added :document to the list of permitted parameters near the bottom. </p>
+<p>Next was altering my app/views/expenses/_form.html.erb to include a field for file uploads.</p>
 
-<div><div class="CodeRay">
-  <div class="code"><pre><span class="keyword">def</span> <span class="function">expense_params</span>
-    params.require(<span class="symbol">:expense</span>).permit(<span class="symbol">:user_id</span>, <span class="symbol">:date</span>, <span class="symbol">:reseller</span>, <span class="symbol">:item_or_service</span>, <span class="symbol">:payment_form</span>, <span class="symbol">:charged_to</span>, <span class="symbol">:cost</span>, <span class="symbol">:amount_from_budget</span>, <span class="symbol">:notes</span>, <span class="symbol">:document</span>)
-<span class="keyword">end</span>
-</pre></div>
-</div>
-</div>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="x">&lt;div class=&quot;field&quot;&gt;</span>
+</span><span class='line'><span class="x">  </span><span class="cp">&lt;%=</span> <span class="n">f</span><span class="o">.</span><span class="n">label</span> <span class="ss">:document</span> <span class="cp">%&gt;</span><span class="x">&lt;br&gt;</span>
+</span><span class='line'><span class="x">  </span><span class="cp">&lt;%=</span> <span class="n">f</span><span class="o">.</span><span class="n">file_field</span> <span class="ss">:document</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'><span class="x">&lt;/div&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
 
-<p>With the next step, I was unsure if this was the correct course to take. I was worried about my files being uploaded to the public folder, as I assumed anything in that area would be easily accessible from the outside. I created a directory in the root of my app called secure_storage, though I have no idea if that name is a complete misnomer. Then, I opened the config/initializers/dragonfly.rb and changed the default location for where files would be stored. Again, hopefully this will put them in a better location than the public directory, but I am not a hundred precent sure. </p>
 
-<div><div class="CodeRay">
-  <div class="code"><pre>datastore <span class="symbol">:file</span>,
-  <span class="key">root_path</span>: <span class="constant">Rails</span>.root.join(<span class="string"><span class="delimiter">'</span><span class="content">secure_storage/system/dragonfly</span><span class="delimiter">'</span></span>, <span class="constant">Rails</span>.env),
-  <span class="key">server_root</span>: <span class="constant">Rails</span>.root.join(<span class="string"><span class="delimiter">'</span><span class="content">secure_storage</span><span class="delimiter">'</span></span>)
-</pre></div>
-</div>
-</div>
+<p>Then, inside my app/controllers/expenses_controller.rb, I added :document to the list of permitted parameters near the bottom.</p>
 
-<p>Finally, I added a file link (with a condition to make sure it didn’t appear if no file was present with the record) on the app/views/expenses/show.html.erb. </p>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">expense_params</span>
+</span><span class='line'>  <span class="n">params</span><span class="o">.</span><span class="n">require</span><span class="p">(</span><span class="ss">:expense</span><span class="p">)</span><span class="o">.</span><span class="n">permit</span><span class="p">(</span><span class="ss">:user_id</span><span class="p">,</span> <span class="ss">:date</span><span class="p">,</span> <span class="ss">:reseller</span><span class="p">,</span> <span class="ss">:item_or_service</span><span class="p">,</span> <span class="ss">:payment_form</span><span class="p">,</span> <span class="ss">:charged_to</span><span class="p">,</span> <span class="ss">:cost</span><span class="p">,</span> <span class="ss">:amount_from_budget</span><span class="p">,</span> <span class="ss">:notes</span><span class="p">,</span> <span class="ss">:document</span><span class="p">)</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
 
-<div><div class="CodeRay">
-  <div class="code"><pre><span class="inline"><span class="inline-delimiter">&lt;%</span> <span class="keyword">if</span> <span class="instance-variable">@expense</span>.document <span class="inline-delimiter">%&gt;</span></span>
-<span class="tag">&lt;p&gt;</span>
-  <span class="tag">&lt;strong&gt;</span>Document:<span class="tag">&lt;/strong&gt;</span>
-  <span class="inline"><span class="inline-delimiter">&lt;%=</span> link_to <span class="string"><span class="delimiter">&quot;</span><span class="content">File</span><span class="delimiter">&quot;</span></span>, root_url.chop + <span class="instance-variable">@expense</span>.document.url <span class="inline-delimiter">%&gt;</span></span>
-<span class="tag">&lt;/p&gt;</span>
-<span class="inline"><span class="inline-delimiter">&lt;%</span> <span class="keyword">end</span> <span class="inline-delimiter">%&gt;</span></span>
-</pre></div>
-</div>
-</div>
+
+<p>With the next step, I was unsure if this was the correct course to take. I was worried about my files being uploaded to the public folder, as I assumed anything in that area would be easily accessible from the outside. I created a directory in the root of my app called secure_storage, though I have no idea if that name is a complete misnomer. Then, I opened the config/initializers/dragonfly.rb and changed the default location for where files would be stored. Again, hopefully this will put them in a better location than the public directory, but I am not a hundred precent sure.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">datastore</span> <span class="ss">:file</span><span class="p">,</span>
+</span><span class='line'>  <span class="n">root_path</span><span class="p">:</span> <span class="no">Rails</span><span class="o">.</span><span class="n">root</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s1">&#39;secure_storage/system/dragonfly&#39;</span><span class="p">,</span> <span class="no">Rails</span><span class="o">.</span><span class="n">env</span><span class="p">),</span>
+</span><span class='line'>  <span class="n">server_root</span><span class="p">:</span> <span class="no">Rails</span><span class="o">.</span><span class="n">root</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s1">&#39;secure_storage&#39;</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Finally, I added a file link (with a condition to make sure it didn&rsquo;t appear if no file was present with the record) on the app/views/expenses/show.html.erb.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="cp">&lt;%</span> <span class="k">if</span> <span class="vi">@expense</span><span class="o">.</span><span class="n">document</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'><span class="x">&lt;p&gt;</span>
+</span><span class='line'><span class="x">  &lt;strong&gt;Document:&lt;/strong&gt;</span>
+</span><span class='line'><span class="x">  </span><span class="cp">&lt;%=</span> <span class="n">link_to</span> <span class="s2">&quot;File&quot;</span><span class="p">,</span> <span class="n">root_url</span><span class="o">.</span><span class="n">chop</span> <span class="o">+</span> <span class="vi">@expense</span><span class="o">.</span><span class="n">document</span><span class="o">.</span><span class="n">url</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'><span class="x">&lt;/p&gt;</span>
+</span><span class='line'><span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span></code></pre></td></tr></table></div></figure>
+
 
 <p>That, I believe, was all! You should now have a working file upload function, one that even lets you download the file too! If you try this and have trouble, let me know in the comments below.</p>
 ]]></content>
@@ -368,35 +405,35 @@
     <link href="http://johnk.herokuapp.com/blog/2014/03/08/using-evernote-with-getting-things-done/"/>
     <updated>2014-03-08T13:05:43-05:00</updated>
     <id>http://johnk.herokuapp.com/blog/2014/03/08/using-evernote-with-getting-things-done</id>
-    <content type="html"><![CDATA[<p>I’ve been using Evernote for a long time now and it has proven to be a fantastic system for storing information. That said, turning it into a system I can use to <em>organize</em> my life has been a Sisyphean experience. Over the years, my Evernote account has undergone a series of shakeups as I’ve tried out different organizational schemes, but each new system of handling notes, websites, and articles has left me feeling no more put together. </p>
+    <content type="html"><![CDATA[<p>I&rsquo;ve been using Evernote for a long time now and it has proven to be a fantastic system for storing information. That said, turning it into a system I can use to <em>organize</em> my life has been a Sisyphean experience. Over the years, my Evernote account has undergone a series of shakeups as I&rsquo;ve tried out different organizational schemes, but each new system of handling notes, websites, and articles has left me feeling no more put together.</p>
 
-<p>Part of our pre-work for Launch Academy has been to read a series of “brain hacking” books to get us ready for the start of the program. After diving into David Allen’s <a href="http://www.amazon.com/Getting-Things-Done-Stress-Free-Productivity/dp/0142000280">Getting Things Done</a>, I think I may see a way to corral my ever-ballooning Evernote into a much more manageable and useful repository. </p>
+<p>Part of our pre-work for Launch Academy has been to read a series of &ldquo;brain hacking&rdquo; books to get us ready for the start of the program. After diving into David Allen&rsquo;s <a href="http://www.amazon.com/Getting-Things-Done-Stress-Free-Productivity/dp/0142000280">Getting Things Done</a>, I think I may see a way to corral my ever-ballooning Evernote into a much more manageable and useful repository.</p>
 
 <p>Currently, I open Evernote to a slew of notebook stacks and subnotebooks.</p>
 
 <p><img src="http://gdurl.com/CL5X" alt="My current Evernote" /></p>
 
-<p>While having many individual notebooks is a passable strategy, I’ve found that it becomes less and less useful the more notebooks you create. My count right now is over 50 and I think that might be 44 too many. </p>
+<p>While having many individual notebooks is a passable strategy, I&rsquo;ve found that it becomes less and less useful the more notebooks you create. My count right now is over 50 and I think that might be 44 too many.</p>
 
-<p>An overabundance of notebooks starts to cause problems when you try to send something Evernote from within an app (like a newsreader or through email), as it always becomes a question of how to categorize this piece of information. By default, my notes are routed into a folder I called _INCOMING. This has been a nice landing spot, but the vagueness of the name (or perhaps its linguistic proximity to “inbox”) has contributed to my lack of desire to sort through the massive flood of stuff that piles up in there.</p>
+<p>An overabundance of notebooks starts to cause problems when you try to send something Evernote from within an app (like a newsreader or through email), as it always becomes a question of how to categorize this piece of information. By default, my notes are routed into a folder I called _INCOMING. This has been a nice landing spot, but the vagueness of the name (or perhaps its linguistic proximity to &ldquo;inbox&rdquo;) has contributed to my lack of desire to sort through the massive flood of stuff that piles up in there.</p>
 
-<p>In Allen’s book, he divides the organizational process into five stages: <strong>collect</strong>, <strong>process</strong>, <strong>organize</strong>, <strong>review</strong>, <strong>do</strong>. To reformat my Evernote to follow this system, I’m going to start by creating a _Processing folder and setting it as the default location for collecting everything that hits my Evernote. This will be the folder that I’ll take the time every other day to process the items from - to figure out “what they mean and what to do about them” (Allen). </p>
+<p>In Allen&rsquo;s book, he divides the organizational process into five stages: <strong>collect</strong>, <strong>process</strong>, <strong>organize</strong>, <strong>review</strong>, <strong>do</strong>. To reformat my Evernote to follow this system, I&rsquo;m going to start by creating a _Processing folder and setting it as the default location for collecting everything that hits my Evernote. This will be the folder that I&rsquo;ll take the time every other day to process the items from &ndash; to figure out &ldquo;what they mean and what to do about them&rdquo; (Allen).</p>
 
-<p>From the processing folder, an item will have four places to go: into the NextSteps, Projects, Incubating, or Archives folder. </p>
+<p>From the processing folder, an item will have four places to go: into the NextSteps, Projects, Incubating, or Archives folder.</p>
 
-<p>In the NextSteps folder will be all todo items, things that need to be done in the short term or short term actions that need to be taken in relation to longer term projects or goals. </p>
+<p>In the NextSteps folder will be all todo items, things that need to be done in the short term or short term actions that need to be taken in relation to longer term projects or goals.</p>
 
-<p>In the Projects folder will reside all of the <em>active</em> ideas or projects that I’m working on at the moment. And, as in <strong>Getting Things Done</strong>, the term projects is defined in a different sense than we usually use, as “any desired result that requires more than one action step” (Allen).</p>
+<p>In the Projects folder will reside all of the <em>active</em> ideas or projects that I&rsquo;m working on at the moment. And, as in <strong>Getting Things Done</strong>, the term projects is defined in a different sense than we usually use, as &ldquo;any desired result that requires more than one action step&rdquo; (Allen).</p>
 
-<p>The Incubating (I wanted to use a more active term than Allen’s “incubation”) folder will house the more lofty and long term items - app ideas, career goals, etc.</p>
+<p>The Incubating (I wanted to use a more active term than Allen&rsquo;s &ldquo;incubation&rdquo;) folder will house the more lofty and long term items &ndash; app ideas, career goals, etc.</p>
 
-<p>Lastly, in the Archives folder, I’m going to store everything that resides in my current notebooks. In other words, the Archives folder is essentially going to house everything that passes through my Evernote - it is the final destination of all information.</p>
+<p>Lastly, in the Archives folder, I&rsquo;m going to store everything that resides in my current notebooks. In other words, the Archives folder is essentially going to house everything that passes through my Evernote &ndash; it is the final destination of all information.</p>
 
-<p>I think this is the key to any organizational system - there must be a logical, actionable flow of information through the system, including a final resting place where the inactive information may be stored and retrieved. </p>
+<p>I think this is the key to any organizational system &ndash; there must be a logical, actionable flow of information through the system, including a final resting place where the inactive information may be stored and retrieved.</p>
 
-<p>Since Evernote does such a great job with indexing and searching any and every piece of information inside your account, I feel that there is no need to employ the tagging feature, that it might only slow down the movement of information into and through the new system. I’m going to spend some time not using tagging and see how it goes. </p>
+<p>Since Evernote does such a great job with indexing and searching any and every piece of information inside your account, I feel that there is no need to employ the tagging feature, that it might only slow down the movement of information into and through the new system. I&rsquo;m going to spend some time not using tagging and see how it goes.</p>
 
-<p>Allen emphasizes the important of reviewing the items in your organizational system at least once a week. I would love if it was possible to create a recurring reminder in Evernote that would alert me when I should review the information I have in each of my actionable folders (NextSteps, Projects, and Incubating), but for now perhaps a weekly calendar alert will suffice. </p>
+<p>Allen emphasizes the important of reviewing the items in your organizational system at least once a week. I would love if it was possible to create a recurring reminder in Evernote that would alert me when I should review the information I have in each of my actionable folders (NextSteps, Projects, and Incubating), but for now perhaps a weekly calendar alert will suffice.</p>
 ]]></content>
   </entry>
   
@@ -405,170 +442,310 @@
     <link href="http://johnk.herokuapp.com/blog/2014/03/06/build-what-you-use-when-learning/"/>
     <updated>2014-03-06T17:38:44-05:00</updated>
     <id>http://johnk.herokuapp.com/blog/2014/03/06/build-what-you-use-when-learning</id>
-    <content type="html"><![CDATA[<p>I can’t remember where I read it, but recently I came across the advice that one of the best ways to practice programming is to recreate the type of applications you use everyday. No need to make them flashy, simply implement their core features in order to achieve the same results. </p>
+    <content type="html"><![CDATA[<p>I can&rsquo;t remember where I read it, but recently I came across the advice that one of the best ways to practice programming is to recreate the type of applications you use everyday. No need to make them flashy, simply implement their core features in order to achieve the same results.</p>
 
-<p>I decided to give it a try today and build a tiny todo app in Ruby. I wanted to write the app keeping in mind the directives from Sandi’s Metz’s <a href="http://www.amazon.com/Practical-Object-Oriented-Design-Ruby-Addison-Wesley/dp/0321721330">Practical Object-Oriented Design in Ruby</a>.</p>
+<p>I decided to give it a try today and build a tiny todo app in Ruby. I wanted to write the app keeping in mind the directives from Sandi&rsquo;s Metz&rsquo;s <a href="http://www.amazon.com/Practical-Object-Oriented-Design-Ruby-Addison-Wesley/dp/0321721330">Practical Object-Oriented Design in Ruby</a>.</p>
 
-<blockquote>
-  <p>“Remember that a class should do the smallest possible useful thing. That
+<blockquote><p>&ldquo;Remember that a class should do the smallest possible useful thing. That
 thing ought to be simple to describe. If the simplest description you can devise uses the
-word “and,” the class likely has more than one responsibility.​” - Metz</p>
-</blockquote>
+word &#8220;and,” the class likely has more than one responsibility.​&rdquo; &ndash; Metz</p></blockquote>
 
-<p>While it ended up that my app only had one class, I tried to follow in the spirit of the quote above by keeping my methods as focused as possible. I also tried to heed her advice to stave off design decisions for as long as possible - an interesting strategy that had me trying to store all completed and incomplete todos in the same file. I quickly realized, though, that this was an inefficient way of doing things, since my completed items list would (hopefully) be a far larger file than my active items list and there is no reason to load that large file every time the app is opened.</p>
+<p>While it ended up that my app only had one class, I tried to follow in the spirit of the quote above by keeping my methods as focused as possible. I also tried to heed her advice to stave off design decisions for as long as possible &ndash; an interesting strategy that had me trying to store all completed and incomplete todos in the same file. I quickly realized, though, that this was an inefficient way of doing things, since my completed items list would (hopefully) be a far larger file than my active items list and there is no reason to load that large file every time the app is opened.</p>
 
-<p>There is one little quirk that I can’t seem to shake: when you mark a todo as finished, the item is removed from the activelist.txt file, but is not added to the completelist.txt file until you close the program. I’m sure it has something to do with the file opening modes I selected, but I can’t figure out why I am able to modify and then view the modifications done to activelist.txt while in the app, but not do the same with completelist.txt.</p>
+<p>There is one little quirk that I can&rsquo;t seem to shake: when you mark a todo as finished, the item is removed from the activelist.txt file, but is not added to the completelist.txt file until you close the program. I&rsquo;m sure it has something to do with the file opening modes I selected, but I can&rsquo;t figure out why I am able to modify and then view the modifications done to activelist.txt while in the app, but not do the same with completelist.txt.</p>
 
-<p>In the end, this was a great way to get practice using the File and IO classes of Ruby and exploring their methods. Not to mention, I get a pretty nifty little command line todo list manager (which I’ll stick in Dropbox for easy access) out of it! </p>
+<p>In the end, this was a great way to get practice using the File and IO classes of Ruby and exploring their methods. Not to mention, I get a pretty nifty little command line todo list manager (which I&rsquo;ll stick in Dropbox for easy access) out of it!</p>
 
-<div><div class="CodeRay">
-  <div class="code"><pre>require <span class="string"><span class="delimiter">'</span><span class="content">rbconfig</span><span class="delimiter">'</span></span>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+<span class='line-number'>74</span>
+<span class='line-number'>75</span>
+<span class='line-number'>76</span>
+<span class='line-number'>77</span>
+<span class='line-number'>78</span>
+<span class='line-number'>79</span>
+<span class='line-number'>80</span>
+<span class='line-number'>81</span>
+<span class='line-number'>82</span>
+<span class='line-number'>83</span>
+<span class='line-number'>84</span>
+<span class='line-number'>85</span>
+<span class='line-number'>86</span>
+<span class='line-number'>87</span>
+<span class='line-number'>88</span>
+<span class='line-number'>89</span>
+<span class='line-number'>90</span>
+<span class='line-number'>91</span>
+<span class='line-number'>92</span>
+<span class='line-number'>93</span>
+<span class='line-number'>94</span>
+<span class='line-number'>95</span>
+<span class='line-number'>96</span>
+<span class='line-number'>97</span>
+<span class='line-number'>98</span>
+<span class='line-number'>99</span>
+<span class='line-number'>100</span>
+<span class='line-number'>101</span>
+<span class='line-number'>102</span>
+<span class='line-number'>103</span>
+<span class='line-number'>104</span>
+<span class='line-number'>105</span>
+<span class='line-number'>106</span>
+<span class='line-number'>107</span>
+<span class='line-number'>108</span>
+<span class='line-number'>109</span>
+<span class='line-number'>110</span>
+<span class='line-number'>111</span>
+<span class='line-number'>112</span>
+<span class='line-number'>113</span>
+<span class='line-number'>114</span>
+<span class='line-number'>115</span>
+<span class='line-number'>116</span>
+<span class='line-number'>117</span>
+<span class='line-number'>118</span>
+<span class='line-number'>119</span>
+<span class='line-number'>120</span>
+<span class='line-number'>121</span>
+<span class='line-number'>122</span>
+<span class='line-number'>123</span>
+<span class='line-number'>124</span>
+<span class='line-number'>125</span>
+<span class='line-number'>126</span>
+<span class='line-number'>127</span>
+<span class='line-number'>128</span>
+<span class='line-number'>129</span>
+<span class='line-number'>130</span>
+<span class='line-number'>131</span>
+<span class='line-number'>132</span>
+<span class='line-number'>133</span>
+<span class='line-number'>134</span>
+<span class='line-number'>135</span>
+<span class='line-number'>136</span>
+<span class='line-number'>137</span>
+<span class='line-number'>138</span>
+<span class='line-number'>139</span>
+<span class='line-number'>140</span>
+<span class='line-number'>141</span>
+<span class='line-number'>142</span>
+<span class='line-number'>143</span>
+<span class='line-number'>144</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;rbconfig&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">Todo</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">clear_screen</span>
+</span><span class='line'>      <span class="n">host_os</span> <span class="o">=</span> <span class="ss">RbConfig</span><span class="p">:</span><span class="ss">:CONFIG</span><span class="o">[</span><span class="s1">&#39;host_os&#39;</span><span class="o">]</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="k">case</span> <span class="n">host_os</span>
+</span><span class='line'>          <span class="k">when</span> <span class="sr">/mswin|msys|mingw|cygwin|bccwin|wince|emc/</span>
+</span><span class='line'>              <span class="nb">system</span> <span class="s2">&quot;cls&quot;</span>
+</span><span class='line'>          <span class="k">when</span> <span class="sr">/darwin|mac os|linux|solaris|bsd/</span>
+</span><span class='line'>              <span class="nb">puts</span> <span class="s2">&quot;</span><span class="se">\e</span><span class="s2">[H</span><span class="se">\e</span><span class="s2">[2J&quot;</span>
+</span><span class='line'>      <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">open_app</span>
+</span><span class='line'>      <span class="n">view_all</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">view_all</span>
+</span><span class='line'>      <span class="n">clear_screen</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="n">list_read</span> <span class="o">=</span> <span class="n">read_active_list</span>
+</span><span class='line'>      
+</span><span class='line'>      <span class="nb">puts</span> <span class="s2">&quot;------INCOMPLETE------</span><span class="se">\n\n</span><span class="s2">&quot;</span>
+</span><span class='line'>      <span class="n">list_read</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">line</span><span class="o">|</span>
+</span><span class='line'>          <span class="nb">puts</span> <span class="n">line</span>
+</span><span class='line'>      <span class="k">end</span>
+</span><span class='line'>      <span class="nb">puts</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">----------------------&quot;</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="n">choose_action</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">read_active_list</span>
+</span><span class='line'>      <span class="n">list</span> <span class="o">=</span> <span class="no">File</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">&quot;activelist.txt&quot;</span><span class="p">,</span><span class="s2">&quot;a+&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">readlines</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">choose_action</span>
+</span><span class='line'>      <span class="nb">puts</span> <span class="sx">%/</span>
+</span><span class='line'><span class="sx">     What would you like to do with your list?</span>
+</span><span class='line'><span class="sx">     1. Add a todo</span>
+</span><span class='line'><span class="sx">     2. Mark complete</span>
+</span><span class='line'><span class="sx">     3. View incomplete</span>
+</span><span class='line'><span class="sx">     4. View completed</span>
+</span><span class='line'><span class="sx">     5. Exit/</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="n">choice</span> <span class="o">=</span> <span class="nb">gets</span><span class="o">.</span><span class="n">chomp</span><span class="o">.</span><span class="n">downcase</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="k">case</span> <span class="n">choice</span>
+</span><span class='line'>          <span class="k">when</span> <span class="s2">&quot;1&quot;</span> <span class="k">then</span> <span class="n">input_todo</span>
+</span><span class='line'>          <span class="k">when</span> <span class="s2">&quot;1.&quot;</span> <span class="k">then</span> <span class="n">input_todo</span>
+</span><span class='line'>          <span class="k">when</span> <span class="s2">&quot;add&quot;</span> <span class="k">then</span> <span class="n">input_todo</span>
+</span><span class='line'>          <span class="k">when</span> <span class="s2">&quot;add todo&quot;</span> <span class="k">then</span> <span class="n">input_todo</span>
+</span><span class='line'>      
+</span><span class='line'>          <span class="k">when</span> <span class="s2">&quot;2&quot;</span> <span class="k">then</span> <span class="n">mark_done</span>
+</span><span class='line'>          <span class="k">when</span> <span class="s2">&quot;2.&quot;</span> <span class="k">then</span> <span class="n">mark_done</span>
+</span><span class='line'>          <span class="k">when</span> <span class="s2">&quot;mark&quot;</span> <span class="k">then</span> <span class="n">mark_done</span>
+</span><span class='line'>          <span class="k">when</span> <span class="s2">&quot;mark done&quot;</span> <span class="k">then</span> <span class="n">mark_done</span>
+</span><span class='line'>
+</span><span class='line'>          <span class="k">when</span> <span class="s2">&quot;3&quot;</span> <span class="k">then</span> <span class="n">view_incomplete</span>
+</span><span class='line'>          <span class="k">when</span> <span class="s2">&quot;3.&quot;</span> <span class="k">then</span> <span class="n">view_incomplete</span>
+</span><span class='line'>          <span class="k">when</span> <span class="s2">&quot;view incomplete&quot;</span> <span class="k">then</span> <span class="n">view_incomplete</span>
+</span><span class='line'>          
+</span><span class='line'>          <span class="k">when</span> <span class="s2">&quot;4&quot;</span> <span class="k">then</span> <span class="n">view_complete</span>
+</span><span class='line'>          <span class="k">when</span> <span class="s2">&quot;4.&quot;</span> <span class="k">then</span> <span class="n">view_complete</span>
+</span><span class='line'>          <span class="k">when</span> <span class="s2">&quot;view completed&quot;</span> <span class="k">then</span> <span class="n">view_complete</span>
+</span><span class='line'>
+</span><span class='line'>          <span class="k">when</span> <span class="s2">&quot;5&quot;</span> <span class="k">then</span> <span class="k">return</span>
+</span><span class='line'>          <span class="k">when</span> <span class="s2">&quot;5.&quot;</span> <span class="k">then</span> <span class="k">return</span>
+</span><span class='line'>          <span class="k">when</span> <span class="s2">&quot;exit&quot;</span> <span class="k">then</span> <span class="k">return</span>
+</span><span class='line'>
+</span><span class='line'>          <span class="k">else</span>
+</span><span class='line'>              <span class="nb">p</span> <span class="s2">&quot;Not a valid choice&quot;</span>
+</span><span class='line'>              <span class="n">choose_action</span>
+</span><span class='line'>      <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">#ask for todo</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">input_todo</span>
+</span><span class='line'>      <span class="nb">puts</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Enter your new todo:&quot;</span>
+</span><span class='line'>      <span class="n">todo</span> <span class="o">=</span> <span class="nb">gets</span><span class="o">.</span><span class="n">chomp</span>
+</span><span class='line'>      <span class="n">add_todo</span><span class="p">(</span><span class="n">todo</span><span class="p">)</span>
+</span><span class='line'>      <span class="n">view_all</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">#write method</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">add_todo</span><span class="p">(</span><span class="n">todo</span><span class="p">)</span>
+</span><span class='line'>      <span class="no">File</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">&quot;activelist.txt&quot;</span><span class="p">,</span> <span class="s2">&quot;a&quot;</span><span class="p">)</span> <span class="p">{</span> <span class="o">|</span><span class="n">f</span><span class="o">|</span> <span class="n">f</span><span class="o">.</span><span class="n">write</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="n">todo</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="p">}</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">#mark done method</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">mark_done</span>
+</span><span class='line'>      <span class="n">clear_screen</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="n">list_read</span> <span class="o">=</span> <span class="no">File</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">&quot;activelist.txt&quot;</span><span class="p">,</span><span class="s2">&quot;a+&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">readlines</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="nb">puts</span> <span class="s2">&quot;------INCOMPLETE------</span><span class="se">\n\n</span><span class="s2">&quot;</span>
+</span><span class='line'>      <span class="n">list_read</span><span class="o">.</span><span class="n">each_with_index</span> <span class="k">do</span> <span class="o">|</span><span class="n">line</span><span class="p">,</span> <span class="n">index</span><span class="o">|</span>
+</span><span class='line'>          <span class="nb">puts</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="n">index</span> <span class="o">+</span> <span class="mi">1</span><span class="si">}</span><span class="s2">. &quot;</span> <span class="o">+</span> <span class="n">line</span>
+</span><span class='line'>      <span class="k">end</span>
+</span><span class='line'>      <span class="nb">puts</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">----------------------&quot;</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="nb">puts</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Which todo do you want to mark complete? (Type the number or zero to cancel).&quot;</span>
+</span><span class='line'>      
+</span><span class='line'>      <span class="n">choice</span> <span class="o">=</span> <span class="nb">gets</span><span class="o">.</span><span class="n">chomp</span><span class="o">.</span><span class="n">to_i</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="no">File</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">&quot;activelist.txt&quot;</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">f</span><span class="o">|</span>
+</span><span class='line'>          <span class="n">list_read</span><span class="o">.</span><span class="n">each_with_index</span> <span class="k">do</span> <span class="o">|</span><span class="n">line</span><span class="p">,</span> <span class="n">index</span><span class="o">|</span>
+</span><span class='line'>              <span class="k">if</span> <span class="p">(</span><span class="n">index</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">==</span> <span class="n">choice</span>
+</span><span class='line'>                  <span class="n">add_to_complete_list</span> <span class="n">line</span>
+</span><span class='line'>              <span class="k">else</span>
+</span><span class='line'>                  <span class="n">f</span><span class="o">.</span><span class="n">write</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="n">line</span><span class="si">}</span><span class="s2">&quot;</span>
+</span><span class='line'>              <span class="k">end</span>
+</span><span class='line'>          <span class="k">end</span>
+</span><span class='line'>      <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="n">view_all</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">add_to_complete_list</span> <span class="n">line</span>
+</span><span class='line'>      <span class="no">File</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">&quot;completelist.txt&quot;</span><span class="p">,</span> <span class="s2">&quot;a&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">write</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="n">line</span><span class="si">}</span><span class="s2">&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">view_complete</span>
+</span><span class='line'>      <span class="n">clear_screen</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="n">complete_list</span> <span class="o">=</span> <span class="no">File</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">&quot;completelist.txt&quot;</span><span class="p">,</span> <span class="s2">&quot;a+&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">readlines</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="nb">puts</span> <span class="s2">&quot;------COMPLETED------</span><span class="se">\n\n</span><span class="s2">&quot;</span>
+</span><span class='line'>      <span class="n">complete_list</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">line</span><span class="o">|</span>
+</span><span class='line'>          <span class="nb">puts</span> <span class="n">line</span>
+</span><span class='line'>      <span class="k">end</span>
+</span><span class='line'>      <span class="nb">puts</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">---------------------&quot;</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="n">choose_action</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">view_incomplete</span>
+</span><span class='line'>      <span class="n">view_all</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">my_todo_list</span> <span class="o">=</span> <span class="no">Todo</span><span class="o">.</span><span class="n">new</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">my_todo_list</span><span class="o">.</span><span class="n">open_app</span>
+</span></code></pre></td></tr></table></div></figure>
 
-<span class="keyword">class</span> <span class="class">Todo</span>
-    <span class="keyword">def</span> <span class="function">clear_screen</span>
-        host_os = <span class="constant">RbConfig</span>::<span class="constant">CONFIG</span>[<span class="string"><span class="delimiter">'</span><span class="content">host_os</span><span class="delimiter">'</span></span>]
-
-        <span class="keyword">case</span> host_os
-            <span class="keyword">when</span> <span class="regexp"><span class="delimiter">/</span><span class="content">mswin|msys|mingw|cygwin|bccwin|wince|emc</span><span class="delimiter">/</span></span>
-                system <span class="string"><span class="delimiter">&quot;</span><span class="content">cls</span><span class="delimiter">&quot;</span></span>
-            <span class="keyword">when</span> <span class="regexp"><span class="delimiter">/</span><span class="content">darwin|mac os|linux|solaris|bsd</span><span class="delimiter">/</span></span>
-                puts <span class="string"><span class="delimiter">&quot;</span><span class="char">\e</span><span class="content">[H</span><span class="char">\e</span><span class="content">[2J</span><span class="delimiter">&quot;</span></span>
-        <span class="keyword">end</span>
-    <span class="keyword">end</span>
-
-    <span class="keyword">def</span> <span class="function">open_app</span>
-        view_all
-    <span class="keyword">end</span>
-
-    <span class="keyword">def</span> <span class="function">view_all</span>
-        clear_screen
-
-        list_read = read_active_list
-        
-        puts <span class="string"><span class="delimiter">&quot;</span><span class="content">------INCOMPLETE------</span><span class="char">\n</span><span class="char">\n</span><span class="delimiter">&quot;</span></span>
-        list_read.each <span class="keyword">do</span> |line|
-            puts line
-        <span class="keyword">end</span>
-        puts <span class="string"><span class="delimiter">&quot;</span><span class="char">\n</span><span class="content">----------------------</span><span class="delimiter">&quot;</span></span>
-
-        choose_action
-    <span class="keyword">end</span>
-
-    <span class="keyword">def</span> <span class="function">read_active_list</span>
-        list = <span class="constant">File</span>.open(<span class="string"><span class="delimiter">&quot;</span><span class="content">activelist.txt</span><span class="delimiter">&quot;</span></span>,<span class="string"><span class="delimiter">&quot;</span><span class="content">a+</span><span class="delimiter">&quot;</span></span>).readlines
-    <span class="keyword">end</span>
-
-    <span class="keyword">def</span> <span class="function">choose_action</span>
-        puts <span class="string"><span class="delimiter">%/</span><span class="content">
-        What would you like to do with your list?
-        1. Add a todo
-        2. Mark complete
-        3. View incomplete
-        4. View completed
-        5. Exit</span><span class="delimiter">/</span></span>
-
-        choice = gets.chomp.downcase
-
-        <span class="keyword">case</span> choice
-            <span class="keyword">when</span> <span class="string"><span class="delimiter">&quot;</span><span class="content">1</span><span class="delimiter">&quot;</span></span> <span class="keyword">then</span> input_todo
-            <span class="keyword">when</span> <span class="string"><span class="delimiter">&quot;</span><span class="content">1.</span><span class="delimiter">&quot;</span></span> <span class="keyword">then</span> input_todo
-            <span class="keyword">when</span> <span class="string"><span class="delimiter">&quot;</span><span class="content">add</span><span class="delimiter">&quot;</span></span> <span class="keyword">then</span> input_todo
-            <span class="keyword">when</span> <span class="string"><span class="delimiter">&quot;</span><span class="content">add todo</span><span class="delimiter">&quot;</span></span> <span class="keyword">then</span> input_todo
-        
-            <span class="keyword">when</span> <span class="string"><span class="delimiter">&quot;</span><span class="content">2</span><span class="delimiter">&quot;</span></span> <span class="keyword">then</span> mark_done
-            <span class="keyword">when</span> <span class="string"><span class="delimiter">&quot;</span><span class="content">2.</span><span class="delimiter">&quot;</span></span> <span class="keyword">then</span> mark_done
-            <span class="keyword">when</span> <span class="string"><span class="delimiter">&quot;</span><span class="content">mark</span><span class="delimiter">&quot;</span></span> <span class="keyword">then</span> mark_done
-            <span class="keyword">when</span> <span class="string"><span class="delimiter">&quot;</span><span class="content">mark done</span><span class="delimiter">&quot;</span></span> <span class="keyword">then</span> mark_done
-
-            <span class="keyword">when</span> <span class="string"><span class="delimiter">&quot;</span><span class="content">3</span><span class="delimiter">&quot;</span></span> <span class="keyword">then</span> view_incomplete
-            <span class="keyword">when</span> <span class="string"><span class="delimiter">&quot;</span><span class="content">3.</span><span class="delimiter">&quot;</span></span> <span class="keyword">then</span> view_incomplete
-            <span class="keyword">when</span> <span class="string"><span class="delimiter">&quot;</span><span class="content">view incomplete</span><span class="delimiter">&quot;</span></span> <span class="keyword">then</span> view_incomplete
-            
-            <span class="keyword">when</span> <span class="string"><span class="delimiter">&quot;</span><span class="content">4</span><span class="delimiter">&quot;</span></span> <span class="keyword">then</span> view_complete
-            <span class="keyword">when</span> <span class="string"><span class="delimiter">&quot;</span><span class="content">4.</span><span class="delimiter">&quot;</span></span> <span class="keyword">then</span> view_complete
-            <span class="keyword">when</span> <span class="string"><span class="delimiter">&quot;</span><span class="content">view completed</span><span class="delimiter">&quot;</span></span> <span class="keyword">then</span> view_complete
-
-            <span class="keyword">when</span> <span class="string"><span class="delimiter">&quot;</span><span class="content">5</span><span class="delimiter">&quot;</span></span> <span class="keyword">then</span> <span class="keyword">return</span>
-            <span class="keyword">when</span> <span class="string"><span class="delimiter">&quot;</span><span class="content">5.</span><span class="delimiter">&quot;</span></span> <span class="keyword">then</span> <span class="keyword">return</span>
-            <span class="keyword">when</span> <span class="string"><span class="delimiter">&quot;</span><span class="content">exit</span><span class="delimiter">&quot;</span></span> <span class="keyword">then</span> <span class="keyword">return</span>
-
-            <span class="keyword">else</span>
-                p <span class="string"><span class="delimiter">&quot;</span><span class="content">Not a valid choice</span><span class="delimiter">&quot;</span></span>
-                choose_action
-        <span class="keyword">end</span>
-    <span class="keyword">end</span>
-
-<span class="comment">#ask for todo</span>
-    <span class="keyword">def</span> <span class="function">input_todo</span>
-        puts <span class="string"><span class="delimiter">&quot;</span><span class="char">\n</span><span class="content">Enter your new todo:</span><span class="delimiter">&quot;</span></span>
-        todo = gets.chomp
-        add_todo(todo)
-        view_all
-    <span class="keyword">end</span>
-
-<span class="comment">#write method</span>
-    <span class="keyword">def</span> <span class="function">add_todo</span>(todo)
-        <span class="constant">File</span>.open(<span class="string"><span class="delimiter">&quot;</span><span class="content">activelist.txt</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">a</span><span class="delimiter">&quot;</span></span>) { |f| f.write <span class="string"><span class="delimiter">&quot;</span><span class="inline"><span class="inline-delimiter">#{</span>todo<span class="inline-delimiter">}</span></span><span class="char">\n</span><span class="delimiter">&quot;</span></span> }
-    <span class="keyword">end</span>
-
-<span class="comment">#mark done method</span>
-    <span class="keyword">def</span> <span class="function">mark_done</span>
-        clear_screen
-
-        list_read = <span class="constant">File</span>.open(<span class="string"><span class="delimiter">&quot;</span><span class="content">activelist.txt</span><span class="delimiter">&quot;</span></span>,<span class="string"><span class="delimiter">&quot;</span><span class="content">a+</span><span class="delimiter">&quot;</span></span>).readlines
-
-        puts <span class="string"><span class="delimiter">&quot;</span><span class="content">------INCOMPLETE------</span><span class="char">\n</span><span class="char">\n</span><span class="delimiter">&quot;</span></span>
-        list_read.each_with_index <span class="keyword">do</span> |line, index|
-            puts <span class="string"><span class="delimiter">&quot;</span><span class="inline"><span class="inline-delimiter">#{</span>index + <span class="integer">1</span><span class="inline-delimiter">}</span></span><span class="content">. </span><span class="delimiter">&quot;</span></span> + line
-        <span class="keyword">end</span>
-        puts <span class="string"><span class="delimiter">&quot;</span><span class="char">\n</span><span class="content">----------------------</span><span class="delimiter">&quot;</span></span>
-
-        puts <span class="string"><span class="delimiter">&quot;</span><span class="char">\n</span><span class="content">Which todo do you want to mark complete? (Type the number or zero to cancel).</span><span class="delimiter">&quot;</span></span>
-        
-        choice = gets.chomp.to_i
-
-        <span class="constant">File</span>.open(<span class="string"><span class="delimiter">&quot;</span><span class="content">activelist.txt</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">w</span><span class="delimiter">&quot;</span></span>) <span class="keyword">do</span> |f|
-            list_read.each_with_index <span class="keyword">do</span> |line, index|
-                <span class="keyword">if</span> (index + <span class="integer">1</span>) == choice 
-                    add_to_complete_list line
-                <span class="keyword">else</span>
-                    f.write <span class="string"><span class="delimiter">&quot;</span><span class="inline"><span class="inline-delimiter">#{</span>line<span class="inline-delimiter">}</span></span><span class="delimiter">&quot;</span></span>
-                <span class="keyword">end</span>
-            <span class="keyword">end</span>
-        <span class="keyword">end</span>
-
-        view_all
-    <span class="keyword">end</span>
-
-    <span class="keyword">def</span> <span class="function">add_to_complete_list</span> line
-        <span class="constant">File</span>.open(<span class="string"><span class="delimiter">&quot;</span><span class="content">completelist.txt</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">a</span><span class="delimiter">&quot;</span></span>).write <span class="string"><span class="delimiter">&quot;</span><span class="inline"><span class="inline-delimiter">#{</span>line<span class="inline-delimiter">}</span></span><span class="delimiter">&quot;</span></span>
-    <span class="keyword">end</span>
-
-    <span class="keyword">def</span> <span class="function">view_complete</span>
-        clear_screen
-
-        complete_list = <span class="constant">File</span>.open(<span class="string"><span class="delimiter">&quot;</span><span class="content">completelist.txt</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">a+</span><span class="delimiter">&quot;</span></span>).readlines
-
-        puts <span class="string"><span class="delimiter">&quot;</span><span class="content">------COMPLETED------</span><span class="char">\n</span><span class="char">\n</span><span class="delimiter">&quot;</span></span>
-        complete_list.each <span class="keyword">do</span> |line|
-            puts line
-        <span class="keyword">end</span>
-        puts <span class="string"><span class="delimiter">&quot;</span><span class="char">\n</span><span class="content">---------------------</span><span class="delimiter">&quot;</span></span>
-
-        choose_action
-    <span class="keyword">end</span>
-
-    <span class="keyword">def</span> <span class="function">view_incomplete</span>
-        view_all
-    <span class="keyword">end</span>
-<span class="keyword">end</span>
-
-my_todo_list = <span class="constant">Todo</span>.new
-
-my_todo_list.open_app
-</pre></div>
-</div>
-</div>
 ]]></content>
   </entry>
   
@@ -577,19 +754,17 @@ my_todo_list.open_app
     <link href="http://johnk.herokuapp.com/blog/2014/03/04/image-hosting-for-a-heroku-octopress-site/"/>
     <updated>2014-03-04T17:44:27-05:00</updated>
     <id>http://johnk.herokuapp.com/blog/2014/03/04/image-hosting-for-a-heroku-octopress-site</id>
-    <content type="html"><![CDATA[<p>Since Heroku only allows for 300 MB of storage for their free tier of hosting, it makes sense to store the images for an Octopress site in a separate location. Previously, I used Flickr for a few posts, but the process of uploading the files and hunting down the embed link was tiresome. </p>
+    <content type="html"><![CDATA[<p>Since Heroku only allows for 300 MB of storage for their free tier of hosting, it makes sense to store the images for an Octopress site in a separate location. Previously, I used Flickr for a few posts, but the process of uploading the files and hunting down the embed link was tiresome.</p>
 
-<p>The better way, it seems, is to use Google Drive, despite the fact that Google doesn’t provide an easy way to embed either. What makes using Google Drive much friendlier than Flickr, however, is a site called <a href="http://gdurl.com/​">gdURL</a>. </p>
+<p>The better way, it seems, is to use Google Drive, despite the fact that Google doesn&rsquo;t provide an easy way to embed either. What makes using Google Drive much friendlier than Flickr, however, is a site called <a href="http://gdurl.com/%E2%80%8B">gdURL</a>.</p>
 
-<p>With gdURL, all you need to do is share an image file on Google Drive, change the privacy settings to “Anyone who has the link can view”, then run the link Google Drive provides you through the gdURL service and you receive a tidy, bite-sized link for embedding your image. </p>
+<p>With gdURL, all you need to do is share an image file on Google Drive, change the privacy settings to &ldquo;Anyone who has the link can view&rdquo;, then run the link Google Drive provides you through the gdURL service and you receive a tidy, bite-sized link for embedding your image.</p>
 
-<p>For instance, I used gdURL in the following line to link to a picture of this site’s new theme.</p>
+<p>For instance, I used gdURL in the following line to link to a picture of this site&rsquo;s new theme.</p>
 
-<div><div class="CodeRay">
-  <div class="code"><pre>![So Fresh and So Green](http://gdurl.com/i4Wr)​
-</pre></div>
-</div>
-</div>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>![So Fresh and So Green](http://gdurl.com/i4Wr)​</span></code></pre></td></tr></table></div></figure>
+
 
 <p><img src="http://gdurl.com/i4Wr" alt="So Fresh and So Green" />​</p>
 
@@ -602,17 +777,18 @@ my_todo_list.open_app
     <link href="http://johnk.herokuapp.com/blog/2014/03/02/new-theme/"/>
     <updated>2014-03-02T21:20:50-05:00</updated>
     <id>http://johnk.herokuapp.com/blog/2014/03/02/new-theme</id>
-    <content type="html"><![CDATA[<p>I’ve been meaning to build an Octopress theme since I put this site up back in January. To start with, this blog was using the <a href="https://github.com/lucaslew/whitespace">Whitespace theme</a>, which was a fantastic starting point, but I wanted to create something with a little more…color! </p>
+    <content type="html"><![CDATA[<p>I&rsquo;ve been meaning to build an Octopress theme since I put this site up back in January. To start with, this blog was using the <a href="https://github.com/lucaslew/whitespace">Whitespace theme</a>, which was a fantastic starting point, but I wanted to create something with a little more&hellip;color!</p>
 
-<p>After reading Vladi’s post about creating a theme called <a href="http://vladigleba.com/blog/2013/10/31/introducing-readify-a-new-octopress-theme-focused-on-readibility/">Readify</a>, I was inspired to take a shot at it. </p>
+<p>After reading Vladi&rsquo;s post about creating a theme called <a href="http://vladigleba.com/blog/2013/10/31/introducing-readify-a-new-octopress-theme-focused-on-readibility/">Readify</a>, I was inspired to take a shot at it.</p>
 
-<p>To that end…here’s what I’ve got so far. The code is <a href="https://github.com/johnkeith/sofreshandsogreen">available here</a>, should you want to install it on your own Octopress! I reworked the Classc theme to include a few basic changes that hopefully will make it more readable and usable.</p>
+<p>To that end&hellip;here&rsquo;s what I&rsquo;ve got so far. The code is <a href="https://github.com/johnkeith/sofreshandsogreen">available here</a>, should you want to install it on your own Octopress! I reworked the Classc theme to include a few basic changes that hopefully will make it more readable and usable.</p>
 
 <ul>
-  <li>Larger font and line heights</li>
-  <li>Fixed navbar that becomes unfixed on mobile devices</li>
-  <li>Green everywhere!</li>
+<li>Larger font and line heights</li>
+<li>Fixed navbar that becomes unfixed on mobile devices</li>
+<li>Green everywhere!</li>
 </ul>
+
 ]]></content>
   </entry>
   
@@ -621,26 +797,32 @@ my_todo_list.open_app
     <link href="http://johnk.herokuapp.com/blog/2014/02/05/finding-middle-ground-with-middleman/"/>
     <updated>2014-02-05T19:24:45-05:00</updated>
     <id>http://johnk.herokuapp.com/blog/2014/02/05/finding-middle-ground-with-middleman</id>
-    <content type="html"><![CDATA[<p>For a while, I’ve been wondering - where is the better way of building static sites? I’ve made a ton of stuff working off of Bootstrap templates and Wordpress themes, but I also really love creating sites without all the mess of those big frameworks. I want to hand code sites to keep learning about the presentational side of web development, but an environment like Rails is not ideal for such explorations. Even the much more manageable Sinatra is only a little better, as I feel like my focus when building something in Sinatra is split evenly between the front-end and back-end. </p>
+    <content type="html"><![CDATA[<p>For a while, I&rsquo;ve been wondering &ndash; where is the better way of building static sites? I&rsquo;ve made a ton of stuff working off of Bootstrap templates and Wordpress themes, but I also really love creating sites without all the mess of those big frameworks. I want to hand code sites to keep learning about the presentational side of web development, but an environment like Rails is not ideal for such explorations. Even the much more manageable Sinatra is only a little better, as I feel like my focus when building something in Sinatra is split evenly between the front-end and back-end.</p>
 
-<p>That said, after finding and playing with <a href="http://www.middlemanapp.com">Middleman</a>, I believe it provides the perfect way to focus on the front-end of things without sacrificing the power of HAML, SASS and the like. The LiveReload extension is also amazing - it is incredible how small efficiencies make all the differences when writing and testing out new ideas. </p>
+<p>That said, after finding and playing with <a href="http://www.middlemanapp.com">Middleman</a>, I believe it provides the perfect way to focus on the front-end of things without sacrificing the power of HAML, SASS and the like. The LiveReload extension is also amazing &ndash; it is incredible how small efficiencies make all the differences when writing and testing out new ideas.</p>
 
-<p>I was really thrilled when I managed to figure out how to insert Markdown files into a HAML template built in a Middleman project. </p>
+<p>I was really thrilled when I managed to figure out how to insert Markdown files into a HAML template built in a Middleman project.</p>
 
-<div><div class="CodeRay">
-  <div class="code"><pre><span class="class">.main-contain</span>
-  <span class="class">.pure-g-r</span>
-    <span class="class">.pure-u-1-2</span>
-      <span class="tag">%h1</span> Hello folks.
-    <span class="class">.pure-u-1-2</span>
-      <span class="tag">%p</span> What up?
-<span class="comment">      :markdown</span><span class="comment">
-        #{File.read(File.join(File.dirname(__FILE__), &quot;test.md&quot;))}</span>
-</pre></div>
-</div>
-</div>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='haml'><span class='line'><span class="nc">.main-contain</span>
+</span><span class='line'>  <span class="nc">.pure-g-r</span>
+</span><span class='line'>    <span class="nc">.pure-u-1-2</span>
+</span><span class='line'>      <span class="nt">%h1</span> Hello folks.
+</span><span class='line'>    <span class="nc">.pure-u-1-2</span>
+</span><span class='line'>      <span class="nt">%p</span> What up?
+</span><span class='line'>      <span class="nd">:markdown</span>
+</span><span class='line'>        <span class="si">#{</span><span class="no">File</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="no">File</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="no">File</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="bp">__FILE__</span><span class="p">),</span> <span class="s2">&quot;test.md&quot;</span><span class="p">))</span><span class="si">}</span>
+</span></code></pre></td></tr></table></div></figure>
 
-<p>The code is nothing special, but being able to read a file of Markdown text and insert it into my template was pretty exciting. I’m planning to use this trick to create a text-heavy site that keeps its content as separate from the presentation as possible by inserting all the large chunks of text as Markdown files into templates. </p>
+
+<p>The code is nothing special, but being able to read a file of Markdown text and insert it into my template was pretty exciting. I&rsquo;m planning to use this trick to create a text-heavy site that keeps its content as separate from the presentation as possible by inserting all the large chunks of text as Markdown files into templates.</p>
 ]]></content>
   </entry>
   
@@ -649,11 +831,15 @@ my_todo_list.open_app
     <link href="http://johnk.herokuapp.com/blog/2014/01/27/awesome-way-to-learn-haml/"/>
     <updated>2014-01-27T22:23:38-05:00</updated>
     <id>http://johnk.herokuapp.com/blog/2014/01/27/awesome-way-to-learn-haml</id>
-    <content type="html"><![CDATA[<p>I’ve been meaning to take some time and learn one of the HTML templating engines. One of the best parts about the <a href="http://www.codepen.com">Codepen</a> site is that it is a great place to practice with engines like HAML and Slim. (Not to mention, doing so gives me a chance to try installing the Codepen plugin here on my Octopress). </p>
+    <content type="html"><![CDATA[<p>I&rsquo;ve been meaning to take some time and learn one of the HTML templating engines. One of the best parts about the <a href="http://www.codepen.com">Codepen</a> site is that it is a great place to practice with engines like HAML and Slim. (Not to mention, doing so gives me a chance to try installing the Codepen plugin here on my Octopress).</p>
 
 <pre class="codepen" data-height="400" data-type="HAML" data-href="sEzqJ" data-user="johnkeith"><code> </code></pre>
-<script async="" src="http://codepen.io:/assets/embed/ei.js"></script>
 
+
+<script async src="http://codepen.io:/assets/embed/ei.js"></script>
+
+
+<p></p>
 ]]></content>
   </entry>
   
@@ -662,45 +848,45 @@ my_todo_list.open_app
     <link href="http://johnk.herokuapp.com/blog/2014/01/01/my-treehouse-trial/"/>
     <updated>2014-01-01T13:47:35-05:00</updated>
     <id>http://johnk.herokuapp.com/blog/2014/01/01/my-treehouse-trial</id>
-    <content type="html"><![CDATA[<p>With the wonderful break from school here at the holidays, I decided to join Treehouse and explore this popular learning platform (and maybe pick up a little Objective C and iOS while I’m at it!). I’m on day three of a two week trial and so far I’ve been impressed by the site and its fantastic array of offerings, despite my devotion to Codeacademy. That said, after completing Treehouse’s <a href="http://teamtreehouse.com/library/usability-foundations">Usability Foundations</a> course and dipping my toes into the iOS Development track, I certainly have run across a few areas that could use improvement. </p>
+    <content type="html"><![CDATA[<p>With the wonderful break from school here at the holidays, I decided to join Treehouse and explore this popular learning platform (and maybe pick up a little Objective C and iOS while I&rsquo;m at it!). I&rsquo;m on day three of a two week trial and so far I&rsquo;ve been impressed by the site and its fantastic array of offerings, despite my devotion to Codeacademy. That said, after completing Treehouse&rsquo;s <a href="http://teamtreehouse.com/library/usability-foundations">Usability Foundations</a> course and dipping my toes into the iOS Development track, I certainly have run across a few areas that could use improvement.</p>
 
-<p>Before diving into the usability issues I’ve experienced, let me say that I have really enjoyed Treehouse thus far. I was initially wary of the video-lecture style that defines the Treehouse delivery mechanism, but I think there is something to be said for adding the human element of an embodied teacher when learning to code. While the learn-by-watching method of Treehouse differs greatly from the Codeacademy approach (code, code, code!), I am currently enjoying it as I start trying to unpack the verbosity of Objective C. </p>
+<p>Before diving into the usability issues I&rsquo;ve experienced, let me say that I have really enjoyed Treehouse thus far. I was initially wary of the video-lecture style that defines the Treehouse delivery mechanism, but I think there is something to be said for adding the human element of an embodied teacher when learning to code. While the learn-by-watching method of Treehouse differs greatly from the Codeacademy approach (code, code, code!), I am currently enjoying it as I start trying to unpack the verbosity of Objective C.</p>
 
-<p>On the other hand, I have experienced some quirky behaviors after the video segments are done and you start to do the Code Challenges and other quizzes. There is a noticeable delay (as in 7 to 10 seconds) in between when completing the final exercise in a coding exercise (receiving the message “Congrats! You completed the challenge!”) and when the dialogue box appears telling you how many points the completion earns. </p>
+<p>On the other hand, I have experienced some quirky behaviors after the video segments are done and you start to do the Code Challenges and other quizzes. There is a noticeable delay (as in 7 to 10 seconds) in between when completing the final exercise in a coding exercise (receiving the message &ldquo;Congrats! You completed the challenge!&rdquo;) and when the dialogue box appears telling you how many points the completion earns.</p>
 
-<p><img src="http://johnk.herokuapp.com/images/postimg/nsstringChallenge.png" /></p>
+<p><img src="http://johnk.herokuapp.com/images/postimg/nsstringChallenge.png"></p>
 
-<p>I’ve noticed this delay only occurs the first time you are completing a Code Challenge, not if you go back and retake a challenge. That fact, however, brings up another problem: when you complete a challenge you have already completed, you are still presented with a dialogue box telling you points are being awarded! It is certainly a little confusing to receive the message that I have earned 6 points for completing the NSString challenge, but then not see any change in my overall score. </p>
+<p>I&rsquo;ve noticed this delay only occurs the first time you are completing a Code Challenge, not if you go back and retake a challenge. That fact, however, brings up another problem: when you complete a challenge you have already completed, you are still presented with a dialogue box telling you points are being awarded! It is certainly a little confusing to receive the message that I have earned 6 points for completing the NSString challenge, but then not see any change in my overall score.</p>
 
-<p>I think the fixes in these cases could be straightforward. Simply offer a loading indicator if the long delay between challenge completion and points awarding is unavoidable. Then, if retaking a challenge already completed, make sure the dialogue box at the end mentions that this challenge has already been passed and no new points will be awarded. </p>
+<p>I think the fixes in these cases could be straightforward. Simply offer a loading indicator if the long delay between challenge completion and points awarding is unavoidable. Then, if retaking a challenge already completed, make sure the dialogue box at the end mentions that this challenge has already been passed and no new points will be awarded.</p>
 
-<p>In terms of quizzes, there are a few pedagogical problems when you answer a question incorrectly. On the iPad app, the user is given little feedback when a question is answered incorrectly - all you get is a red box and an unhappy beep. The web interface offers an experience that is much the same (an incorrect answer garners a message of “Bummer! Unfortunately, that answer is incorrect.”). </p>
+<p>In terms of quizzes, there are a few pedagogical problems when you answer a question incorrectly. On the iPad app, the user is given little feedback when a question is answered incorrectly &ndash; all you get is a red box and an unhappy beep. The web interface offers an experience that is much the same (an incorrect answer garners a message of &ldquo;Bummer! Unfortunately, that answer is incorrect.&rdquo;).</p>
 
-<p><img src="http://johnk.herokuapp.com/images/postimg/bummerAnswer.png" /></p>
+<p><img src="http://johnk.herokuapp.com/images/postimg/bummerAnswer.png"></p>
 
-<p>What I really find frustrating is not this method of handling incorrect answers - the quiz should not tell you the correct answer as you are taking it, in case you do not pass. The problem arises when you reach the end of a quiz, perhaps with one incorrect answer, and are awarded your points without having a chance to review the question you answered incorrectly. </p>
+<p>What I really find frustrating is not this method of handling incorrect answers &ndash; the quiz should not tell you the correct answer as you are taking it, in case you do not pass. The problem arises when you reach the end of a quiz, perhaps with one incorrect answer, and are awarded your points without having a chance to review the question you answered incorrectly.</p>
 
-<p><img src="http://johnk.herokuapp.com/images/postimg/incorrectAnswerPassing.jpg" /></p>
+<p><img src="http://johnk.herokuapp.com/images/postimg/incorrectAnswerPassing.jpg"></p>
 
-<p>I have run into this scenario multiple times on the iOS track: I’ve missed a question that I would love to know the answer to, but I have to retake the entire quiz to attempt the question again. This is a highly inefficient setup for both the user and the system.</p>
+<p>I have run into this scenario multiple times on the iOS track: I&rsquo;ve missed a question that I would love to know the answer to, but I have to retake the entire quiz to attempt the question again. This is a highly inefficient setup for both the user and the system.</p>
 
-<p>Again, I think this usability problem might have a simple fix. Perhaps, at the end of quizzes on the iPad and the web interface, add a button that says “Review incorrect answers” that allows the user to review the question(s) they missed. </p>
+<p>Again, I think this usability problem might have a simple fix. Perhaps, at the end of quizzes on the iPad and the web interface, add a button that says &ldquo;Review incorrect answers&rdquo; that allows the user to review the question(s) they missed.</p>
 
-<p>Changing gears, I’ve also found that navigating to courses and tracks you are currently enrolled in is not the easiest, both on  the web and the iPad app. With the iPad app, one tap when you open the app brings up the dashboard and shows you what track you are working on, then one more tap takes you right into the section of the track you are on. </p>
+<p>Changing gears, I&rsquo;ve also found that navigating to courses and tracks you are currently enrolled in is not the easiest, both on  the web and the iPad app. With the iPad app, one tap when you open the app brings up the dashboard and shows you what track you are working on, then one more tap takes you right into the section of the track you are on.</p>
 
-<p><img src="http://johnk.herokuapp.com/images/postimg/dashboardiPad.jpg" /></p>
+<p><img src="http://johnk.herokuapp.com/images/postimg/dashboardiPad.jpg"></p>
 
-<p>That said, you still have to scroll down to the lecture or quiz you left off at, but this is a minor inconvenience. </p>
+<p>That said, you still have to scroll down to the lecture or quiz you left off at, but this is a minor inconvenience.</p>
 
-<p>When you login to the web interface, you are presented with a Dashboard page that shows the current track you are on and a button to resume your progress, as with the iPad app. </p>
+<p>When you login to the web interface, you are presented with a Dashboard page that shows the current track you are on and a button to resume your progress, as with the iPad app.</p>
 
-<p><img src="http://johnk.herokuapp.com/images/postimg/dashboardWeb.png" /></p>
+<p><img src="http://johnk.herokuapp.com/images/postimg/dashboardWeb.png"></p>
 
-<p>What is lacking from both interfaces, however, is any indication of other courses a user might be currently working through. (For example, though I am on the iOS Development track, I have also been watching lectures and taking quizzes from Usability Foundations, Career Foundations, and Database Foundations). Neither on the Dashboard page nor on my profile page is there a link to any of the other courses from the Treehouse Library that I’m working to finish. Having to click or tap on Library and then navigate through multiple layers to find the course I have started is difficult and undoubtedly poor from a usability standpoint. </p>
+<p>What is lacking from both interfaces, however, is any indication of other courses a user might be currently working through. (For example, though I am on the iOS Development track, I have also been watching lectures and taking quizzes from Usability Foundations, Career Foundations, and Database Foundations). Neither on the Dashboard page nor on my profile page is there a link to any of the other courses from the Treehouse Library that I&rsquo;m working to finish. Having to click or tap on Library and then navigate through multiple layers to find the course I have started is difficult and undoubtedly poor from a usability standpoint.</p>
 
-<p>Perhaps what Treehouse could do is offer a more informative Dashboard page. In the Welcome Home section of the web interface, current courses could be listed alongside the current track, accompanied by resume buttons. The same holds true on the iPad app - under the In Progress section, the current courses could also be visible and tapable. </p>
+<p>Perhaps what Treehouse could do is offer a more informative Dashboard page. In the Welcome Home section of the web interface, current courses could be listed alongside the current track, accompanied by resume buttons. The same holds true on the iPad app &ndash; under the In Progress section, the current courses could also be visible and tapable.</p>
 
-<p>Treehouse is an awesome product and I’m excited about continuing to explore its many facets, but I do hope the Treehouse Team will tighten up some aspects of the experience. I believe the few small tweaks above could easily make Treehouse one of the best online learning platforms available for aspiring developers.</p>
+<p>Treehouse is an awesome product and I&rsquo;m excited about continuing to explore its many facets, but I do hope the Treehouse Team will tighten up some aspects of the experience. I believe the few small tweaks above could easily make Treehouse one of the best online learning platforms available for aspiring developers.</p>
 ]]></content>
   </entry>
   
