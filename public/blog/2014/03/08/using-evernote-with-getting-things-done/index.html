@@ -27,13 +27,8 @@
   <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
   <script src="/javascripts/octopress.js" type="text/javascript"></script>
   <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
-
-<link href="//fonts.googleapis.com/css?family=Open+Sans:400,700&subset=latin" rel="stylesheet" type="text/css" />
-
 <link href='http://fonts.googleapis.com/css?family=Noto+Serif:400,700' rel='stylesheet' type='text/css'>
-
-
-
+<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
 
   
   <script type="text/javascript">
@@ -51,19 +46,29 @@
 
 </head>
 
-<body    class="collapse-sidebar sidebar-footer" >
-  <nav id="main-nav" role="navigation">
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">John Keith</a></h1>
+  
+    <h2>Ruby. Rails. <a href="http://www.launchacademy.com/">Launch Academy</a>.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  
+  
+</ul>
+
 <ul class="main-navigation">
-	<li><a href="/about-me" class="nav-link">About</a></li>
-  <li><a href="/" class="nav-link">Blog</a></li>
-  <li><a href="/blog/archives" class="nav-link">Archives</a></li>
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
   <li><a href="/atom.xml" class="nav-link">RSS</a></li>
   <li><a href="http://github.com/johnkeith">Github</a></li>
   <li><a href="http://twitter.com/mrjohnkeith">Twitter</a></li>
 </ul>
 
 </nav>
-  
   <div id="main">
     <div id="content">
       <div>
@@ -185,11 +190,79 @@
 
 </div>
 
-<aside class="sidebar">
+  <aside class="sidebar">
+   
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:johnk.herokuapp.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
   
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
     
+      <li class="post">
+        <a href="/blog/2014/04/01/json-and-nested-hashes-in-ruby/">JSON and Nested Hashes in Ruby</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/03/27/spaced-repetition-and-the-novice-programmer/">Spaced Repetition and the Novice Programmer</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/03/19/trying-to-remember-the-small-stuff/">Trying to Remember the Small Stuff</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/03/16/why-launch-academy-in-a-nutshell/">Why Launch Academy in a Nutshell</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/03/14/dynamically-control-button-labels-with-a-helper-method/">Dynamically Control Button Labels With a Helper Method</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/johnkeith">@johnkeith</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'johnkeith',
+            count: 4,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+
+
+
   
 </aside>
+
 
 
     </div>
@@ -236,6 +309,27 @@
 
 
 
+<script>
+  $(document).ready(function() {  
+  var stickyNavTop = $('nav').offset().top;  
+    
+  var stickyNav = function(){  
+  var scrollTop = $(window).scrollTop();  
+         
+  if (scrollTop > stickyNavTop) {   
+      $('nav').addClass('sticky');  
+  } else {  
+      $('nav').removeClass('sticky');   
+  }  
+  };  
+    
+  stickyNav();  
+    
+  $(window).scroll(function() {  
+      stickyNav();  
+  });  
+  });  
+</script>
 
 
 </body>
