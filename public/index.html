@@ -9,7 +9,8 @@
   <meta name="author" content="John Keith">
 
   
-  <meta name="description" content="Nothing compares with that moment when an idea hits you over the head like a ton of bricks labeled “Duh!” I experienced one of those today after &hellip;">
+  <meta name="description" content="Hi! This is a demo of an Octopress theme. If you want to read the real blog that the posts come from, head over to johnkeith.us. Enjoy!
+">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -81,6 +82,84 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/04/02/demo-of-theme/">Demo of Theme</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-04-02T18:31:28-04:00" pubdate data-updated="true">Apr 2<span>nd</span>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Hi! This is a demo of an Octopress theme. If you want to read the real blog that the posts come from, head over to <a href="http://www.johnkeith.us">johnkeith.us</a>. Enjoy!</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/03/31/working-with-json-in-ruby-and-jquery/">Working With JSON in Ruby and jQuery</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-03-31T21:48:49-04:00" pubdate data-updated="true">Mar 31<span>st</span>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>JSON is one of the major data formats out there on the web, known for its readability. Now, I was a little unsure about that readability aspect after pulling up my first JSON document and seeing this mess.</p>
+
+<p><img src="http://gdurl.com/PP1x" alt="Crazy JSON!" /><br />
+The first step towards wrapping your head around JSON is to see it printed in a prettier fashion. Head over to <a href="http://www.jsoneditoronline.org">JSON Online Editor</a> and using the “Open URL” option you can see that JSON data is actually much more presentable than it lets on. (If you need a JSON example to play with while reading this, don’t hesitate to use <a href="http://teamtreehouse.com/johnkeith.json">my Treehouse profile</a>, as this provides you with a complex, multidimensional set of data to manipulate).</p>
+
+<p>I decided to start by figuring out how to work with JSON in Ruby, as currently I certainly feel more comfortable with Ruby than Javascript. Luckily, Ruby makes handling JSON from the web easy with a few of its built in libraries and modules.</p>
+
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -339,210 +418,6 @@
 </div>
 
 <p>I have a serious fixation on the ternary operator, if you haven’t noticed. </p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/03/11/simple-file-uploads-to-rails-with-dragonfly/">Simple File Uploads to Rails With Dragonfly</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-03-11T17:42:53-04:00" pubdate data-updated="true">Mar 11<span>th</span>, 2014</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Gems are amazing. As a rookie developer, it is incredible to come into the Ruby/Rails community and discover the wealth of code that is available out there, packaged and ready to be used. I’d encountered and enjoyed open source software before, but it was not until I started writing code that I really came to appreciate what the concept means.</p>
-
-<p>Take for instance file uploading with Rails. You can perform basic uploads using what Rails offers natively or you can choose from a multitude of gems (Paperclip, Carrierwave, Dragonfly, the <a href="https://www.ruby-toolbox.com/categories/rails_file_uploads">list goes on</a>) that add more advanced methods of uploading and storing files in your Rails app. </p>
-
-<p>For the expense tracker I am currently working on, I selected <a href="https://github.com/markevans/dragonfly">Dragonfly</a>. I’ll admit, I tried Paperclip first and I was unable to make it function correctly. My lack of success with Paperclip, however, was only half the reason I ended up with Dragonfly. </p>
-
-<p>As I was envisioning document uploads in my app, I wanted the document (a receipt or invoice of a purchase) to become part of the Expenses table that I had already set up with a multitude of fields. With Paperclip, as far as I understood from the tutorials provided, it seemed like the documents would be set up as a separate model in the database, then associated with my current Expenses model. I can see advantages to the Paperclip approach (making all the documents easily accessible in one section of the database), but I wanted keep the relationships in this app as simple as possible, if only for my own sanity.</p>
-
-<p>The great part about Dragonfly is it makes adding a :document column to your current model incredibly easy. The instructions below were what I did to install and integrate Dragonfly to upload documents when creating a new record in my Expense model. </p>
-
-<p>First, I added Dragonfly to my gemfile and ran bundler.</p>
-
-<div><div class="CodeRay">
-  <div class="code"><pre>gem <span class="string"><span class="delimiter">'</span><span class="content">dragonfly</span><span class="delimiter">'</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">~&gt;1.0.3</span><span class="delimiter">&quot;</span></span>
-</pre></div>
-</div>
-</div>
-
-<div><div class="CodeRay">
-  <div class="code"><pre>$ bundle install
-</pre></div>
-</div>
-</div>
-
-<p>Then, in my app/models/expense.rb, I added an accessor for my document.</p>
-
-<div><div class="CodeRay">
-  <div class="code"><pre>dragonfly_accessor <span class="symbol">:document</span>
-</pre></div>
-</div>
-</div>
-
-<p>Back at the command line, I setup a migration to add a document column to my expenses model. </p>
-
-<div><div class="CodeRay">
-  <div class="code"><pre>$ Rails generate migration AddDocumentToExpenses
-</pre></div>
-</div>
-</div>
-
-<p>Inside the migration document, I added two columns, one for the :document_uid and :document_name, per the <a href="http://markevans.github.io/dragonfly/">Dragonfly wiki</a>.</p>
-
-<div><div class="CodeRay">
-  <div class="code"><pre><span class="keyword">class</span> <span class="class">AddDocumentToExpenses</span> &lt; <span class="constant">ActiveRecord</span>::<span class="constant">Migration</span>
-  <span class="keyword">def</span> <span class="function">change</span>
-    add_column <span class="symbol">:expenses</span>, <span class="symbol">:document_uid</span>, <span class="symbol">:string</span>
-    add_column <span class="symbol">:expenses</span>, <span class="symbol">:document_name</span>, <span class="symbol">:string</span>
-  <span class="keyword">end</span>
-<span class="keyword">end</span>
-</pre></div>
-</div>
-</div>
-
-<p>Then came migrating the database.</p>
-
-<div><div class="CodeRay">
-  <div class="code"><pre>rake db:migrate
-</pre></div>
-</div>
-</div>
-
-<p>Next was altering my app/views/expenses/_form.html.erb to include a field for file uploads. </p>
-
-<div><div class="CodeRay">
-  <div class="code"><pre><span class="tag">&lt;div</span> <span class="attribute-name">class</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">field</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span>
-    <span class="inline"><span class="inline-delimiter">&lt;%=</span> f.label <span class="symbol">:document</span> <span class="inline-delimiter">%&gt;</span></span><span class="tag">&lt;br&gt;</span>
-    <span class="inline"><span class="inline-delimiter">&lt;%=</span> f.file_field <span class="symbol">:document</span> <span class="inline-delimiter">%&gt;</span></span>
-<span class="tag">&lt;/div&gt;</span>
-</pre></div>
-</div>
-</div>
-<p>Then, inside my app/controllers/expenses_controller.rb, I added :document to the list of permitted parameters near the bottom. </p>
-
-<div><div class="CodeRay">
-  <div class="code"><pre><span class="keyword">def</span> <span class="function">expense_params</span>
-    params.require(<span class="symbol">:expense</span>).permit(<span class="symbol">:user_id</span>, <span class="symbol">:date</span>, <span class="symbol">:reseller</span>, <span class="symbol">:item_or_service</span>, <span class="symbol">:payment_form</span>, <span class="symbol">:charged_to</span>, <span class="symbol">:cost</span>, <span class="symbol">:amount_from_budget</span>, <span class="symbol">:notes</span>, <span class="symbol">:document</span>)
-<span class="keyword">end</span>
-</pre></div>
-</div>
-</div>
-
-<p>With the next step, I was unsure if this was the correct course to take. I was worried about my files being uploaded to the public folder, as I assumed anything in that area would be easily accessible from the outside. I created a directory in the root of my app called secure_storage, though I have no idea if that name is a complete misnomer. Then, I opened the config/initializers/dragonfly.rb and changed the default location for where files would be stored. Again, hopefully this will put them in a better location than the public directory, but I am not a hundred precent sure. </p>
-
-<div><div class="CodeRay">
-  <div class="code"><pre>datastore <span class="symbol">:file</span>,
-  <span class="key">root_path</span>: <span class="constant">Rails</span>.root.join(<span class="string"><span class="delimiter">'</span><span class="content">secure_storage/system/dragonfly</span><span class="delimiter">'</span></span>, <span class="constant">Rails</span>.env),
-  <span class="key">server_root</span>: <span class="constant">Rails</span>.root.join(<span class="string"><span class="delimiter">'</span><span class="content">secure_storage</span><span class="delimiter">'</span></span>)
-</pre></div>
-</div>
-</div>
-
-<p>Finally, I added a file link (with a condition to make sure it didn’t appear if no file was present with the record) on the app/views/expenses/show.html.erb. </p>
-
-<div><div class="CodeRay">
-  <div class="code"><pre><span class="inline"><span class="inline-delimiter">&lt;%</span> <span class="keyword">if</span> <span class="instance-variable">@expense</span>.document <span class="inline-delimiter">%&gt;</span></span>
-<span class="tag">&lt;p&gt;</span>
-  <span class="tag">&lt;strong&gt;</span>Document:<span class="tag">&lt;/strong&gt;</span>
-  <span class="inline"><span class="inline-delimiter">&lt;%=</span> link_to <span class="string"><span class="delimiter">&quot;</span><span class="content">File</span><span class="delimiter">&quot;</span></span>, root_url.chop + <span class="instance-variable">@expense</span>.document.url <span class="inline-delimiter">%&gt;</span></span>
-<span class="tag">&lt;/p&gt;</span>
-<span class="inline"><span class="inline-delimiter">&lt;%</span> <span class="keyword">end</span> <span class="inline-delimiter">%&gt;</span></span>
-</pre></div>
-</div>
-</div>
-
-<p>That, I believe, was all! You should now have a working file upload function, one that even lets you download the file too! If you try this and have trouble, let me know in the comments below.</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/03/08/using-evernote-with-getting-things-done/">Using Evernote With David Allen&#8217;s &#8216;Getting Things Done&#8217; System</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-03-08T13:05:43-05:00" pubdate data-updated="true">Mar 8<span>th</span>, 2014</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>I’ve been using Evernote for a long time now and it has proven to be a fantastic system for storing information. That said, turning it into a system I can use to <em>organize</em> my life has been a Sisyphean experience. Over the years, my Evernote account has undergone a series of shakeups as I’ve tried out different organizational schemes, but each new system of handling notes, websites, and articles has left me feeling no more put together. </p>
-
-<p>Part of our pre-work for Launch Academy has been to read a series of “brain hacking” books to get us ready for the start of the program. After diving into David Allen’s <a href="http://www.amazon.com/Getting-Things-Done-Stress-Free-Productivity/dp/0142000280">Getting Things Done</a>, I think I may see a way to corral my ever-ballooning Evernote into a much more manageable and useful repository. </p>
-
-<p>Currently, I open Evernote to a slew of notebook stacks and subnotebooks.</p>
-
-<p><img src="http://gdurl.com/CL5X" alt="My current Evernote" /></p>
-
-<p>While having many individual notebooks is a passable strategy, I’ve found that it becomes less and less useful the more notebooks you create. My count right now is over 50 and I think that might be 44 too many. </p>
-
-<p>An overabundance of notebooks starts to cause problems when you try to send something Evernote from within an app (like a newsreader or through email), as it always becomes a question of how to categorize this piece of information. By default, my notes are routed into a folder I called _INCOMING. This has been a nice landing spot, but the vagueness of the name (or perhaps its linguistic proximity to “inbox”) has contributed to my lack of desire to sort through the massive flood of stuff that piles up in there.</p>
-
-<p>In Allen’s book, he divides the organizational process into five stages: <strong>collect</strong>, <strong>process</strong>, <strong>organize</strong>, <strong>review</strong>, <strong>do</strong>. To reformat my Evernote to follow this system, I’m going to start by creating a _Processing folder and setting it as the default location for collecting everything that hits my Evernote. This will be the folder that I’ll take the time every other day to process the items from - to figure out “what they mean and what to do about them” (Allen). </p>
-
-<p>From the processing folder, an item will have four places to go: into the NextSteps, Projects, Incubating, or Archives folder. </p>
-
-<p>In the NextSteps folder will be all todo items, things that need to be done in the short term or short term actions that need to be taken in relation to longer term projects or goals. </p>
-
-<p>In the Projects folder will reside all of the <em>active</em> ideas or projects that I’m working on at the moment. And, as in <strong>Getting Things Done</strong>, the term projects is defined in a different sense than we usually use, as “any desired result that requires more than one action step” (Allen).</p>
-
-<p>The Incubating (I wanted to use a more active term than Allen’s “incubation”) folder will house the more lofty and long term items - app ideas, career goals, etc.</p>
-
-<p>Lastly, in the Archives folder, I’m going to store everything that resides in my current notebooks. In other words, the Archives folder is essentially going to house everything that passes through my Evernote - it is the final destination of all information.</p>
-
-<p>I think this is the key to any organizational system - there must be a logical, actionable flow of information through the system, including a final resting place where the inactive information may be stored and retrieved. </p>
-
-<p>Since Evernote does such a great job with indexing and searching any and every piece of information inside your account, I feel that there is no need to employ the tagging feature, that it might only slow down the movement of information into and through the new system. I’m going to spend some time not using tagging and see how it goes. </p>
-
-<p>Allen emphasizes the important of reviewing the items in your organizational system at least once a week. I would love if it was possible to create a recurring reminder in Evernote that would alert me when I should review the information I have in each of my actionable folders (NextSteps, Projects, and Incubating), but for now perhaps a weekly calendar alert will suffice. </p>
 </div>
   
   

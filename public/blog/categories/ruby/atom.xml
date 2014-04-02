@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Ruby | John Keith]]></title>
   <link href="http://johnk.herokuapp.com/blog/categories/ruby/atom.xml" rel="self"/>
   <link href="http://johnk.herokuapp.com/"/>
-  <updated>2014-03-27T13:32:49-04:00</updated>
+  <updated>2014-04-02T18:32:38-04:00</updated>
   <id>http://johnk.herokuapp.com/</id>
   <author>
     <name><![CDATA[John Keith]]></name>
@@ -12,6 +12,21 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Working With JSON in Ruby and jQuery]]></title>
+    <link href="http://johnk.herokuapp.com/blog/2014/03/31/working-with-json-in-ruby-and-jquery/"/>
+    <updated>2014-03-31T21:48:49-04:00</updated>
+    <id>http://johnk.herokuapp.com/blog/2014/03/31/working-with-json-in-ruby-and-jquery</id>
+    <content type="html"><![CDATA[<p>JSON is one of the major data formats out there on the web, known for its readability. Now, I was a little unsure about that readability aspect after pulling up my first JSON document and seeing this mess.</p>
+
+<p><img src="http://gdurl.com/PP1x" alt="Crazy JSON!" /><br />
+The first step towards wrapping your head around JSON is to see it printed in a prettier fashion. Head over to <a href="http://www.jsoneditoronline.org">JSON Online Editor</a> and using the “Open URL” option you can see that JSON data is actually much more presentable than it lets on. (If you need a JSON example to play with while reading this, don’t hesitate to use <a href="http://teamtreehouse.com/johnkeith.json">my Treehouse profile</a>, as this provides you with a complex, multidimensional set of data to manipulate).</p>
+
+<p>I decided to start by figuring out how to work with JSON in Ruby, as currently I certainly feel more comfortable with Ruby than Javascript. Luckily, Ruby makes handling JSON from the web easy with a few of its built in libraries and modules.</p>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Spaced Repetition and the Novice Programmer]]></title>
