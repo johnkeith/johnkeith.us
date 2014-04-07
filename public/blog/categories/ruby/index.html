@@ -306,7 +306,7 @@ $(document).ready(function() {
     
     $( "<ul/>", {
       "class": "badge-image-list", 
-      html: items.join( "" )
+      html: items.reverse().join( "" )
     }).appendTo( ".badges-box" ).hide().fadeIn(500);
     
     if(show_all_button == true) {

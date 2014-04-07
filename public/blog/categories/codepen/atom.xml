@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Codepen | John Keith]]></title>
   <link href="http://johnk.herokuapp.com/blog/categories/codepen/atom.xml" rel="self"/>
   <link href="http://johnk.herokuapp.com/"/>
-  <updated>2014-04-07T18:54:58-04:00</updated>
+  <updated>2014-04-07T18:56:18-04:00</updated>
   <id>http://johnk.herokuapp.com/</id>
   <author>
     <name><![CDATA[John Keith]]></name>
@@ -20,7 +20,8 @@
     <id>http://johnk.herokuapp.com/blog/2014/01/27/awesome-way-to-learn-haml</id>
     <content type="html"><![CDATA[<p>I&rsquo;ve been meaning to take some time and learn one of the HTML templating engines. One of the best parts about the <a href="http://www.codepen.com">Codepen</a> site is that it is a great place to practice with engines like HAML and Slim. (Not to mention, doing so gives me a chance to try installing the Codepen plugin here on my Octopress).</p>
 
-<p>{% codepen sEzqJ johnkeith HAML 400 %}</p>
+<p><pre class="codepen" data-height="400" data-type="HAML" data-href="sEzqJ" data-user="johnkeith"><code> </code></pre>
+<script async src="http://codepen.io:/assets/embed/ei.js"></script></p>
 ]]></content>
   </entry>
   
