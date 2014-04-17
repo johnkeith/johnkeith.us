@@ -1,5 +1,6 @@
 <aside class="sidebar">
-   {% if site.simple_search %}
+  {% expertise %}
+  {% if site.simple_search %}
 <form action="{{ site.simple_search }}" method="get">
   <fieldset role="search">
     <input type="hidden" name="q" value="site:{{ site.url | shorthand_url }}" />

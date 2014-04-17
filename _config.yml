@@ -28,6 +28,8 @@ social_icons: true
 #    Jekyll & Plugins     #
 # ----------------------- #
 
+my_expertise: ["css", "html", "heroku", "ruby", "ruby on rails"]
+
 # If publishing to a subdirectory as in http://site.com/project set 'root: /project'
 root: /
 permalink: /blog/:year/:month/:day/:title/
