@@ -1,5 +1,20 @@
+# unable to test at school due to some uninstallable gems
+
 module Jekyll
   class ExpertiseTag < Liquid::Tag
+    
+    def initialize(tag_name, markup, tokens)
+      @format = markup.to_s
+      @my_expertise = context.registers[:site].config['my_expertise']
+      @expertise_formatted = []
+    end
+
+    # somewhat sanitize input from the _config.yml array
+    def format_expertise
+      @expertise_formatted = @my_expertise.map { |item| item.gsub(/\s/, "-") }.
+                              map { |item| item.insert (0,"icon-") unless item.include?("icon-")}
+    end
+
     def render(context)
       mfizz_icons = %w( icon-microscope icon-cplusplus icon-wireless icon-fire-alt 
                         icon-mobile-device icon-objc icon-redhat icon-freebsd icon-heroku 
@@ -22,22 +37,23 @@ module Jekyll
                         icon-google-developers icon-google-code icon-kde icon-grails-alt )
 
       html = ""
+      
+# two format possibilities - list view and inline layout (also known as plain)     
 
-      my_expertise = context.registers[:site].config['my_expertise']
+      if @format.match(/list/)
+        html << "<div class='expertise-list'><ul class='mfizz-icons-descriptions'>"
+        
+        @expertise_formatted.each_with_index do |item_formatted, index|
+          html << "<li><i class='mfizz-icons #{item_formatted}'></i> #{@my_expertise[index]}</li>" if mfizz_icons.include?(item_formatted)
+        end
 
-      my_expertise.each do |item|
-        item_formatted = item.gsub(/\s/, "-")
-        item_formatted = item.insert(0,"icon-") unless item.include?("icon-")
-
-        if mfizz_icons.include?(item_formatted)
-          html << "<i class='mfizz-icons #{item_formatted}'></i>"
-        else
-          next
+        html << "</ul></div>"
+      else
+        @expertise_formatted.each do |item_formatted|
+          html << "<i class='mfizz-icons #{item_formatted}'></i>" if mfizz_icons.include?(item_formatted)
         end
       end
-
       html
-    
     end
   end
 end
