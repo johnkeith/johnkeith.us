@@ -4,7 +4,7 @@
   <title><![CDATA[John Keith]]></title>
   <link href="http://johnk.herokuapp.com/atom.xml" rel="self"/>
   <link href="http://johnk.herokuapp.com/"/>
-  <updated>2014-04-25T16:21:36-04:00</updated>
+  <updated>2014-04-25T16:23:31-04:00</updated>
   <id>http://johnk.herokuapp.com/</id>
   <author>
     <name><![CDATA[John Keith]]></name>
@@ -20,7 +20,7 @@
     <id>http://johnk.herokuapp.com/blog/2014/04/24/treehouse-badges-for-octopress</id>
     <content type="html"><![CDATA[<p>When I came across Riley Hillard&rsquo;s tutorial on making a <a href="http://rileyh.com/treehouse-badges-widget/">Treehouse report card</a>, I knew I had to have something like this on my site. While I considered using Riley&rsquo;s <a href="http://reportcard.rileyh.com/">ReportCard.js</a>, it dawned on me that recreating the widget might be a great way to get more experience working with hashes, JSON and the like. After a bit of experimentation on <a href="http://codepen.io/johnkeith/pen/ocIaj">Codepen</a>, I had a functional piece of jQuery and a little CSS to give it a decent appearance (though really that’s mostly due to those spiffy looking badges).</p>
 
-<p>I toyed with the idea of turning this Treehouse badges widget into a Liquid Tag, but decided on building it as widget for the sidebar instead. To make it a little more interesting, I did end up writing a Rake file to automatically widget&rsquo;s files into your Octopress folder. If you are an Octopress/Treehouse fan then go <a href="https://github.com/johnkeith/TreehouseBadgesOctopress">check it out</a>!</p>
+<p>I toyed with the idea of crafting a Liquid Tag that could be used anywhere in a Octopress blog, but decided on building it as widget for the sidebar instead. To make it a little more interesting, I did end up writing a Rake file to automatically add the widget&rsquo;s files into your Octopress folder and add the proper configuration variables to _config.yml. If you are an Octopress/Treehouse fan then go <a href="https://github.com/johnkeith/TreehouseBadgesOctopress">check it out</a>!</p>
 ]]></content>
   </entry>
   
