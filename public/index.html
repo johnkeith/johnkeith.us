@@ -9,7 +9,7 @@
   <meta name="author" content="John Keith">
 
   
-  <meta name="description" content="JSON is one of the major data formats out there on the web, known for its readability. Personally, I was a little unsure about that readability &hellip;">
+  <meta name="description" content="When I came across Riley Hillard&rsquo;s tutorial on making a Treehouse report card, I knew I had to have something like this on my site. While I &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -73,6 +73,44 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/04/24/treehouse-badges-for-octopress/">Treehouse Badges for Octopress</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-04-24T23:10:21-04:00" pubdate data-updated="true">Apr 24<span>th</span>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>When I came across Riley Hillard&rsquo;s tutorial on making a <a href="http://rileyh.com/treehouse-badges-widget/">Treehouse report card</a>, I knew I had to have something like this on my site. While I considered using Riley&rsquo;s <a href="http://reportcard.rileyh.com/">ReportCard.js</a>, it dawned on me that recreating the widget might be a great way to get more experience working with hashes, JSON and the like. After a bit of experimentation on <a href="http://codepen.io/johnkeith/pen/ocIaj">Codepen</a>, I had a functional piece of jQuery and a little CSS to give it a decent appearance (though really that’s mostly due to those spiffy looking badges).</p>
+
+<p>I toyed with the idea of turning this Treehouse badges widget into a Liquid Tag, but decided on building it as widget for the sidebar instead. To make it a little more interesting, I did end up writing a Rake file to automatically widget&rsquo;s files into your Octopress folder. If you are an Octopress/Treehouse fan then go <a href="https://github.com/johnkeith/TreehouseBadgesOctopress">check it out</a>!</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -473,156 +511,6 @@
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/03/11/simple-file-uploads-to-rails-with-dragonfly/">Simple File Uploads to Rails With Dragonfly</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-03-11T17:42:53-04:00" pubdate data-updated="true">Mar 11<span>th</span>, 2014</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Gems are amazing. As a rookie developer, it is incredible to come into the Ruby/Rails community and discover the wealth of code that is available out there, packaged and ready to be used. I&rsquo;d encountered and enjoyed open source software before, but it was not until I started writing code that I really came to appreciate what the concept means.</p>
-
-<p>Take for instance file uploading with Rails. You can perform basic uploads using what Rails offers natively or you can choose from a multitude of gems (Paperclip, Carrierwave, Dragonfly, the <a href="https://www.ruby-toolbox.com/categories/rails_file_uploads">list goes on</a>) that add more advanced methods of uploading and storing files in your Rails app.</p>
-
-<p>For the expense tracker I am currently working on, I selected <a href="https://github.com/markevans/dragonfly">Dragonfly</a>. I&rsquo;ll admit, I tried Paperclip first and I was unable to make it function correctly. My lack of success with Paperclip, however, was only half the reason I ended up with Dragonfly.</p>
-
-<p>As I was envisioning document uploads in my app, I wanted the document (a receipt or invoice of a purchase) to become part of the Expenses table that I had already set up with a multitude of fields. With Paperclip, as far as I understood from the tutorials provided, it seemed like the documents would be set up as a separate model in the database, then associated with my current Expenses model. I can see advantages to the Paperclip approach (making all the documents easily accessible in one section of the database), but I wanted keep the relationships in this app as simple as possible, if only for my own sanity.</p>
-
-<p>The great part about Dragonfly is it makes adding a :document column to your current model incredibly easy. The instructions below were what I did to install and integrate Dragonfly to upload documents when creating a new record in my Expense model.</p>
-
-<p>First, I added Dragonfly to my gemfile and ran bundler.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">gem</span> <span class="s1">&#39;dragonfly&#39;</span><span class="p">,</span> <span class="s2">&quot;~&gt;1.0.3&quot;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="err">$</span> <span class="n">bundle</span> <span class="n">install</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Then, in my app/models/expense.rb, I added an accessor for my document.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">dragonfly_accessor</span> <span class="ss">:document</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Back at the command line, I setup a migration to add a document column to my expenses model.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="err">$</span> <span class="no">Rails</span> <span class="n">generate</span> <span class="n">migration</span> <span class="no">AddDocumentToExpenses</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Inside the migration document, I added two columns, one for the :document_uid and :document_name, per the <a href="http://markevans.github.io/dragonfly/">Dragonfly wiki</a>.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">AddDocumentToExpenses</span> <span class="o">&lt;</span> <span class="ss">ActiveRecord</span><span class="p">:</span><span class="ss">:Migration</span>
-</span><span class='line'>  <span class="k">def</span> <span class="nf">change</span>
-</span><span class='line'>    <span class="n">add_column</span> <span class="ss">:expenses</span><span class="p">,</span> <span class="ss">:document_uid</span><span class="p">,</span> <span class="ss">:string</span>
-</span><span class='line'>    <span class="n">add_column</span> <span class="ss">:expenses</span><span class="p">,</span> <span class="ss">:document_name</span><span class="p">,</span> <span class="ss">:string</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Then came migrating the database.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">rake</span> <span class="ss">db</span><span class="p">:</span><span class="n">migrate</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Next was altering my app/views/expenses/_form.html.erb to include a field for file uploads.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="x">&lt;div class=&quot;field&quot;&gt;</span>
-</span><span class='line'><span class="x">  </span><span class="cp">&lt;%=</span> <span class="n">f</span><span class="o">.</span><span class="n">label</span> <span class="ss">:document</span> <span class="cp">%&gt;</span><span class="x">&lt;br&gt;</span>
-</span><span class='line'><span class="x">  </span><span class="cp">&lt;%=</span> <span class="n">f</span><span class="o">.</span><span class="n">file_field</span> <span class="ss">:document</span> <span class="cp">%&gt;</span><span class="x"></span>
-</span><span class='line'><span class="x">&lt;/div&gt;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Then, inside my app/controllers/expenses_controller.rb, I added :document to the list of permitted parameters near the bottom.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">expense_params</span>
-</span><span class='line'>  <span class="n">params</span><span class="o">.</span><span class="n">require</span><span class="p">(</span><span class="ss">:expense</span><span class="p">)</span><span class="o">.</span><span class="n">permit</span><span class="p">(</span><span class="ss">:user_id</span><span class="p">,</span> <span class="ss">:date</span><span class="p">,</span> <span class="ss">:reseller</span><span class="p">,</span> <span class="ss">:item_or_service</span><span class="p">,</span> <span class="ss">:payment_form</span><span class="p">,</span> <span class="ss">:charged_to</span><span class="p">,</span> <span class="ss">:cost</span><span class="p">,</span> <span class="ss">:amount_from_budget</span><span class="p">,</span> <span class="ss">:notes</span><span class="p">,</span> <span class="ss">:document</span><span class="p">)</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>With the next step, I was unsure if this was the correct course to take. I was worried about my files being uploaded to the public folder, as I assumed anything in that area would be easily accessible from the outside. I created a directory in the root of my app called secure_storage, though I have no idea if that name is a complete misnomer. Then, I opened the config/initializers/dragonfly.rb and changed the default location for where files would be stored. Again, hopefully this will put them in a better location than the public directory, but I am not a hundred precent sure.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">datastore</span> <span class="ss">:file</span><span class="p">,</span>
-</span><span class='line'>  <span class="n">root_path</span><span class="p">:</span> <span class="no">Rails</span><span class="o">.</span><span class="n">root</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s1">&#39;secure_storage/system/dragonfly&#39;</span><span class="p">,</span> <span class="no">Rails</span><span class="o">.</span><span class="n">env</span><span class="p">),</span>
-</span><span class='line'>  <span class="n">server_root</span><span class="p">:</span> <span class="no">Rails</span><span class="o">.</span><span class="n">root</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s1">&#39;secure_storage&#39;</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Finally, I added a file link (with a condition to make sure it didn&rsquo;t appear if no file was present with the record) on the app/views/expenses/show.html.erb.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="cp">&lt;%</span> <span class="k">if</span> <span class="vi">@expense</span><span class="o">.</span><span class="n">document</span> <span class="cp">%&gt;</span><span class="x"></span>
-</span><span class='line'><span class="x">&lt;p&gt;</span>
-</span><span class='line'><span class="x">  &lt;strong&gt;Document:&lt;/strong&gt;</span>
-</span><span class='line'><span class="x">  </span><span class="cp">&lt;%=</span> <span class="n">link_to</span> <span class="s2">&quot;File&quot;</span><span class="p">,</span> <span class="n">root_url</span><span class="o">.</span><span class="n">chop</span> <span class="o">+</span> <span class="vi">@expense</span><span class="o">.</span><span class="n">document</span><span class="o">.</span><span class="n">url</span> <span class="cp">%&gt;</span><span class="x"></span>
-</span><span class='line'><span class="x">&lt;/p&gt;</span>
-</span><span class='line'><span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span><span class="x"></span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>That, I believe, was all! You should now have a working file upload function, one that even lets you download the file too! If you try this and have trouble, let me know in the comments below.</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/2/">&larr; Older</a>
@@ -646,6 +534,10 @@
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2014/04/24/treehouse-badges-for-octopress/">Treehouse Badges for Octopress</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2014/04/01/json-and-nested-hashes-in-ruby/">JSON and Nested Hashes in Ruby</a>
       </li>
     
@@ -659,10 +551,6 @@
     
       <li class="post">
         <a href="/blog/2014/03/16/why-launch-academy-in-a-nutshell/">Why Launch Academy in a Nutshell</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/03/14/dynamically-control-button-labels-with-a-helper-method/">Dynamically Control Button Labels With a Helper Method</a>
       </li>
     
   </ul>
@@ -773,10 +661,16 @@
 </script>
 
 <script>
-th_username = "johnkeith"
-show_all_button = true
+th_username = "johnkeith";
+th_show_all_badges = false;
+th_number_badges_visible = (6 - 1);
 
 $(document).ready(function() {
+
+  if(th_username == "" || th_show_all_badges == false && th_number_badges_visible == -1){
+    $(".badges-box").hide();
+  } else {
+
   $.getJSON("http://teamtreehouse.com/" + th_username +".json", function(data) {
     var items = [];
     var number_of_badges = data.badges.length;
@@ -784,30 +678,32 @@ $(document).ready(function() {
     $.each(data.badges, function(k, v) {
        items.push( "<a href='" + v.url + "'><img src='" + v.icon_url + "' alt='" + v.name + "' title='" + v.name + "'/></a>");
     });
-    
-    $(".badges-box").append("<p>I've earned <strong>" + number_of_badges + " badges</strong> for a total of <strong>" + total_points + " points</strong> at Treehouse!</p>");
-    
+   
+    $(".badges-box").append("<p>I've earned <strong>" + number_of_badges + " badges</strong> for a total of <strong>" + total_points + " points</strong> at <a href='http://www.teamtreehouse.com'>Treehouse!</a></p>");
+   
     $( "<ul/>", {
-      "class": "badge-image-list", 
+      "class": "badge-image-list",
       html: items.reverse().join( "" )
     }).appendTo( ".badges-box" ).hide().fadeIn(500);
-    
-    if(show_all_button == true) {
-      $( ".badge-image-list img:gt(5)").hide();
+   
+    if(th_show_all_badges == false) {
+      $( ".badge-image-list img:gt(" + th_number_badges_visible + ")").hide();
 
       $(".badges-box").append("<button id='show-all'>See all badges</button>");
 
       $("#show-all").click(function() {
-        $( ".badge-image-list img:gt(5)").toggle(0, "linear", function() {
-          if($("#show-all").html() == "See all badges") {
-            $("#show-all").html("Hide badges");
-          } else {
-            $("#show-all").html("See all badges");
-          };
-        });
+        $( ".badge-image-list img:gt(" + th_number_badges_visible + ")").toggle(0, "linear");
+        if($("#show-all").html() == "See all badges") {
+          $("#show-all").html("Hide badges");
+          $("#show-all").blur();
+        } else {
+          $("#show-all").html("See all badges");
+          $("#show-all").blur();
+        };
       });
     };
   });
+ };
 });
 </script>
 

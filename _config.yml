@@ -107,3 +107,9 @@ google_analytics_tracking_id: UA-44707486-2
 
 # Facebook Like
 facebook_like: false
+
+# Treehouse Badges for Octopress widget
+
+th_username: johnkeith
+th_show_all_badges: false 
+th_number_badges_visible: 6

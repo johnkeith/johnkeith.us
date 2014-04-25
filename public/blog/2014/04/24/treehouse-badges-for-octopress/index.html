@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Category: iOS - John Keith</title>
+  <title>Treehouse Badges for Octopress - John Keith</title>
   <meta name="author" content="John Keith">
 
   
-  <meta name="description" content="Category: iOS">
+  <meta name="description" content="When I came across Riley Hillard&rsquo;s tutorial on making a Treehouse report card, I knew I had to have something like this on my site. While I &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://johnk.herokuapp.comblog/categories/ios">
+  <link rel="canonical" href="http://johnk.herokuapp.com/blog/2014/04/24/treehouse-badges-for-octopress">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="John Keith" type="application/atom+xml">
@@ -72,36 +72,93 @@
   <div id="main">
     <div id="content">
       <div>
-<article role="article">
+<article class="hentry" role="article">
   
   <header>
-    <h1 class="entry-title">Category: iOS</h1>
+    
+      <h1 class="entry-title">Treehouse Badges for Octopress</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-04-24T23:10:21-04:00" pubdate data-updated="true">Apr 24<span>th</span>, 2014</time>
+        
+      </p>
     
   </header>
-  
-  <div id="blog-archives" class="category">
 
 
+<div class="entry-content"><p>When I came across Riley Hillard&rsquo;s tutorial on making a <a href="http://rileyh.com/treehouse-badges-widget/">Treehouse report card</a>, I knew I had to have something like this on my site. While I considered using Riley&rsquo;s <a href="http://reportcard.rileyh.com/">ReportCard.js</a>, it dawned on me that recreating the widget might be a great way to get more experience working with hashes, JSON and the like. After a bit of experimentation on <a href="http://codepen.io/johnkeith/pen/ocIaj">Codepen</a>, I had a functional piece of jQuery and a little CSS to give it a decent appearance (though really that’s mostly due to those spiffy looking badges).</p>
 
-  
-  <h2>2014</h2>
-
-<article>
-  
-<h1><a href="/blog/2014/01/01/my-treehouse-trial/">My Treehouse Trial</a></h1>
-<time datetime="2014-01-01T13:47:35-05:00" pubdate><span class='month'>Jan</span> <span class='day'>01</span> <span class='year'>2014</span></time>
-
-<footer>
-  <span class="categories">posted in <a class='category' href='/blog/categories/coding/'>coding</a>, <a class='category' href='/blog/categories/ios/'>iOS</a>, <a class='category' href='/blog/categories/treehouse/'>treehouse</a></span>
-</footer>
-
-
-</article>
-
+<p>I toyed with the idea of turning this Treehouse badges widget into a Liquid Tag, but decided on building it as widget for the sidebar instead. To make it a little more interesting, I did end up writing a Rake file to automatically widget&rsquo;s files into your Octopress folder. If you are an Octopress/Treehouse fan then go <a href="https://github.com/johnkeith/TreehouseBadgesOctopress">check it out</a>!</p>
 </div>
 
+
+  <footer>
+    <p class="meta">
+      
   
+
+<span class="byline author vcard">Posted by <span class="fn">John Keith</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-04-24T23:10:21-04:00" pubdate data-updated="true">Apr 24<span>th</span>, 2014</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/jquery/'>jquery</a>, <a class='category' href='/blog/categories/octopress/'>octopress</a>, <a class='category' href='/blog/categories/treehouse/'>treehouse</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://johnk.herokuapp.com/blog/2014/04/24/treehouse-badges-for-octopress/" data-via="mrjohnkeith" data-counturl="http://johnk.herokuapp.com/blog/2014/04/24/treehouse-badges-for-octopress/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2014/04/01/json-and-nested-hashes-in-ruby/" title="Previous Post: JSON and Nested Hashes in Ruby">&laquo; JSON and Nested Hashes in Ruby</a>
+      
+      
+    </p>
+  </footer>
 </article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
 
 </div>
 
@@ -198,7 +255,10 @@
       var disqus_shortname = 'johnkeith';
       
         
-        var disqus_script = 'count.js';
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://johnk.herokuapp.com/blog/2014/04/24/treehouse-badges-for-octopress/';
+        var disqus_url = 'http://johnk.herokuapp.com/blog/2014/04/24/treehouse-badges-for-octopress/';
+        var disqus_script = 'embed.js';
       
     (function () {
       var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;

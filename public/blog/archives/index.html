@@ -9,9 +9,9 @@
   <meta name="author" content="John Keith">
 
   
-  <meta name="description" content="Blog Archive 2014 JSON and Nested Hashes in Ruby
-Apr 01 2014 posted in json, ruby Spaced Repetition and the Novice Programmer
-Mar 27 2014 posted in &hellip;">
+  <meta name="description" content="Blog Archive 2014 Treehouse Badges for Octopress
+Apr 24 2014 posted in jquery, octopress, treehouse JSON and Nested Hashes in Ruby
+Apr 01 2014 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -87,6 +87,20 @@ Mar 27 2014 posted in &hellip;">
 
   
   <h2>2014</h2>
+
+<article>
+  
+<h1><a href="/blog/2014/04/24/treehouse-badges-for-octopress/">Treehouse Badges for Octopress</a></h1>
+<time datetime="2014-04-24T23:10:21-04:00" pubdate><span class='month'>Apr</span> <span class='day'>24</span> <span class='year'>2014</span></time>
+
+<footer>
+  <span class="categories">posted in <a class='category' href='/blog/categories/jquery/'>jquery</a>, <a class='category' href='/blog/categories/octopress/'>octopress</a>, <a class='category' href='/blog/categories/treehouse/'>treehouse</a></span>
+</footer>
+
+
+</article>
+
+
 
 <article>
   
@@ -290,6 +304,10 @@ Mar 27 2014 posted in &hellip;">
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2014/04/24/treehouse-badges-for-octopress/">Treehouse Badges for Octopress</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2014/04/01/json-and-nested-hashes-in-ruby/">JSON and Nested Hashes in Ruby</a>
       </li>
     
@@ -303,10 +321,6 @@ Mar 27 2014 posted in &hellip;">
     
       <li class="post">
         <a href="/blog/2014/03/16/why-launch-academy-in-a-nutshell/">Why Launch Academy in a Nutshell</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/03/14/dynamically-control-button-labels-with-a-helper-method/">Dynamically Control Button Labels With a Helper Method</a>
       </li>
     
   </ul>
@@ -418,10 +432,16 @@ Mar 27 2014 posted in &hellip;">
 </script>
 
 <script>
-th_username = "johnkeith"
-show_all_button = true
+th_username = "johnkeith";
+th_show_all_badges = false;
+th_number_badges_visible = (6 - 1);
 
 $(document).ready(function() {
+
+  if(th_username == "" || th_show_all_badges == false && th_number_badges_visible == -1){
+    $(".badges-box").hide();
+  } else {
+
   $.getJSON("http://teamtreehouse.com/" + th_username +".json", function(data) {
     var items = [];
     var number_of_badges = data.badges.length;
@@ -429,30 +449,32 @@ $(document).ready(function() {
     $.each(data.badges, function(k, v) {
        items.push( "<a href='" + v.url + "'><img src='" + v.icon_url + "' alt='" + v.name + "' title='" + v.name + "'/></a>");
     });
-    
-    $(".badges-box").append("<p>I've earned <strong>" + number_of_badges + " badges</strong> for a total of <strong>" + total_points + " points</strong> at Treehouse!</p>");
-    
+   
+    $(".badges-box").append("<p>I've earned <strong>" + number_of_badges + " badges</strong> for a total of <strong>" + total_points + " points</strong> at <a href='http://www.teamtreehouse.com'>Treehouse!</a></p>");
+   
     $( "<ul/>", {
-      "class": "badge-image-list", 
+      "class": "badge-image-list",
       html: items.reverse().join( "" )
     }).appendTo( ".badges-box" ).hide().fadeIn(500);
-    
-    if(show_all_button == true) {
-      $( ".badge-image-list img:gt(5)").hide();
+   
+    if(th_show_all_badges == false) {
+      $( ".badge-image-list img:gt(" + th_number_badges_visible + ")").hide();
 
       $(".badges-box").append("<button id='show-all'>See all badges</button>");
 
       $("#show-all").click(function() {
-        $( ".badge-image-list img:gt(5)").toggle(0, "linear", function() {
-          if($("#show-all").html() == "See all badges") {
-            $("#show-all").html("Hide badges");
-          } else {
-            $("#show-all").html("See all badges");
-          };
-        });
+        $( ".badge-image-list img:gt(" + th_number_badges_visible + ")").toggle(0, "linear");
+        if($("#show-all").html() == "See all badges") {
+          $("#show-all").html("Hide badges");
+          $("#show-all").blur();
+        } else {
+          $("#show-all").html("See all badges");
+          $("#show-all").blur();
+        };
       });
     };
   });
+ };
 });
 </script>
 
