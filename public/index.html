@@ -9,7 +9,7 @@
   <meta name="author" content="John Keith">
 
   
-  <meta name="description" content="When I came across Riley Hillard&rsquo;s tutorial on making a Treehouse badges widget, I knew I had to have something like this on my site. While I &hellip;">
+  <meta name="description" content="The last part of our Launch Academy prep work is a moment of reflection. I feel like I&rsquo;ve come quite far since I started the prework &ndash; &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -73,6 +73,113 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/04/30/final-prep-for-launch-academy/">Final Prep for Launch Academy</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-04-30T18:10:06-04:00" pubdate data-updated="true">Apr 30<span>th</span>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>The last part of our Launch Academy prep work is a moment of reflection. I feel like I&rsquo;ve come quite far since I started the prework &ndash; especially in terms of my understanding of Git. The Git Immersion and <a href="http://pcottle.github.io/learnGitBranching/">Learn Git Branching</a> were hugely helpful for me. Being able to visualize what is going on with rebases and merges made all the difference. Sandi Metz&rsquo;s book is by far my favorite of the readings and certainly the one I have spent the most time pouring over. Starting to understand the OOP patterns presented in that book has been a big turning point for me when it comes to grasping how entire applications are written and maintained.</p>
+
+<p>In addition to finishing out my prework, I&rsquo;ve been spending a good deal of time on a site a Launch Academy staffer recommended called <a href="http://www.codequizzes.com/">Code Quizzes</a> and this has been a great way to sharpen all the Ruby that I&rsquo;ve been absorbing. Here are a few of the awesome methods and tricks I&rsquo;ve encountered so far from the quiz questions.</p>
+
+<p><em>Question:</em>
+<em>a = [1, 2, 3] and b = [&ldquo;a&rdquo;, &ldquo;b&rdquo;, &ldquo;c&rdquo;].  Use these arrays to make [[1, &ldquo;a&rdquo;], [2, &ldquo;b&rdquo;], [3, &ldquo;c&rdquo;]]</em></p>
+
+<p>I really like the #zip method this question introduces. The #zip method allows you to combine two or more arrays with ease. Here&rsquo;s an example of combining three arrays.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">a</span> <span class="o">=</span> <span class="o">[</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">,</span> <span class="s2">&quot;c&quot;</span><span class="o">]</span>
+</span><span class='line'><span class="n">b</span> <span class="o">=</span> <span class="sx">%w(1 2 3 4 5)</span>
+</span><span class='line'><span class="n">c</span> <span class="o">=</span> <span class="o">[</span><span class="s2">&quot;zip&quot;</span><span class="p">,</span> <span class="s2">&quot;method&quot;</span><span class="o">]</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">a</span><span class="o">.</span><span class="n">zip</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">)</span>
+</span><span class='line'><span class="c1"># [[&quot;a&quot;, &quot;1&quot;, &quot;zip&quot;], [&quot;b&quot;, &quot;2&quot;, &quot;method&quot;], [&quot;c&quot;, &quot;3&quot;, nil]]</span>
+</span><span class='line'>
+</span><span class='line'><span class="no">Hash</span><span class="o">[</span><span class="n">a</span><span class="o">.</span><span class="n">zip</span><span class="p">(</span><span class="n">b</span><span class="p">)</span><span class="o">]</span>
+</span><span class='line'><span class="c1"># {&quot;a&quot;=&gt;&quot;1&quot;, &quot;b&quot;=&gt;&quot;2&quot;, &quot;c&quot;=&gt;&quot;3&quot;}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>You can see from the above that zip can be quite flexible and formidable, mashing together arrays or even forming hashes.</p>
+
+<p>The #cycle method is another interesting array operation that came up in questions on Code Quizzes. With #cycle, you can perform a block for a specified amount of times. For example, if you had an array you can use #cycle to print out its contents in order any number of times.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">a</span> <span class="o">=</span> <span class="o">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="o">]</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">a</span><span class="o">.</span><span class="n">cycle</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span> <span class="p">{</span> <span class="o">|</span><span class="n">i</span><span class="o">|</span> <span class="nb">p</span> <span class="n">i</span> <span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Inject is certainly a method I want to master: it is really amazing how you can pass in a method to inject and let it do the work for you, without having to write a complete block.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="o">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">42</span><span class="o">].</span><span class="n">inject</span><span class="p">(</span><span class="ss">:+</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>One question that had me a tad <a href="http://www.gullahbible.com/e-GullahNT/Conc/44JHNGUL.htm">bumfumbled</a> involved passing a method as a block and it being considered a Proc.</p>
+
+<p><em>Question:</em>
+<em>arr = [&ldquo;a&rdquo;, &ldquo;b&rdquo;].  Capitalize each element of arr with a proc.</em></p>
+
+<p>The answer given was <code>arr.map(&amp;:upcase)</code>, which I am assuming means that you can pass methods as blocks and with some voodoo they turn into Procs.</p>
+
+<p>Further on, there was a great question that begged for a similar solution.</p>
+
+<p><em>Question:</em>
+<em>Use a one-liner to find the longest word in the array: arr = %w{what is the longest word in this arrrrrray}</em></p>
+
+<p>The site proposed the method below.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">arr</span><span class="o">.</span><span class="n">inject</span> <span class="p">{</span> <span class="o">|</span><span class="n">longest_word</span><span class="p">,</span> <span class="n">word</span><span class="o">|</span> <span class="n">word</span><span class="o">.</span><span class="n">length</span> <span class="o">&gt;</span> <span class="n">longest_word</span><span class="o">.</span><span class="n">length</span> <span class="p">?</span> <span class="n">word</span> <span class="p">:</span> <span class="n">longest_word</span><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>I think, however, it could be put more succicently with <code>arr.sort_by(&amp;:length).last</code>.</p>
+
+<p>The larger pattern that I&rsquo;m begining to see is that with Ruby there is always another way, or twenty, to solve a problem.</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -421,96 +528,6 @@
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/03/14/dynamically-control-button-labels-with-a-helper-method/">Dynamically Control Button Labels With a Helper Method</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-03-14T19:20:08-04:00" pubdate data-updated="true">Mar 14<span>th</span>, 2014</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><em>Reader beware: I&rsquo;m learning Rails right now. In no way, shape or form should this post or any posts here for at least the next month and a half be taken as gospel truth of how to do things right in Rails. They probably are way, way out in right field.</em></p>
-
-<p>Okay, say you have a view and in that view you have a beautiful button. If you want to assign a name to that button dynamically, say based on the truthiness of some variable, here&rsquo;s an easy way to do it.</p>
-
-<p>Open up the <em>helper.rb file for your model. In your </em>helper file, write a method that will provide you two pieces of text, depending on a certain condition.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">sign_up_btn</span>
-</span><span class='line'>  <span class="k">if</span> <span class="no">User</span><span class="o">.</span><span class="n">sign_up_allowed</span> <span class="o">==</span> <span class="kp">true</span>
-</span><span class='line'>    <span class="s2">&quot;Prevent new account creation&quot;</span>
-</span><span class='line'>  <span class="k">else</span>
-</span><span class='line'>    <span class="s2">&quot;Allow new account creation&quot;</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Or, if you want to be fancy, try this refactored-while-in-the-midst-of-blogging-version.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">sign_up_btn</span>
-</span><span class='line'>  <span class="no">User</span><span class="o">.</span><span class="n">sign_up_allowed</span> <span class="p">?</span> <span class="s2">&quot;Prevent new account creation&quot;</span> <span class="p">:</span> <span class="s2">&quot;Allow new account creation&quot;</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Then, back over in your view file, add this bit to create the button and assign it a title based on the results of the method above.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="cp">&lt;%=</span> <span class="n">button_to</span> <span class="ss">action</span><span class="p">:</span> <span class="s2">&quot;disallow_sign_up&quot;</span> <span class="k">do</span> <span class="cp">%&gt;&lt;%=</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="n">sign_up_btn</span><span class="si">}</span><span class="s2">&quot;</span> <span class="cp">%&gt;&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span><span class="x"></span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>(Just so you get a fuller picture, here&rsquo;s my disallow_sign_up method from my users_controller. I wrote it as a way for an admin to turn off access to the sign up page in the expense tracking app I&rsquo;m working on.)</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">disallow_sign_up</span>
-</span><span class='line'>  <span class="no">User</span><span class="o">.</span><span class="n">sign_up_allowed</span> <span class="p">?</span> <span class="no">User</span><span class="o">.</span><span class="n">sign_up_allowed</span> <span class="o">=</span> <span class="kp">false</span> <span class="p">:</span> <span class="no">User</span><span class="o">.</span><span class="n">sign_up_allowed</span> <span class="o">=</span> <span class="kp">true</span>
-</span><span class='line'>  <span class="n">redirect_to</span> <span class="n">users_index_path</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>I have a serious fixation on the ternary operator, if you haven&rsquo;t noticed.</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/2/">&larr; Older</a>
@@ -534,6 +551,10 @@
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2014/04/30/final-prep-for-launch-academy/">Final Prep for Launch Academy</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2014/04/24/treehouse-badges-for-octopress/">Treehouse Badges for Octopress</a>
       </li>
     
@@ -547,10 +568,6 @@
     
       <li class="post">
         <a href="/blog/2014/03/19/trying-to-remember-the-small-stuff/">Trying to Remember the Small Stuff</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/03/16/why-launch-academy-in-a-nutshell/">Why Launch Academy in a Nutshell</a>
       </li>
     
   </ul>
