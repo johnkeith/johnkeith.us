@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Ruby | John Keith]]></title>
   <link href="http://johnk.herokuapp.com/blog/categories/ruby/atom.xml" rel="self"/>
   <link href="http://johnk.herokuapp.com/"/>
-  <updated>2014-05-08T09:48:08-04:00</updated>
+  <updated>2014-05-17T16:02:48-04:00</updated>
   <id>http://johnk.herokuapp.com/</id>
   <author>
     <name><![CDATA[John Keith]]></name>
@@ -12,6 +12,65 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Launch Academy Week 1 Reflections]]></title>
+    <link href="http://johnk.herokuapp.com/blog/2014/05/16/launch-academy-week-1-reflections/"/>
+    <updated>2014-05-16T20:41:21-04:00</updated>
+    <id>http://johnk.herokuapp.com/blog/2014/05/16/launch-academy-week-1-reflections</id>
+    <content type="html"><![CDATA[<p>Summing up week one of Launch Academy is tough: it&rsquo;s been a whirlwind of information and challenges. Here&rsquo;s what I do know: I could not be more excited to be here and on my way to becoming a software developer.</p>
+
+<p>This first week really affirmed my desire to become a developer. Coming into Launch Academy, I was unsure of what life would be like working in web development professionally &ndash; I knew I&rsquo;d enjoyed tinkering in the past, but I didn&rsquo;t know what would it be like to be writing software everyday. At the end of this first week, I feel confident that I&rsquo;m going to enjoy this new career tremendously.</p>
+
+<p>That&rsquo;s not to say this week was without it&rsquo;s travails. The Launch Academy instructors stressed from day one that software development is not just about code: great software is the product of strong communication. This is definitely been a big shift in thinking for me as up until now I&rsquo;ve essentially been flying solo when coding. It is certainly taken some adjustment and I feel one of the most important things I&rsquo;ve been working on this week is learning how to collaborate and develop solutions with other people.</p>
+
+<p>On the technical side, the past five days been a huge boost for my abilities in Ruby. As we take on bigger and bigger problems, I&rsquo;m really enjoying figuring out how to design programs and implement them as concisely as possible. Towards the end of the week, after seeing it mentioned in one of our Ruby challenges, I started playing around with the Benchmark module and it has been very interesting to look at how different ways of performing operations can be more efficient than others. I was surprised that the Fibonacci sequence methods below resulted in calculation times that were roughly the same.</p>
+
+<p>```ruby</p>
+
+<p>require &lsquo;benchmark&rsquo;</p>
+
+<p>time = Benchmark.realtime do
+  def fibonacci(nth)</p>
+
+<pre><code>array_o_fibs = []
+if nth == 1 || nth == 2
+  return 1
+else
+  array_o_fibs &lt;&lt; 1; array_o_fibs &lt;&lt; 1
+  until array_o_fibs.length == nth
+    array_o_fibs &lt;&lt; array_o_fibs[-1] + array_o_fibs[-2]
+  end
+end
+array_o_fibs[-1]
+</code></pre>
+
+<p>  end</p>
+
+<p>  fibonacci(100)
+end</p>
+
+<p>puts &ldquo;The time elapsed in milliseconds is #{time*1000} with the non-recursive fibonacci method.&rdquo;</p>
+
+<p>time = Benchmark.realtime do</p>
+
+<p>  def other_fibonacci(n)</p>
+
+<pre><code>if n == 1 || n == 2
+  1
+else
+  fibonacci(n - 1) + fibonacci(n - 2)
+end
+</code></pre>
+
+<p>  end</p>
+
+<p>  other_fibonacci(100)
+end
+puts &ldquo;The time elapsed in milliseconds is #{time*1000} with the recursive fibonacci method.&rdquo;
+```</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Final Prep for Launch Academy]]></title>
@@ -219,183 +278,6 @@ link_to "&lt;i class='fa #{css_class}'&gt;&lt;/i&gt; ".html_safe+title, {:sort =
 </code></p>
 
 <p>It was also great to have one of those moments when all that reading comes in handy. I couldn&rsquo;t get the icons to appear the first time I fired up the page, because I had wrapped my icon HTML in single quotes instead of double. Using double quotes on the outside and then single on the inside allows Ruby to interpolate the css_class variable. Nothing fancy, but still a good learning experience that will hopefully keep me more consistent with my use of quotes.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Build What You Use as a Way to Learn]]></title>
-    <link href="http://johnk.herokuapp.com/blog/2014/03/06/build-what-you-use-when-learning/"/>
-    <updated>2014-03-06T17:38:44-05:00</updated>
-    <id>http://johnk.herokuapp.com/blog/2014/03/06/build-what-you-use-when-learning</id>
-    <content type="html"><![CDATA[<p>I can&rsquo;t remember where I read it, but recently I came across the advice that one of the best ways to practice programming is to recreate the type of applications you use everyday. No need to make them flashy, simply implement their core features in order to achieve the same results.</p>
-
-<p>I decided to give it a try today and build a tiny todo app in Ruby. I wanted to write the app keeping in mind the directives from Sandi&rsquo;s Metz&rsquo;s <a href="http://www.amazon.com/Practical-Object-Oriented-Design-Ruby-Addison-Wesley/dp/0321721330">Practical Object-Oriented Design in Ruby</a>.</p>
-
-<blockquote><p>&ldquo;Remember that a class should do the smallest possible useful thing. That
-thing ought to be simple to describe. If the simplest description you can devise uses the
-word "and,” the class likely has more than one responsibility.​&rdquo; &ndash; Metz</p></blockquote>
-
-<p>While it ended up that my app only had one class, I tried to follow in the spirit of the quote above by keeping my methods as focused as possible. I also tried to heed her advice to stave off design decisions for as long as possible &ndash; an interesting strategy that had me trying to store all completed and incomplete todos in the same file. I quickly realized, though, that this was an inefficient way of doing things, since my completed items list would (hopefully) be a far larger file than my active items list and there is no reason to load that large file every time the app is opened.</p>
-
-<p>There is one little quirk that I can&rsquo;t seem to shake: when you mark a todo as finished, the item is removed from the activelist.txt file, but is not added to the completelist.txt file until you close the program. I&rsquo;m sure it has something to do with the file opening modes I selected, but I can&rsquo;t figure out why I am able to modify and then view the modifications done to activelist.txt while in the app, but not do the same with completelist.txt.</p>
-
-<p>In the end, this was a great way to get practice using the File and IO classes of Ruby and exploring their methods. Not to mention, I get a pretty nifty little command line todo list manager (which I&rsquo;ll stick in Dropbox for easy access) out of it!</p>
-
-<p>``` ruby
-require &lsquo;rbconfig&rsquo;</p>
-
-<p>class Todo</p>
-
-<pre><code>def clear_screen
-    host_os = RbConfig::CONFIG['host_os']
-
-    case host_os
-        when /mswin|msys|mingw|cygwin|bccwin|wince|emc/
-            system "cls"
-        when /darwin|mac os|linux|solaris|bsd/
-            puts "\e[H\e[2J"
-    end
-end
-
-def open_app
-    view_all
-end
-
-def view_all
-    clear_screen
-
-    list_read = read_active_list
-
-    puts "------INCOMPLETE------\n\n"
-    list_read.each do |line|
-        puts line
-    end
-    puts "\n----------------------"
-
-    choose_action
-end
-
-def read_active_list
-    list = File.open("activelist.txt","a+").readlines
-end
-
-def choose_action
-    puts %/
-    What would you like to do with your list?
-    1. Add a todo
-    2. Mark complete
-    3. View incomplete
-    4. View completed
-    5. Exit/
-
-    choice = gets.chomp.downcase
-
-    case choice
-        when "1" then input_todo
-        when "1." then input_todo
-        when "add" then input_todo
-        when "add todo" then input_todo
-
-        when "2" then mark_done
-        when "2." then mark_done
-        when "mark" then mark_done
-        when "mark done" then mark_done
-
-        when "3" then view_incomplete
-        when "3." then view_incomplete
-        when "view incomplete" then view_incomplete
-
-        when "4" then view_complete
-        when "4." then view_complete
-        when "view completed" then view_complete
-
-        when "5" then return
-        when "5." then return
-        when "exit" then return
-
-        else
-            p "Not a valid choice"
-            choose_action
-    end
-end
-</code></pre>
-
-<h1>ask for todo</h1>
-
-<pre><code>def input_todo
-    puts "\nEnter your new todo:"
-    todo = gets.chomp
-    add_todo(todo)
-    view_all
-end
-</code></pre>
-
-<h1>write method</h1>
-
-<pre><code>def add_todo(todo)
-    File.open("activelist.txt", "a") { |f| f.write "#{todo}\n" }
-end
-</code></pre>
-
-<h1>mark done method</h1>
-
-<pre><code>def mark_done
-    clear_screen
-
-    list_read = File.open("activelist.txt","a+").readlines
-
-    puts "------INCOMPLETE------\n\n"
-    list_read.each_with_index do |line, index|
-        puts "#{index + 1}. " + line
-    end
-    puts "\n----------------------"
-
-    puts "\nWhich todo do you want to mark complete? (Type the number or zero to cancel)."
-
-    choice = gets.chomp.to_i
-
-    File.open("activelist.txt", "w") do |f|
-        list_read.each_with_index do |line, index|
-            if (index + 1) == choice 
-                add_to_complete_list line
-            else
-                f.write "#{line}"
-            end
-        end
-    end
-
-    view_all
-end
-
-def add_to_complete_list line
-    File.open("completelist.txt", "a").write "#{line}"
-end
-
-def view_complete
-    clear_screen
-
-    complete_list = File.open("completelist.txt", "a+").readlines
-
-    puts "------COMPLETED------\n\n"
-    complete_list.each do |line|
-        puts line
-    end
-    puts "\n---------------------"
-
-    choose_action
-end
-
-def view_incomplete
-    view_all
-end
-</code></pre>
-
-<p>end</p>
-
-<p>my_todo_list = Todo.new</p>
-
-<p>my_todo_list.open_app
-```</p>
 ]]></content>
   </entry>
   

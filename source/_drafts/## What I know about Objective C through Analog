@@ -1,0 +1,17 @@
+## What I know about Objective C through Analog
+
+I finished up with the Launch Academy prework and decided to use my week before heading to Boston to dive into Objective C. It has actually been a great way to review 
+
+The rigid form and structure of Objective C is quite a shock after the sugary ease of Ruby's syntax, but I believe I am starting to get a handle on it. Fair warning: all of what's below might be completely off base!
+
+Objective C, like Ruby, is an object oriented language. 
+
+It differs in the sense that Objective C seperates the interface and implementation of its classes into different files (each class has a .h and .m file), as opposed to Ruby where it is all defined together. 
+
+In Objective C, the .h files are the header files, where the properties and methods of the class are declared. It would be like if you had a file in Ruby where you named all your classes methods, initalized all the attributes (lazily?), but didn't define the values of the attributes or the behavior of any of these methods. 
+
+The .m files in Objective C are where the properties and methods are defined. In Ruby, it would be a file that opens all the previously declared classes and adds behavior to their methods.   
+
+In Objective C, Views are how users interact with the application. 
+
+Message passing between objects in Objective C occurs in the .m files. 

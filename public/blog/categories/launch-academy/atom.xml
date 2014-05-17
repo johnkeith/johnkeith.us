@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Launch Academy | John Keith]]></title>
   <link href="http://johnk.herokuapp.com/blog/categories/launch-academy/atom.xml" rel="self"/>
   <link href="http://johnk.herokuapp.com/"/>
-  <updated>2014-05-08T09:48:08-04:00</updated>
+  <updated>2014-05-17T16:02:48-04:00</updated>
   <id>http://johnk.herokuapp.com/</id>
   <author>
     <name><![CDATA[John Keith]]></name>
@@ -12,6 +12,65 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Launch Academy Week 1 Reflections]]></title>
+    <link href="http://johnk.herokuapp.com/blog/2014/05/16/launch-academy-week-1-reflections/"/>
+    <updated>2014-05-16T20:41:21-04:00</updated>
+    <id>http://johnk.herokuapp.com/blog/2014/05/16/launch-academy-week-1-reflections</id>
+    <content type="html"><![CDATA[<p>Summing up week one of Launch Academy is tough: it&rsquo;s been a whirlwind of information and challenges. Here&rsquo;s what I do know: I could not be more excited to be here and on my way to becoming a software developer.</p>
+
+<p>This first week really affirmed my desire to become a developer. Coming into Launch Academy, I was unsure of what life would be like working in web development professionally &ndash; I knew I&rsquo;d enjoyed tinkering in the past, but I didn&rsquo;t know what would it be like to be writing software everyday. At the end of this first week, I feel confident that I&rsquo;m going to enjoy this new career tremendously.</p>
+
+<p>That&rsquo;s not to say this week was without it&rsquo;s travails. The Launch Academy instructors stressed from day one that software development is not just about code: great software is the product of strong communication. This is definitely been a big shift in thinking for me as up until now I&rsquo;ve essentially been flying solo when coding. It is certainly taken some adjustment and I feel one of the most important things I&rsquo;ve been working on this week is learning how to collaborate and develop solutions with other people.</p>
+
+<p>On the technical side, the past five days been a huge boost for my abilities in Ruby. As we take on bigger and bigger problems, I&rsquo;m really enjoying figuring out how to design programs and implement them as concisely as possible. Towards the end of the week, after seeing it mentioned in one of our Ruby challenges, I started playing around with the Benchmark module and it has been very interesting to look at how different ways of performing operations can be more efficient than others. I was surprised that the Fibonacci sequence methods below resulted in calculation times that were roughly the same.</p>
+
+<p>```ruby</p>
+
+<p>require &lsquo;benchmark&rsquo;</p>
+
+<p>time = Benchmark.realtime do
+  def fibonacci(nth)</p>
+
+<pre><code>array_o_fibs = []
+if nth == 1 || nth == 2
+  return 1
+else
+  array_o_fibs &lt;&lt; 1; array_o_fibs &lt;&lt; 1
+  until array_o_fibs.length == nth
+    array_o_fibs &lt;&lt; array_o_fibs[-1] + array_o_fibs[-2]
+  end
+end
+array_o_fibs[-1]
+</code></pre>
+
+<p>  end</p>
+
+<p>  fibonacci(100)
+end</p>
+
+<p>puts &ldquo;The time elapsed in milliseconds is #{time*1000} with the non-recursive fibonacci method.&rdquo;</p>
+
+<p>time = Benchmark.realtime do</p>
+
+<p>  def other_fibonacci(n)</p>
+
+<pre><code>if n == 1 || n == 2
+  1
+else
+  fibonacci(n - 1) + fibonacci(n - 2)
+end
+</code></pre>
+
+<p>  end</p>
+
+<p>  other_fibonacci(100)
+end
+puts &ldquo;The time elapsed in milliseconds is #{time*1000} with the recursive fibonacci method.&rdquo;
+```</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Final Prep for Launch Academy]]></title>
