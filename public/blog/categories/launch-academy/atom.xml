@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Launch Academy | John Keith]]></title>
   <link href="http://johnk.herokuapp.com/blog/categories/launch-academy/atom.xml" rel="self"/>
   <link href="http://johnk.herokuapp.com/"/>
-  <updated>2014-05-21T09:57:17-04:00</updated>
+  <updated>2014-05-26T09:14:00-04:00</updated>
   <id>http://johnk.herokuapp.com/</id>
   <author>
     <name><![CDATA[John Keith]]></name>
@@ -24,7 +24,7 @@
 
 <p>That&rsquo;s not to say this week was without it&rsquo;s travails. The Launch Academy instructors stressed from day one that software development is not just about code: great software is the product of strong communication. This is definitely been a big shift in thinking for me as up until now I&rsquo;ve essentially been flying solo when coding. It is certainly taken some adjustment and I feel one of the most important things I&rsquo;ve been working on this week is learning how to collaborate and develop solutions with other people.</p>
 
-<p>On the technical side, the past five days been a huge boost for my abilities in Ruby. As we take on bigger and bigger problems, I&rsquo;m really enjoying figuring out how to design programs and implement them as concisely as possible. Towards the end of the week, after seeing it mentioned in one of our Ruby challenges, I started playing around with the Benchmark module and it has been very interesting to look at how different ways of performing operations can be more efficient than others. I was surprised that the Fibonacci sequence methods below resulted in calculation times that were roughly the same.</p>
+<p>On the technical side, the past five days been a huge boost for my abilities in Ruby. As we take on bigger and bigger problems, I&rsquo;m really enjoying figuring out how to design programs and implement them as concisely as possible. Towards the end of the week, after seeing it mentioned in one of our Ruby challenges, I started playing around with the Benchmark module and it has been very interesting to look at how different ways of performing operations can be more efficient than others. Here&rsquo;s some messing around with different methods of calculating the nth number in the Fibonacci sequence that I found interesting.</p>
 
 <p>```ruby</p>
 

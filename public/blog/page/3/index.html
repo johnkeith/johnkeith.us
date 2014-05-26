@@ -9,7 +9,7 @@
   <meta name="author" content="John Keith">
 
   
-  <meta name="description" content="I&rsquo;ve been meaning to build an Octopress theme since I put this site up back in January. To start with, this blog was using the Whitespace theme &hellip;">
+  <meta name="description" content="Since Heroku only allows for 300 MB of storage for their free tier of hosting, it makes sense to store the images for an Octopress site in a separate &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -50,7 +50,7 @@
   <header role="banner"><hgroup>
   <h1><a href="/">John Keith</a></h1>
   
-    <h2>Learning full stack development and heading to <a href="http://www.launchacademy.com/">Launch Academy</a>.</h2>
+    <h2>Web developer learning at <a href="http://www.launchacademy.com/">Launch Academy</a>.</h2>
   
 </hgroup>
 
@@ -64,7 +64,7 @@
   <li><a href="/">Blog</a></li>
   <li><a href="/blog/archives">Archives</a></li>
   <li><a href="/atom.xml" class="nav-link">RSS</a></li>
-  <li><a href="/about-me/">About Me</a></li>
+<!--   <li><a href="/about-me/">About Me</a></li> -->
   <li><a href="http://github.com/johnkeith">Github</a></li>
   <li><a href="http://twitter.com/mrjohnkeith">Twitter</a></li>
 </ul>
@@ -74,6 +74,56 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/03/04/image-hosting-for-a-heroku-octopress-site/">Image Hosting for a Heroku Octopress Site</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-03-04T17:44:27-05:00" pubdate data-updated="true">Mar 4<span>th</span>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Since Heroku only allows for 300 MB of storage for their free tier of hosting, it makes sense to store the images for an Octopress site in a separate location. Previously, I used Flickr for a few posts, but the process of uploading the files and hunting down the embed link was tiresome.</p>
+
+<p>The better way, it seems, is to use Google Drive, despite the fact that Google doesn&rsquo;t provide an easy way to embed either. What makes using Google Drive much friendlier than Flickr, however, is a site called <a href="http://gdurl.com/%E2%80%8B">gdURL</a>.</p>
+
+<p>With gdURL, all you need to do is share an image file on Google Drive, change the privacy settings to &ldquo;Anyone who has the link can view&rdquo;, then run the link Google Drive provides you through the gdURL service and you receive a tidy, bite-sized link for embedding your image.</p>
+
+<p>For instance, I used gdURL in the following line to link to a picture of this site&rsquo;s new theme.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>![So Fresh and So Green](http://gdurl.com/i4Wr)​</span></code></pre></td></tr></table></div></figure>
+
+
+<p><img src="http://gdurl.com/i4Wr" alt="So Fresh and So Green" />​</p>
+
+<p>Quick, easy, and keeps the size of your Octopress repo down.</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -324,6 +374,10 @@
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2014/05/26/my-ruby-toolbox-at-the-end-of-week-two/">My Ruby ToolBox at the End of Week Two</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2014/05/16/launch-academy-week-1-reflections/">Launch Academy Week 1 Reflections</a>
       </li>
     
@@ -337,10 +391,6 @@
     
       <li class="post">
         <a href="/blog/2014/04/01/json-and-nested-hashes-in-ruby/">JSON and Nested Hashes in Ruby</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/03/27/spaced-repetition-and-the-novice-programmer/">Spaced Repetition and the Novice Programmer</a>
       </li>
     
   </ul>

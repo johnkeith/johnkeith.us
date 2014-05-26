@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Ruby | John Keith]]></title>
   <link href="http://johnk.herokuapp.com/blog/categories/ruby/atom.xml" rel="self"/>
   <link href="http://johnk.herokuapp.com/"/>
-  <updated>2014-05-21T09:57:17-04:00</updated>
+  <updated>2014-05-26T09:14:00-04:00</updated>
   <id>http://johnk.herokuapp.com/</id>
   <author>
     <name><![CDATA[John Keith]]></name>
@@ -12,6 +12,85 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[My Ruby ToolBox at the End of Week Two]]></title>
+    <link href="http://johnk.herokuapp.com/blog/2014/05/26/my-ruby-toolbox-at-the-end-of-week-two/"/>
+    <updated>2014-05-26T07:49:44-04:00</updated>
+    <id>http://johnk.herokuapp.com/blog/2014/05/26/my-ruby-toolbox-at-the-end-of-week-two</id>
+    <content type="html"><![CDATA[<p>Week two flew by and it is amazing how far we have come. It is also amazing how overrun the Launch Academy folder on my laptop is right now. For my reflective post this week, I think it would be a good exercise to do some house keeping on the code I&rsquo;ve written so far and take a look at some of the awesome tools I&rsquo;m starting to learn how to use in Ruby.</p>
+
+<p>One of the most fun things I did was work with a couple other Launchers on recreating the <a href="https://github.com/johnkeith/Ruby2048">2048 game on the command line</a>. It was a great exercise &ndash; working with nested arrays that represented the board, constructing the methods that would move and recalculate the board each turn. The hardest part was combing Google to find out how to handle improper keyboard inputs from the terminal (for example, if you type &ldquo;Z&rdquo; instead of the &ldquo;A&rdquo;,&ldquo;S&rdquo;,&ldquo;W&rdquo;, or &ldquo;D&rdquo; keys we specified for moving). It was a slight distraction from our main work of the week, but I really loved figuring out how the mechanisms behind the game worked. (Would love to work on remaking an online playable version of the game in Sinatra, but that might have to wait until I have a better grasp of Javascript.)</p>
+
+<p>``` ruby
+def strip_row_right(row)
+  row.delete_if {|space| space == &ldquo; &rdquo;}
+  until row.length == 4</p>
+
+<pre><code>row.unshift(" ")
+</code></pre>
+
+<p>  end
+  row
+end</p>
+
+<p>def move_down(board)
+  board = board.transpose
+  board.each_with_index do |row, row_idx|</p>
+
+<pre><code>strip_row_right(row)
+row.reverse!.each_with_index do |column, col_idx|
+  if column == row[col_idx + 1] &amp;&amp; !(column == " " )
+    board[row_idx][col_idx] = (board[row_idx][col_idx].to_i * 2).to_s
+    board[row_idx][col_idx+1] = " "
+  else
+    next
+  end
+end
+row.reverse!
+strip_row_right(row)
+</code></pre>
+
+<p>  end
+  board.transpose
+end
+```
+Another non-core, but extremely rewarding set of exercised I played with this week came from the <a href="https://evernote.com/careers/challenge.php">Evernote Challenge</a>. Basically, the challenge is a set of three problems that Evernote posted on their website, each of which can be submitted and automatically tested on the site. While I was never able to get my tests passing, sadly, I think I was able to sufficiently solve two of the problems, one involving a circular buffer and the other with counting the frequency of terms in a given input. I even dived into writing a few tests for my circular buffer solution to start preparing myself for the leap into TDD that will be coming up in the next few weeks. The frequency problem also was a great opportunity to deal with the travails of sorting hashes and multidimensional sorting of arrays.</p>
+
+<p>``` ruby
+terms_to_add = gets.chomp.to_i
+items_to_count = Hash.new(0)</p>
+
+<p>1.upto(terms_to_add).each do
+  input = gets.chomp.to_sym
+  items_to_count[input] += 1
+end</p>
+
+<p>take_amount = gets.chomp.to_i</p>
+
+<p>take_top = items_to_count.sort_by { |k, v| v }.reverse.take(take_amount)</p>
+
+<p>fully_sorted = take_top.sort_by {|item| [-item[-1], item[0].to_s] }</p>
+
+<p>fully_sorted.each {|item| puts item[0].to_s }
+```
+As I mentioned, our big focus in class this week was on Sinatra. I built at least five Sinatra apps this week, ranging from ones that pulled in data from a CSV to ones that actually started creating dynamic pages based on JSON data from APIs. I also started using HAML extensively on these project. Its really awesome how simple and readable HAML makes an HTML page.</p>
+
+<p>This weekend I&rsquo;ve been wrestling with creating a URL shortener in Sinatra. I&rsquo;ve made it to the point where the site is mostly functioning, but I&rsquo;m working on error and exception handling, which is no easy task. I also cannot for the life of me get my head around Redis, the database they recommended we use for this project, so I think I&rsquo;m going to be spending a good amount of time next week trying to figure out databases once and for all. That said, working on the URL shortener gave me a great opportunity to play around with the web scraping gem Nokogiri. Using Nokogiri, I was easily able to scrape a list of sandwich names (to be the links in my URL shortener) off a website and into a easily accessible array.</p>
+
+<p>``` ruby
+page = Nokogiri::HTML(open(&ldquo;<a href="http://www.thrillist.com/food/nation/national-sandwich-day">http://www.thrillist.com/food/nation/national-sandwich-day</a>&rdquo;))</p>
+
+<p>sandwich_list = []</p>
+
+<p>sandwiches = page.css(&ldquo;strong&rdquo;)</p>
+
+<p>sandwiches.each do |item|
+  sandwich_list &lt;&lt; item.text.downcase.gsub(/[\d+\W+\s]/, &ldquo;&rdquo;).gsub(/the/, &ldquo;&rdquo;)
+end
+```</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Launch Academy Week 1 Reflections]]></title>
@@ -24,7 +103,7 @@
 
 <p>That&rsquo;s not to say this week was without it&rsquo;s travails. The Launch Academy instructors stressed from day one that software development is not just about code: great software is the product of strong communication. This is definitely been a big shift in thinking for me as up until now I&rsquo;ve essentially been flying solo when coding. It is certainly taken some adjustment and I feel one of the most important things I&rsquo;ve been working on this week is learning how to collaborate and develop solutions with other people.</p>
 
-<p>On the technical side, the past five days been a huge boost for my abilities in Ruby. As we take on bigger and bigger problems, I&rsquo;m really enjoying figuring out how to design programs and implement them as concisely as possible. Towards the end of the week, after seeing it mentioned in one of our Ruby challenges, I started playing around with the Benchmark module and it has been very interesting to look at how different ways of performing operations can be more efficient than others. I was surprised that the Fibonacci sequence methods below resulted in calculation times that were roughly the same.</p>
+<p>On the technical side, the past five days been a huge boost for my abilities in Ruby. As we take on bigger and bigger problems, I&rsquo;m really enjoying figuring out how to design programs and implement them as concisely as possible. Towards the end of the week, after seeing it mentioned in one of our Ruby challenges, I started playing around with the Benchmark module and it has been very interesting to look at how different ways of performing operations can be more efficient than others. Here&rsquo;s some messing around with different methods of calculating the nth number in the Fibonacci sequence that I found interesting.</p>
 
 <p>```ruby</p>
 
@@ -229,55 +308,6 @@ end
 <p>What also surprises me is that we do not see spaced repetition more in offline curriculum. I cannot imagine how much better my long term understanding and ability to use what I learned in <em>insert any high school subject here</em> would be had we been taught to use spaced repetition tools. It seems our whole education system is focused on the forward &ndash; the next chapter, the next test, the next year &ndash; and is a system that does not reward the concentrated study that leads to mastery. You have to wonder too if part of the motive for this forward inertia in our educational structure is profit: how many SAT cram courses/books/apps are you going to sell if students actually learn the material they need to know the first time they are taught it?</p>
 
 <p>That said, I&rsquo;m going to dive into the Anki app and see what I can create as far as a flashcards repository for learning Ruby and Rails. Depending on how the app works, I&rsquo;ll try to post what I develop here for download.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Trying to Remember the Small Stuff]]></title>
-    <link href="http://johnk.herokuapp.com/blog/2014/03/19/trying-to-remember-the-small-stuff/"/>
-    <updated>2014-03-19T17:47:29-04:00</updated>
-    <id>http://johnk.herokuapp.com/blog/2014/03/19/trying-to-remember-the-small-stuff</id>
-    <content type="html"><![CDATA[<p>Refactoring is really fun, especially in those moments when you have an &ldquo;Aha!&rdquo; flash and one of those little details clicks into place. I had that today with method I wrote for changing the sorting on a table in a Rails view.</p>
-
-<p><code>ruby
-def sortable(column, title = nil)
-  title ||= column.titleize
-  direction = (column == sort_column &amp;&amp; sort_direction == "asc") ? "desc" : "asc"
-  font_awesome_direction = direction == "asc" ? "up" : "down"
-  css_class = column == sort_column ? "fa-caret-#{font_awesome_direction}" : nil
-  link_to title, {:sort =&gt; column, :direction =&gt; direction}, {class: css_class}
-end
-</code></p>
-
-<p>That sortable method was placed in my application_helper.rb. It works with these two methods from my view controller.</p>
-
-<p>``` ruby
-def sort_direction
-  %w[asc desc].include?(params[:direction]) ?  params[:direction] : &ldquo;asc&rdquo;
-end</p>
-
-<p>def sort_column
-  Expense.column_names.include?(params[:sort]) ? params[:sort] : &ldquo;date&rdquo;
-end
-```</p>
-
-<p>And all of these are put into place with the index method in that same view controller.</p>
-
-<p><code>ruby
-def index
-  @expenses = Expense.order(sort_column + ' ' + sort_direction).paginate(page: params[:page])
-end
-</code></p>
-
-<p>Initially, what I&rsquo;d written wasn&rsquo;t terrible: it worked in the browser, my columns resorted themselves on prompting, and a nice little caret was provided as feedback and a guide post for the user. That said, I was irked by the way the caret was smushed right up against the text and the way that adding the caret threw off the font sizing and styling I had going at the top of my table.</p>
-
-<p>So, I took a step back and tried to determine out if it was possible to embed HTML inside of a link_to in Rails. A couple minutes later, I had figured out it was perfectly acceptable and learned a little bit about the nifty #html_safe method that Rails provides. This led me to a rewritten last line that I think provides a much more pleasing output.</p>
-
-<p><code>ruby
-link_to "&lt;i class='fa #{css_class}'&gt;&lt;/i&gt; ".html_safe+title, {:sort =&gt; column, :direction =&gt; direction}
-</code></p>
-
-<p>It was also great to have one of those moments when all that reading comes in handy. I couldn&rsquo;t get the icons to appear the first time I fired up the page, because I had wrapped my icon HTML in single quotes instead of double. Using double quotes on the outside and then single on the inside allows Ruby to interpolate the css_class variable. Nothing fancy, but still a good learning experience that will hopefully keep me more consistent with my use of quotes.</p>
 ]]></content>
   </entry>
   
