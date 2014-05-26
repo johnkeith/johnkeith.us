@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Sinatra | John Keith]]></title>
   <link href="http://johnk.herokuapp.com/blog/categories/sinatra/atom.xml" rel="self"/>
   <link href="http://johnk.herokuapp.com/"/>
-  <updated>2014-05-26T09:43:21-04:00</updated>
+  <updated>2014-05-26T09:52:45-04:00</updated>
   <id>http://johnk.herokuapp.com/</id>
   <author>
     <name><![CDATA[John Keith]]></name>
@@ -20,7 +20,7 @@
     <id>http://johnk.herokuapp.com/blog/2014/05/26/my-ruby-toolbox-at-the-end-of-week-two</id>
     <content type="html"><![CDATA[<p>Week two flew by and it is amazing how far we have come. It is also amazing how overrun the Launch Academy folder on my laptop is right now. For my reflective post this week, I think it would be a good exercise to do some house keeping on the code I&rsquo;ve written so far and take a look at some of the awesome tools I&rsquo;m starting to learn how to use in Ruby.</p>
 
-<p>One of the most fun things I did was work with a couple other Launchers on recreating the <a href="https://github.com/johnkeith/Ruby2048">2048 game on the command line</a>. It was a great exercise &ndash; working with nested arrays that represented the board, constructing the methods that would move and recalculate the board each turn. The hardest part was combing Google to find out how to handle improper keyboard inputs from the terminal (for example, if you type &ldquo;Z&rdquo; instead of the &ldquo;A&rdquo;,&ldquo;S&rdquo;,&ldquo;W&rdquo;, or &ldquo;D&rdquo; keys we specified for moving). It was a slight distraction from our main work of the week, but I really loved figuring out how the mechanisms behind the game worked. (Would love to work on remaking an online playable version of the game in Sinatra, but that might have to wait until I have a better grasp of Javascript.)</p>
+<p>One of the most fun things I did was work with a couple other Launchers on recreating the <a href="https://github.com/johnkeith/Ruby2048">2048 game on the command line</a>. It was a great exercise &ndash; working with nested arrays that represented the board, constructing the methods that would move and recalculate the board each turn. The hardest part was combing Google to find out how to handle improper keyboard inputs from the terminal (for example, if you type &ldquo;Z&rdquo; instead of the &ldquo;A&rdquo;,&ldquo;S&rdquo;,&ldquo;W&rdquo;, or &ldquo;D&rdquo; keys we specified for moving). It was a slight distraction from our main work of the week, but I really loved figuring out how the mechanisms behind the game worked. (I&rsquo;d love to work on making an online playable version of the game in Sinatra, but that might have to wait until I have a better grasp of Javascript.) Here&rsquo;s a little snippet of our moving method using #transpose to flip the board around for easier calculating.</p>
 
 <p>``` ruby
 def strip_row_right(row)
