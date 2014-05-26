@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "My Ruby ToolBox at the End of Week Two"
+title: "My Ruby Toolbox at the End of Week Two"
 date: 2014-05-26 07:49:44 -0400
 comments: true
 categories: [ruby, sinatra]
