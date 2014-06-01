@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Launch Academy | John Keith]]></title>
   <link href="http://johnk.herokuapp.com/blog/categories/launch-academy/atom.xml" rel="self"/>
   <link href="http://johnk.herokuapp.com/"/>
-  <updated>2014-05-26T10:08:33-04:00</updated>
+  <updated>2014-06-01T19:50:49-04:00</updated>
   <id>http://johnk.herokuapp.com/</id>
   <author>
     <name><![CDATA[John Keith]]></name>
@@ -12,6 +12,81 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Week Three and Designing for Efficiency]]></title>
+    <link href="http://johnk.herokuapp.com/blog/2014/06/01/week-three-and-designing-for-efficiency/"/>
+    <updated>2014-06-01T19:31:07-04:00</updated>
+    <id>http://johnk.herokuapp.com/blog/2014/06/01/week-three-and-designing-for-efficiency</id>
+    <content type="html"><![CDATA[<p>Week three of Launch Academy was a short one with the holiday on Monday, but we covered a lot of ground. It was the start of the second module in the curriculum and we dove headfirst into databases this week. The relation database we are using right now is Postgres, which has been a nice change from the static data storage in CSV files we were using in weeks one and two.</p>
+
+<p>We also had a great speaker come this week &ndash; <a href="https://twitter.com/PDegenPortnoy">Peter Degen-Portnoy</a>. He gave us a brief introduction to object oriented design, which will be the focus of our work this week.</p>
+
+<p>Outside of our core material last week, I spent time wresting with problems of efficiency. I found myself still mulling over mechanics from the 2048 code I wrote in week two, looking for ways to improve the efficiency of the logic used to find random empty spaces on the game board. I knew our initial way was not ideal &ndash; it determined random X and Y coordinates on the board and checked to see if that space was empty. Eventually, I ended up benchmarking three different ways of finding a random empty space in a matrix and I believe I found a reasonably efficient way to go about it. (It is the middle method of the three below, which gives consistently better results, often taking half the time of the other two).</p>
+
+<p>My goal is to continue thinking along these lines this week &ndash; learning about how to incorporate object oriented design into our apps while keeping an eye out for writing efficient code.</p>
+
+<p>``` ruby
+test_board = [[&ldquo;2&rdquo;,&ldquo;4&rdquo;,&ldquo;4&rdquo;,&ldquo;2&rdquo;],</p>
+
+<pre><code>          ["4","2","2"," "],
+          ["2","2","8","2"],
+          ["4","3","4","8"]]
+</code></pre>
+
+<p>def insertRandomly(board)
+  two_or_four = rand.round == 0 ? 4 : 2
+  insert_successful = false
+  while !insert_successful</p>
+
+<pre><code>random_position_one = rand(board.length)
+random_position_two = rand(board.length)
+if board[random_position_one][random_position_two] == " "
+  board[random_position_one][random_position_two] = two_or_four.to_s
+  insert_successful = true
+end
+</code></pre>
+
+<p>  end
+end</p>
+
+<p>def insertLessRandomly(board)
+  two_or_four = rand.round == 0 ? 4 : 2
+  random_direction = rand.round == 0 ? true : false
+  insert_successful = false
+  while !insert_successful</p>
+
+<pre><code>random_position_one = rand(board.length)
+empty_space = nil
+empty_space = board[random_position_one].find_index do |item|
+  item == " "
+end
+if empty_space != nil
+  board[random_position_one][empty_space] = two_or_four.to_s
+  insert_successful = true
+end
+</code></pre>
+
+<p>  end
+end</p>
+
+<p>def insertByIndex(board)
+  two_or_four = rand.round == 0 ? 4 : 2
+  empty_spaces = []
+  board.each_with_index do |row, row_index|</p>
+
+<pre><code>row.each_with_index do |column, col_index|
+  empty_spaces &lt;&lt; [row_index, col_index] if column == " "
+end
+</code></pre>
+
+<p>  end
+  select_empty = empty_spaces.sample
+  board[select_empty[0]][select_empty[1]] = two_or_four
+end
+```</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Launch Academy Week 1 Reflections]]></title>

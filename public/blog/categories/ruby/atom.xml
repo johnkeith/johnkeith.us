@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Ruby | John Keith]]></title>
   <link href="http://johnk.herokuapp.com/blog/categories/ruby/atom.xml" rel="self"/>
   <link href="http://johnk.herokuapp.com/"/>
-  <updated>2014-05-26T10:08:33-04:00</updated>
+  <updated>2014-06-01T19:50:49-04:00</updated>
   <id>http://johnk.herokuapp.com/</id>
   <author>
     <name><![CDATA[John Keith]]></name>
@@ -12,6 +12,81 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Week Three and Designing for Efficiency]]></title>
+    <link href="http://johnk.herokuapp.com/blog/2014/06/01/week-three-and-designing-for-efficiency/"/>
+    <updated>2014-06-01T19:31:07-04:00</updated>
+    <id>http://johnk.herokuapp.com/blog/2014/06/01/week-three-and-designing-for-efficiency</id>
+    <content type="html"><![CDATA[<p>Week three of Launch Academy was a short one with the holiday on Monday, but we covered a lot of ground. It was the start of the second module in the curriculum and we dove headfirst into databases this week. The relation database we are using right now is Postgres, which has been a nice change from the static data storage in CSV files we were using in weeks one and two.</p>
+
+<p>We also had a great speaker come this week &ndash; <a href="https://twitter.com/PDegenPortnoy">Peter Degen-Portnoy</a>. He gave us a brief introduction to object oriented design, which will be the focus of our work this week.</p>
+
+<p>Outside of our core material last week, I spent time wresting with problems of efficiency. I found myself still mulling over mechanics from the 2048 code I wrote in week two, looking for ways to improve the efficiency of the logic used to find random empty spaces on the game board. I knew our initial way was not ideal &ndash; it determined random X and Y coordinates on the board and checked to see if that space was empty. Eventually, I ended up benchmarking three different ways of finding a random empty space in a matrix and I believe I found a reasonably efficient way to go about it. (It is the middle method of the three below, which gives consistently better results, often taking half the time of the other two).</p>
+
+<p>My goal is to continue thinking along these lines this week &ndash; learning about how to incorporate object oriented design into our apps while keeping an eye out for writing efficient code.</p>
+
+<p>``` ruby
+test_board = [[&ldquo;2&rdquo;,&ldquo;4&rdquo;,&ldquo;4&rdquo;,&ldquo;2&rdquo;],</p>
+
+<pre><code>          ["4","2","2"," "],
+          ["2","2","8","2"],
+          ["4","3","4","8"]]
+</code></pre>
+
+<p>def insertRandomly(board)
+  two_or_four = rand.round == 0 ? 4 : 2
+  insert_successful = false
+  while !insert_successful</p>
+
+<pre><code>random_position_one = rand(board.length)
+random_position_two = rand(board.length)
+if board[random_position_one][random_position_two] == " "
+  board[random_position_one][random_position_two] = two_or_four.to_s
+  insert_successful = true
+end
+</code></pre>
+
+<p>  end
+end</p>
+
+<p>def insertLessRandomly(board)
+  two_or_four = rand.round == 0 ? 4 : 2
+  random_direction = rand.round == 0 ? true : false
+  insert_successful = false
+  while !insert_successful</p>
+
+<pre><code>random_position_one = rand(board.length)
+empty_space = nil
+empty_space = board[random_position_one].find_index do |item|
+  item == " "
+end
+if empty_space != nil
+  board[random_position_one][empty_space] = two_or_four.to_s
+  insert_successful = true
+end
+</code></pre>
+
+<p>  end
+end</p>
+
+<p>def insertByIndex(board)
+  two_or_four = rand.round == 0 ? 4 : 2
+  empty_spaces = []
+  board.each_with_index do |row, row_index|</p>
+
+<pre><code>row.each_with_index do |column, col_index|
+  empty_spaces &lt;&lt; [row_index, col_index] if column == " "
+end
+</code></pre>
+
+<p>  end
+  select_empty = empty_spaces.sample
+  board[select_empty[0]][select_empty[1]] = two_or_four
+end
+```</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[My Ruby Toolbox at the End of Week Two]]></title>
@@ -288,26 +363,6 @@ end
 ```</p>
 
 <p>The Open URI module, according to the Ruby docs, allows you &ldquo;to open an http, https, or ftp URL as though it were a file.&rdquo; The code above uses this capability in the <code>open(item["icon_url"] do |image|</code> line in order to open the URL we extracted from the hash and then save that image data into a file.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Spaced Repetition and the Novice Programmer]]></title>
-    <link href="http://johnk.herokuapp.com/blog/2014/03/27/spaced-repetition-and-the-novice-programmer/"/>
-    <updated>2014-03-27T11:41:27-04:00</updated>
-    <id>http://johnk.herokuapp.com/blog/2014/03/27/spaced-repetition-and-the-novice-programmer</id>
-    <content type="html"><![CDATA[<p>Nothing compares with that moment when an idea hits you over the head like a ton of bricks labeled &ldquo;Duh!&rdquo; I experienced one of those today after coming across this great <a href="https://medium.com/medium-redef/5481606b087a">Medium piece</a> by Mattan Griffel about using <em>spaced repetition</em> for improving recall, then following that to an article by Derek Sivers about <a href="http://sivers.org/srs">studying programming languages</a> using the same technique. At the end of Sivers' article (and after reading that this idea has been around for <a href="http://en.wikipedia.org/wiki/Spacing_effect">over a century</a>!), I was left wondering why spaced repetition is not a foundational part of any and all learning we do.</p>
-
-<p>It is hardly a complex concept: spaced repetition is the reviewing of learned information at specifically defined intervals, with those intervals being determined by your comfort with the information. You commonly run across this technique in flashcard apps &ndash; the <a href="https://www.brainscape.com">Brainscape</a> suite of apps is a good example, along with the more DIY example of <a href="http://ankisrs.net/index.html">Anki</a> that Griffel explores. The difference from the 3 x 5 colored notecards you made in middle school is that Anki and Brainscape are both powered by algorithms that decide when you should view each flashcard. This allows for a much more focused reviewing &ndash; the cards with basic information only show up sporadically, while the cards containing more involved ideas or information that you find yourself struggling with appear more frequently.</p>
-
-<p><img src="http://gdurl.com/r6mx" alt="Brainscape web version" />
-(The colored rating buttons at the bottom of the image above are part of the mechanism for determining when you will see certain cards in Brainscape. The higher you rate how well you knew the information, the less you will see the card.)</p>
-
-<p>What baffles me is that spaced repetition is not built into every online learning platform. Imagine working on a Treehouse track or a Codeacademy course and being intermittently offered opportunities to quickly review the information you have been absorbing from other lessons. For the novice programmer, this repetition would be invaluable, as so often you learn about a new function (Ruby&rsquo;s <em>inject</em> always comes to mind for me) or quirk of the language and then do not see it again for a long stretch of time. The huge amount of information to absorb and explore in the early stages of learning a language makes deliberate and meaningful repetition of what you&rsquo;ve covered essential.</p>
-
-<p>What also surprises me is that we do not see spaced repetition more in offline curriculum. I cannot imagine how much better my long term understanding and ability to use what I learned in <em>insert any high school subject here</em> would be had we been taught to use spaced repetition tools. It seems our whole education system is focused on the forward &ndash; the next chapter, the next test, the next year &ndash; and is a system that does not reward the concentrated study that leads to mastery. You have to wonder too if part of the motive for this forward inertia in our educational structure is profit: how many SAT cram courses/books/apps are you going to sell if students actually learn the material they need to know the first time they are taught it?</p>
-
-<p>That said, I&rsquo;m going to dive into the Anki app and see what I can create as far as a flashcards repository for learning Ruby and Rails. Depending on how the app works, I&rsquo;ll try to post what I develop here for download.</p>
 ]]></content>
   </entry>
   

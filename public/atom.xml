@@ -4,7 +4,7 @@
   <title><![CDATA[John Keith]]></title>
   <link href="http://johnk.herokuapp.com/atom.xml" rel="self"/>
   <link href="http://johnk.herokuapp.com/"/>
-  <updated>2014-05-26T10:08:33-04:00</updated>
+  <updated>2014-06-01T19:50:49-04:00</updated>
   <id>http://johnk.herokuapp.com/</id>
   <author>
     <name><![CDATA[John Keith]]></name>
@@ -12,6 +12,116 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Week Three and Designing for Efficiency]]></title>
+    <link href="http://johnk.herokuapp.com/blog/2014/06/01/week-three-and-designing-for-efficiency/"/>
+    <updated>2014-06-01T19:31:07-04:00</updated>
+    <id>http://johnk.herokuapp.com/blog/2014/06/01/week-three-and-designing-for-efficiency</id>
+    <content type="html"><![CDATA[<p>Week three of Launch Academy was a short one with the holiday on Monday, but we covered a lot of ground. It was the start of the second module in the curriculum and we dove headfirst into databases this week. The relation database we are using right now is Postgres, which has been a nice change from the static data storage in CSV files we were using in weeks one and two.</p>
+
+<p>We also had a great speaker come this week &ndash; <a href="https://twitter.com/PDegenPortnoy">Peter Degen-Portnoy</a>. He gave us a brief introduction to object oriented design, which will be the focus of our work this week.</p>
+
+<p>Outside of our core material last week, I spent time wresting with problems of efficiency. I found myself still mulling over mechanics from the 2048 code I wrote in week two, looking for ways to improve the efficiency of the logic used to find random empty spaces on the game board. I knew our initial way was not ideal &ndash; it determined random X and Y coordinates on the board and checked to see if that space was empty. Eventually, I ended up benchmarking three different ways of finding a random empty space in a matrix and I believe I found a reasonably efficient way to go about it. (It is the middle method of the three below, which gives consistently better results, often taking half the time of the other two).</p>
+
+<p>My goal is to continue thinking along these lines this week &ndash; learning about how to incorporate object oriented design into our apps while keeping an eye out for writing efficient code.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">test_board</span> <span class="o">=</span> <span class="o">[[</span><span class="s2">&quot;2&quot;</span><span class="p">,</span><span class="s2">&quot;4&quot;</span><span class="p">,</span><span class="s2">&quot;4&quot;</span><span class="p">,</span><span class="s2">&quot;2&quot;</span><span class="o">]</span><span class="p">,</span>
+</span><span class='line'>              <span class="o">[</span><span class="s2">&quot;4&quot;</span><span class="p">,</span><span class="s2">&quot;2&quot;</span><span class="p">,</span><span class="s2">&quot;2&quot;</span><span class="p">,</span><span class="s2">&quot; &quot;</span><span class="o">]</span><span class="p">,</span>
+</span><span class='line'>              <span class="o">[</span><span class="s2">&quot;2&quot;</span><span class="p">,</span><span class="s2">&quot;2&quot;</span><span class="p">,</span><span class="s2">&quot;8&quot;</span><span class="p">,</span><span class="s2">&quot;2&quot;</span><span class="o">]</span><span class="p">,</span>
+</span><span class='line'>              <span class="o">[</span><span class="s2">&quot;4&quot;</span><span class="p">,</span><span class="s2">&quot;3&quot;</span><span class="p">,</span><span class="s2">&quot;4&quot;</span><span class="p">,</span><span class="s2">&quot;8&quot;</span><span class="o">]]</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">def</span> <span class="nf">insertRandomly</span><span class="p">(</span><span class="n">board</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">two_or_four</span> <span class="o">=</span> <span class="nb">rand</span><span class="o">.</span><span class="n">round</span> <span class="o">==</span> <span class="mi">0</span> <span class="o">?</span> <span class="mi">4</span> <span class="p">:</span> <span class="mi">2</span>
+</span><span class='line'>  <span class="n">insert_successful</span> <span class="o">=</span> <span class="kp">false</span>
+</span><span class='line'>  <span class="k">while</span> <span class="o">!</span><span class="n">insert_successful</span>
+</span><span class='line'>    <span class="n">random_position_one</span> <span class="o">=</span> <span class="nb">rand</span><span class="p">(</span><span class="n">board</span><span class="o">.</span><span class="n">length</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">random_position_two</span> <span class="o">=</span> <span class="nb">rand</span><span class="p">(</span><span class="n">board</span><span class="o">.</span><span class="n">length</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">if</span> <span class="n">board</span><span class="o">[</span><span class="n">random_position_one</span><span class="o">][</span><span class="n">random_position_two</span><span class="o">]</span> <span class="o">==</span> <span class="s2">&quot; &quot;</span>
+</span><span class='line'>      <span class="n">board</span><span class="o">[</span><span class="n">random_position_one</span><span class="o">][</span><span class="n">random_position_two</span><span class="o">]</span> <span class="o">=</span> <span class="n">two_or_four</span><span class="o">.</span><span class="n">to_s</span>
+</span><span class='line'>      <span class="n">insert_successful</span> <span class="o">=</span> <span class="kp">true</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">def</span> <span class="nf">insertLessRandomly</span><span class="p">(</span><span class="n">board</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">two_or_four</span> <span class="o">=</span> <span class="nb">rand</span><span class="o">.</span><span class="n">round</span> <span class="o">==</span> <span class="mi">0</span> <span class="o">?</span> <span class="mi">4</span> <span class="p">:</span> <span class="mi">2</span>
+</span><span class='line'>  <span class="n">random_direction</span> <span class="o">=</span> <span class="nb">rand</span><span class="o">.</span><span class="n">round</span> <span class="o">==</span> <span class="mi">0</span> <span class="o">?</span> <span class="kp">true</span> <span class="p">:</span> <span class="kp">false</span>
+</span><span class='line'>  <span class="n">insert_successful</span> <span class="o">=</span> <span class="kp">false</span>
+</span><span class='line'>  <span class="k">while</span> <span class="o">!</span><span class="n">insert_successful</span>
+</span><span class='line'>    <span class="n">random_position_one</span> <span class="o">=</span> <span class="nb">rand</span><span class="p">(</span><span class="n">board</span><span class="o">.</span><span class="n">length</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">empty_space</span> <span class="o">=</span> <span class="kp">nil</span>
+</span><span class='line'>    <span class="n">empty_space</span> <span class="o">=</span> <span class="n">board</span><span class="o">[</span><span class="n">random_position_one</span><span class="o">].</span><span class="n">find_index</span> <span class="k">do</span> <span class="o">|</span><span class="n">item</span><span class="o">|</span>
+</span><span class='line'>      <span class="n">item</span> <span class="o">==</span> <span class="s2">&quot; &quot;</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>    <span class="k">if</span> <span class="n">empty_space</span> <span class="o">!=</span> <span class="kp">nil</span>
+</span><span class='line'>      <span class="n">board</span><span class="o">[</span><span class="n">random_position_one</span><span class="o">][</span><span class="n">empty_space</span><span class="o">]</span> <span class="o">=</span> <span class="n">two_or_four</span><span class="o">.</span><span class="n">to_s</span>
+</span><span class='line'>      <span class="n">insert_successful</span> <span class="o">=</span> <span class="kp">true</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">def</span> <span class="nf">insertByIndex</span><span class="p">(</span><span class="n">board</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">two_or_four</span> <span class="o">=</span> <span class="nb">rand</span><span class="o">.</span><span class="n">round</span> <span class="o">==</span> <span class="mi">0</span> <span class="o">?</span> <span class="mi">4</span> <span class="p">:</span> <span class="mi">2</span>
+</span><span class='line'>  <span class="n">empty_spaces</span> <span class="o">=</span> <span class="o">[]</span>
+</span><span class='line'>  <span class="n">board</span><span class="o">.</span><span class="n">each_with_index</span> <span class="k">do</span> <span class="o">|</span><span class="n">row</span><span class="p">,</span> <span class="n">row_index</span><span class="o">|</span>
+</span><span class='line'>    <span class="n">row</span><span class="o">.</span><span class="n">each_with_index</span> <span class="k">do</span> <span class="o">|</span><span class="n">column</span><span class="p">,</span> <span class="n">col_index</span><span class="o">|</span>
+</span><span class='line'>      <span class="n">empty_spaces</span> <span class="o">&lt;&lt;</span> <span class="o">[</span><span class="n">row_index</span><span class="p">,</span> <span class="n">col_index</span><span class="o">]</span> <span class="k">if</span> <span class="n">column</span> <span class="o">==</span> <span class="s2">&quot; &quot;</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>  <span class="n">select_empty</span> <span class="o">=</span> <span class="n">empty_spaces</span><span class="o">.</span><span class="n">sample</span>
+</span><span class='line'>  <span class="n">board</span><span class="o">[</span><span class="n">select_empty</span><span class="o">[</span><span class="mi">0</span><span class="o">]][</span><span class="n">select_empty</span><span class="o">[</span><span class="mi">1</span><span class="o">]]</span> <span class="o">=</span> <span class="n">two_or_four</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[My Ruby Toolbox at the End of Week Two]]></title>
