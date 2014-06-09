@@ -9,7 +9,7 @@
   <meta name="author" content="John Keith">
 
   
-  <meta name="description" content="Nothing compares with that moment when an idea hits you over the head like a ton of bricks labeled &ldquo;Duh!&rdquo; I experienced one of those &hellip;">
+  <meta name="description" content="JSON is one of the major data formats out there on the web, known for its readability. Personally, I was a little unsure about that readability &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -74,6 +74,122 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/04/01/json-and-nested-hashes-in-ruby/">JSON and Nested Hashes in Ruby</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-04-01T21:33:09-04:00" pubdate data-updated="true">Apr 1<span>st</span>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>JSON is one of the major data formats out there on the web, known for its readability. Personally, I was a little unsure about that readability aspect after pulling up my first JSON document and seeing this mess.</p>
+
+<p><img src="http://gdurl.com/PP1x" alt="Crazy JSON!" /></p>
+
+<p>The first step towards wrapping your head around JSON is to see it printed in a prettier fashion. Head over to <a href="http://www.jsoneditoronline.org">JSON Online Editor</a> and using the &ldquo;Open URL&rdquo; option you can paste the URL to a JSON document and see this format is actually much more presentable than it lets on. (If you need a JSON example to play with while reading this, don&rsquo;t hesitate to use <a href="http://teamtreehouse.com/johnkeith.json">my Treehouse profile</a>, as this provides you with a complex, multidimensional set of data to manipulate).</p>
+
+<p>I decided to start by figuring out how to work with JSON in Ruby, as currently I feel more comfortable with Ruby than Javascript. Luckily, Ruby makes handling JSON from the web easy with a few of its built in libraries and modules.</p>
+
+<p>At the top of your Ruby file (or in IRB if you would rather try this out in the terminal), you will need to require the Net/HTTP library and the JSON module.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;net/http&#39;</span>
+</span><span class='line'><span class="nb">require</span> <span class="s1">&#39;json&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Net/HTTP allows you to do all types connect to websites within Ruby and do all types of nifty stuff. For instance, the following code will assign our JSON document&rsquo;s contents to the variable response.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">response</span> <span class="o">=</span> <span class="ss">Net</span><span class="p">:</span><span class="ss">:HTTP</span><span class="o">.</span><span class="n">get_response</span><span class="p">(</span><span class="no">URI</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="s1">&#39;http://teamtreehouse.com/johnkeith.json&#39;</span><span class="p">))</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The get_response method returns a Net::HTTPResponse object that contains header and body information from the website specified. Since we are are specifying a JSON document, there is no header, but you can check the output of your response object with <code>response.body.inspect</code>.</p>
+
+<p>Now that we have the JSON document retreived from the web, we need to parse it and turn the data into something more easily used by Ruby.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">result</span> <span class="o">=</span> <span class="no">JSON</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">body</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>(I found it helpful to look at the difference between the raw Net::HTTP response and the parse JSON &ndash; try running <code>puts JSON.pretty_generate(result)</code> and <code>puts response.body</code> to see how the parse method formats the data into a Ruby readable hash.)</p>
+
+<p>Next, we need to access the data within our newly parsed hash of JSON data. You can access Ruby hashes with a similar syntax to the one used for arrays &ndash; start with the hash name, then a key from the hash in brackets.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">result</span><span class="o">[</span><span class="s2">&quot;badges&quot;</span><span class="o">]</span>
+</span><span class='line'><span class="n">result</span><span class="o">[</span><span class="s2">&quot;badges&quot;</span><span class="o">][</span><span class="mi">0</span><span class="o">]</span>
+</span><span class='line'><span class="n">result</span><span class="o">[</span><span class="s2">&quot;badges&quot;</span><span class="o">][</span><span class="mi">0</span><span class="o">][</span><span class="s2">&quot;name&quot;</span><span class="o">]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The examples above show you how you can move through a nested hash and access data within different sections of your JSON document. Putting this syntax to use, you can quickly pull out all the URLs for the badge icons from this Treehouse JSON.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">result</span><span class="o">[</span><span class="s2">&quot;badges&quot;</span><span class="o">].</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">item</span><span class="o">|</span>
+</span><span class='line'>  <span class="nb">puts</span> <span class="n">item</span><span class="o">[</span><span class="s2">&quot;icon_url&quot;</span><span class="o">]</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p></p>
+
+<p>While I thought it was awesome to be able to drill down to these URLs, I decided I wanted to do something with this data. To round out my exploration of JSON and Ruby, I wrote a small script to grab all of the images located at these URLs and save them to my computer.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;open-uri&#39;</span>
+</span><span class='line'><span class="n">result</span><span class="o">[</span><span class="s2">&quot;badges&quot;</span><span class="o">].</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">item</span><span class="o">|</span>
+</span><span class='line'>  <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;badge</span><span class="si">#{</span><span class="n">item</span><span class="o">[</span><span class="s2">&quot;id&quot;</span><span class="o">]</span><span class="si">}</span><span class="s2">.png&quot;</span><span class="p">,</span> <span class="s2">&quot;w+&quot;</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">file</span><span class="o">|</span>
+</span><span class='line'>    <span class="nb">open</span><span class="p">(</span><span class="n">item</span><span class="o">[</span><span class="s2">&quot;icon_url&quot;</span><span class="o">]</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">image</span><span class="o">|</span>
+</span><span class='line'>      <span class="n">file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">image</span><span class="o">.</span><span class="n">read</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The Open URI module, according to the Ruby docs, allows you &ldquo;to open an http, https, or ftp URL as though it were a file.&rdquo; The code above uses this capability in the <code>open(item["icon_url"] do |image|</code> line in order to open the URL we extracted from the hash and then save that image data into a file.</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -508,70 +624,6 @@
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/03/08/using-evernote-with-getting-things-done/">Using Evernote With David Allen&#8217;s &#8216;Getting Things Done&#8217; System</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-03-08T13:05:43-05:00" pubdate data-updated="true">Mar 8<span>th</span>, 2014</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>I&rsquo;ve been using Evernote for a long time now and it has proven to be a fantastic system for storing information. That said, turning it into a system I can use to <em>organize</em> my life has been a Sisyphean experience. Over the years, my Evernote account has undergone a series of shakeups as I&rsquo;ve tried out different organizational schemes, but each new system of handling notes, websites, and articles has left me feeling no more put together.</p>
-
-<p>Part of our pre-work for Launch Academy has been to read a series of &ldquo;brain hacking&rdquo; books to get us ready for the start of the program. After diving into David Allen&rsquo;s <a href="http://www.amazon.com/Getting-Things-Done-Stress-Free-Productivity/dp/0142000280">Getting Things Done</a>, I think I may see a way to corral my ever-ballooning Evernote into a much more manageable and useful repository.</p>
-
-<p>Currently, I open Evernote to a slew of notebook stacks and subnotebooks.</p>
-
-<p><img src="http://gdurl.com/CL5X" alt="My current Evernote" /></p>
-
-<p>While having many individual notebooks is a passable strategy, I&rsquo;ve found that it becomes less and less useful the more notebooks you create. My count right now is over 50 and I think that might be 44 too many.</p>
-
-<p>An overabundance of notebooks starts to cause problems when you try to send something Evernote from within an app (like a newsreader or through email), as it always becomes a question of how to categorize this piece of information. By default, my notes are routed into a folder I called _INCOMING. This has been a nice landing spot, but the vagueness of the name (or perhaps its linguistic proximity to &ldquo;inbox&rdquo;) has contributed to my lack of desire to sort through the massive flood of stuff that piles up in there.</p>
-
-<p>In Allen&rsquo;s book, he divides the organizational process into five stages: <strong>collect</strong>, <strong>process</strong>, <strong>organize</strong>, <strong>review</strong>, <strong>do</strong>. To reformat my Evernote to follow this system, I&rsquo;m going to start by creating a _Processing folder and setting it as the default location for collecting everything that hits my Evernote. This will be the folder that I&rsquo;ll take the time every other day to process the items from &ndash; to figure out &ldquo;what they mean and what to do about them&rdquo; (Allen).</p>
-
-<p>From the processing folder, an item will have four places to go: into the NextSteps, Projects, Incubating, or Archives folder.</p>
-
-<p>In the NextSteps folder will be all todo items, things that need to be done in the short term or short term actions that need to be taken in relation to longer term projects or goals.</p>
-
-<p>In the Projects folder will reside all of the <em>active</em> ideas or projects that I&rsquo;m working on at the moment. And, as in <strong>Getting Things Done</strong>, the term projects is defined in a different sense than we usually use, as &ldquo;any desired result that requires more than one action step&rdquo; (Allen).</p>
-
-<p>The Incubating (I wanted to use a more active term than Allen&rsquo;s &ldquo;incubation&rdquo;) folder will house the more lofty and long term items &ndash; app ideas, career goals, etc.</p>
-
-<p>Lastly, in the Archives folder, I&rsquo;m going to store everything that resides in my current notebooks. In other words, the Archives folder is essentially going to house everything that passes through my Evernote &ndash; it is the final destination of all information.</p>
-
-<p>I think this is the key to any organizational system &ndash; there must be a logical, actionable flow of information through the system, including a final resting place where the inactive information may be stored and retrieved.</p>
-
-<p>Since Evernote does such a great job with indexing and searching any and every piece of information inside your account, I feel that there is no need to employ the tagging feature, that it might only slow down the movement of information into and through the new system. I&rsquo;m going to spend some time not using tagging and see how it goes.</p>
-
-<p>Allen emphasizes the important of reviewing the items in your organizational system at least once a week. I would love if it was possible to create a recurring reminder in Evernote that would alert me when I should review the information I have in each of my actionable folders (NextSteps, Projects, and Incubating), but for now perhaps a weekly calendar alert will suffice.</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/3/">&larr; Older</a>
@@ -597,6 +649,10 @@
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2014/06/09/week-four-and-the-challenges-of-oop/">Week Four and the Challenges of OOP</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2014/06/01/week-three-and-designing-for-efficiency/">Week Three and Designing for Efficiency</a>
       </li>
     
@@ -610,10 +666,6 @@
     
       <li class="post">
         <a href="/blog/2014/04/30/final-prep-for-launch-academy/">Final Prep for Launch Academy</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/04/24/treehouse-badges-for-octopress/">Treehouse Badges for Octopress</a>
       </li>
     
   </ul>

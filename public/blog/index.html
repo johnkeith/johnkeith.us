@@ -9,7 +9,7 @@
   <meta name="author" content="John Keith">
 
   
-  <meta name="description" content="Week three of Launch Academy was a short one with the holiday on Monday, but we covered a lot of ground. It was the start of the second module in the &hellip;">
+  <meta name="description" content="Week four saw us moving into object oriented programming fully, a move that has certainly come with its share of challenges. What I&rsquo;m finding &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -73,6 +73,48 @@
   <div id="main">
     <div id="content">
       
+
+
+    <article class="post">
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/06/09/week-four-and-the-challenges-of-oop/">Week Four and the Challenges of OOP</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-06-09T07:32:47-04:00" pubdate data-updated="true">Jun 9<span>th</span>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Week four saw us moving into object oriented programming fully, a move that has certainly come with its share of challenges.</p>
+
+<p>What I&rsquo;m finding most challenging about OOP is figuring out how to reorient an app once it has gotten off track. A friend and I started working on a game a little over a week ago, back before we were really comfortable with OOP, and this week our lack of discipline and underlying structure has become more and more apparent as our code base has ballooned.</p>
+
+<p><img src="http://gdurl.com/2q7r" alt="UnoDos" /></p>
+
+<p>(It&rsquo;s amazing how quickly the complexity of a game, even a simple one, can get out of hand). Certainly, working on the game has been a great exercise, though, for struggling through the realities of OOP.</p>
+
+<p>We also started moving into ActiveRecord last week, initially building some of the pieces ourselves and then seeing how ActiveRecord makes the process of interacting with a database much more enjoyable. This week we&rsquo;ll be beginning with Rails, so I&rsquo;m excited to be getting back into it and diving into the nitty gritty details. Already, with all of our work the past few weeks, I feel much more prepared to figure out how Rails really works than I ever did learning on my own.</p>
+</div>
+  
+  
+
+</article>
 
 
     <article class="post">
@@ -604,120 +646,6 @@
   <div class="entry-content"><p>When I came across Riley Hillard&rsquo;s tutorial on making a <a href="http://rileyh.com/treehouse-badges-widget/">Treehouse badges widget</a>, I knew I had to have something like this on my site. While I considered using Riley&rsquo;s fantastic <a href="http://reportcard.rileyh.com/">ReportCard.js</a>, it dawned on me that recreating the widget might be a great way to get more experience working with hashes, JSON and the like. After a bit of experimentation on <a href="http://codepen.io/johnkeith/pen/ocIaj">Codepen</a>, I had a functional piece of jQuery and a little CSS to give it a decent appearance (though really that’s mostly due to those spiffy looking badges).</p>
 
 <p>I toyed with the idea of crafting a Liquid Tag that could be used anywhere in a Octopress blog, but decided on building it as widget for the sidebar instead. To make it a little more interesting, I did end up writing a Rake file to automatically add the widget&rsquo;s files into your Octopress folder and add the proper configuration variables to _config.yml. If you are an Octopress/Treehouse fan then go <a href="https://github.com/johnkeith/TreehouseBadgesOctopress">check it out</a>!</p>
-</div>
-  
-  
-
-</article>
-
-
-    <article class="post">
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/04/01/json-and-nested-hashes-in-ruby/">JSON and Nested Hashes in Ruby</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-04-01T21:33:09-04:00" pubdate data-updated="true">Apr 1<span>st</span>, 2014</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>JSON is one of the major data formats out there on the web, known for its readability. Personally, I was a little unsure about that readability aspect after pulling up my first JSON document and seeing this mess.</p>
-
-<p><img src="http://gdurl.com/PP1x" alt="Crazy JSON!" /></p>
-
-<p>The first step towards wrapping your head around JSON is to see it printed in a prettier fashion. Head over to <a href="http://www.jsoneditoronline.org">JSON Online Editor</a> and using the &ldquo;Open URL&rdquo; option you can paste the URL to a JSON document and see this format is actually much more presentable than it lets on. (If you need a JSON example to play with while reading this, don&rsquo;t hesitate to use <a href="http://teamtreehouse.com/johnkeith.json">my Treehouse profile</a>, as this provides you with a complex, multidimensional set of data to manipulate).</p>
-
-<p>I decided to start by figuring out how to work with JSON in Ruby, as currently I feel more comfortable with Ruby than Javascript. Luckily, Ruby makes handling JSON from the web easy with a few of its built in libraries and modules.</p>
-
-<p>At the top of your Ruby file (or in IRB if you would rather try this out in the terminal), you will need to require the Net/HTTP library and the JSON module.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;net/http&#39;</span>
-</span><span class='line'><span class="nb">require</span> <span class="s1">&#39;json&#39;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Net/HTTP allows you to do all types connect to websites within Ruby and do all types of nifty stuff. For instance, the following code will assign our JSON document&rsquo;s contents to the variable response.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">response</span> <span class="o">=</span> <span class="ss">Net</span><span class="p">:</span><span class="ss">:HTTP</span><span class="o">.</span><span class="n">get_response</span><span class="p">(</span><span class="no">URI</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="s1">&#39;http://teamtreehouse.com/johnkeith.json&#39;</span><span class="p">))</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>The get_response method returns a Net::HTTPResponse object that contains header and body information from the website specified. Since we are are specifying a JSON document, there is no header, but you can check the output of your response object with <code>response.body.inspect</code>.</p>
-
-<p>Now that we have the JSON document retreived from the web, we need to parse it and turn the data into something more easily used by Ruby.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">result</span> <span class="o">=</span> <span class="no">JSON</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">body</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>(I found it helpful to look at the difference between the raw Net::HTTP response and the parse JSON &ndash; try running <code>puts JSON.pretty_generate(result)</code> and <code>puts response.body</code> to see how the parse method formats the data into a Ruby readable hash.)</p>
-
-<p>Next, we need to access the data within our newly parsed hash of JSON data. You can access Ruby hashes with a similar syntax to the one used for arrays &ndash; start with the hash name, then a key from the hash in brackets.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">result</span><span class="o">[</span><span class="s2">&quot;badges&quot;</span><span class="o">]</span>
-</span><span class='line'><span class="n">result</span><span class="o">[</span><span class="s2">&quot;badges&quot;</span><span class="o">][</span><span class="mi">0</span><span class="o">]</span>
-</span><span class='line'><span class="n">result</span><span class="o">[</span><span class="s2">&quot;badges&quot;</span><span class="o">][</span><span class="mi">0</span><span class="o">][</span><span class="s2">&quot;name&quot;</span><span class="o">]</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>The examples above show you how you can move through a nested hash and access data within different sections of your JSON document. Putting this syntax to use, you can quickly pull out all the URLs for the badge icons from this Treehouse JSON.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">result</span><span class="o">[</span><span class="s2">&quot;badges&quot;</span><span class="o">].</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">item</span><span class="o">|</span>
-</span><span class='line'>  <span class="nb">puts</span> <span class="n">item</span><span class="o">[</span><span class="s2">&quot;icon_url&quot;</span><span class="o">]</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p></p>
-
-<p>While I thought it was awesome to be able to drill down to these URLs, I decided I wanted to do something with this data. To round out my exploration of JSON and Ruby, I wrote a small script to grab all of the images located at these URLs and save them to my computer.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;open-uri&#39;</span>
-</span><span class='line'><span class="n">result</span><span class="o">[</span><span class="s2">&quot;badges&quot;</span><span class="o">].</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">item</span><span class="o">|</span>
-</span><span class='line'>  <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;badge</span><span class="si">#{</span><span class="n">item</span><span class="o">[</span><span class="s2">&quot;id&quot;</span><span class="o">]</span><span class="si">}</span><span class="s2">.png&quot;</span><span class="p">,</span> <span class="s2">&quot;w+&quot;</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">file</span><span class="o">|</span>
-</span><span class='line'>    <span class="nb">open</span><span class="p">(</span><span class="n">item</span><span class="o">[</span><span class="s2">&quot;icon_url&quot;</span><span class="o">]</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">image</span><span class="o">|</span>
-</span><span class='line'>      <span class="n">file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">image</span><span class="o">.</span><span class="n">read</span><span class="p">)</span>
-</span><span class='line'>    <span class="k">end</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>The Open URI module, according to the Ruby docs, allows you &ldquo;to open an http, https, or ftp URL as though it were a file.&rdquo; The code above uses this capability in the <code>open(item["icon_url"] do |image|</code> line in order to open the URL we extracted from the hash and then save that image data into a file.</p>
 </div>
   
   

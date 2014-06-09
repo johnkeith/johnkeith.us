@@ -4,7 +4,7 @@
   <title><![CDATA[John Keith]]></title>
   <link href="http://johnk.herokuapp.com/atom.xml" rel="self"/>
   <link href="http://johnk.herokuapp.com/"/>
-  <updated>2014-06-01T19:50:49-04:00</updated>
+  <updated>2014-06-09T07:50:17-04:00</updated>
   <id>http://johnk.herokuapp.com/</id>
   <author>
     <name><![CDATA[John Keith]]></name>
@@ -12,6 +12,23 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Week Four and the Challenges of OOP]]></title>
+    <link href="http://johnk.herokuapp.com/blog/2014/06/09/week-four-and-the-challenges-of-oop/"/>
+    <updated>2014-06-09T07:32:47-04:00</updated>
+    <id>http://johnk.herokuapp.com/blog/2014/06/09/week-four-and-the-challenges-of-oop</id>
+    <content type="html"><![CDATA[<p>Week four saw us moving into object oriented programming fully, a move that has certainly come with its share of challenges.</p>
+
+<p>What I&rsquo;m finding most challenging about OOP is figuring out how to reorient an app once it has gotten off track. A friend and I started working on a game a little over a week ago, back before we were really comfortable with OOP, and this week our lack of discipline and underlying structure has become more and more apparent as our code base has ballooned.</p>
+
+<p><img src="http://gdurl.com/2q7r" alt="UnoDos" /></p>
+
+<p>(It&rsquo;s amazing how quickly the complexity of a game, even a simple one, can get out of hand). Certainly, working on the game has been a great exercise, though, for struggling through the realities of OOP.</p>
+
+<p>We also started moving into ActiveRecord last week, initially building some of the pieces ourselves and then seeing how ActiveRecord makes the process of interacting with a database much more enjoyable. This week we&rsquo;ll be beginning with Rails, so I&rsquo;m excited to be getting back into it and diving into the nitty gritty details. Already, with all of our work the past few weeks, I feel much more prepared to figure out how Rails really works than I ever did learning on my own.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Week Three and Designing for Efficiency]]></title>
