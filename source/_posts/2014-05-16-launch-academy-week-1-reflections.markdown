@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Launch Academy Week 1 Reflections"
+title: "Launch Academy Week One Reflections"
 date: 2014-05-16 20:41:21 -0400
 comments: true
 categories: [launch academy, ruby]

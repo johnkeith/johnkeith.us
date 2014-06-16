@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Launch Academy | John Keith]]></title>
   <link href="http://johnk.herokuapp.com/blog/categories/launch-academy/atom.xml" rel="self"/>
   <link href="http://johnk.herokuapp.com/"/>
-  <updated>2014-06-09T07:50:23-04:00</updated>
+  <updated>2014-06-15T21:59:47-04:00</updated>
   <id>http://johnk.herokuapp.com/</id>
   <author>
     <name><![CDATA[John Keith]]></name>
@@ -12,6 +12,23 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[How I've Learned in Five Short Weeks at Launch]]></title>
+    <link href="http://johnk.herokuapp.com/blog/2014/06/15/how-ive-learned-in-five-short/"/>
+    <updated>2014-06-15T21:20:25-04:00</updated>
+    <id>http://johnk.herokuapp.com/blog/2014/06/15/how-ive-learned-in-five-short</id>
+    <content type="html"><![CDATA[<p>We are now officially halfway through our ten weeks at Launch. What I&rsquo;m still marveling at after five weeks is how Launch Academy is transforming me as a learner.</p>
+
+<p>Pre-Launch, back in high school and college, I was a very learn-by-the-book kind of guy. I would read cover to cover any text put in front of me, but asking me to jump into a topic or domain without much preparation beforehand was always a struggle.</p>
+
+<p>One great part about learning web development is that the read first, execute later approach I relied on in the past does not work. I&rsquo;ve felt myself constantly challenged the past few weeks to dive into projects knowing only enough to get started and then to seek out only the knowledge I need to complete to reach the goal.</p>
+
+<p>Fundamentally, I guess this is what makes project-based learning powerful: the fact that the knowledge you acquire is all acquired in a specific context of doing or creating. Even as I&rsquo;ve started to head off on tangents of my own, like diving deeply into Javascript prototypes last week, this learning is done to serve a purpose, to bring some piece of functionality into existence.</p>
+
+<p>If you want to take the metaphor perhaps a little too far (which is always a fun exercise), it is almost like the project-based curriculum of Launch is like OOP for your brain. Sure, you can gather knowledge together in your mind about a certain object, but these little tarballs of information are worthless until you start defining behaviors and passing messages between them. Knowledge as an object in and of itself does nothing &ndash; it is only once it starts to interact with other bits of information that the effect is meaningful.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Week Four and the Challenges of OOP]]></title>
@@ -106,7 +123,7 @@ end
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[Launch Academy Week 1 Reflections]]></title>
+    <title type="html"><![CDATA[Launch Academy Week One Reflections]]></title>
     <link href="http://johnk.herokuapp.com/blog/2014/05/16/launch-academy-week-1-reflections/"/>
     <updated>2014-05-16T20:41:21-04:00</updated>
     <id>http://johnk.herokuapp.com/blog/2014/05/16/launch-academy-week-1-reflections</id>
@@ -229,29 +246,6 @@ arr.inject { |longest_word, word| word.length &gt; longest_word.length ? word : 
 <p>I think, however, it could be put more succicently with <code>arr.sort_by(&amp;:length).last</code>.</p>
 
 <p>The larger pattern that I&rsquo;m begining to see is that with Ruby there is always another way, or twenty, to solve a problem.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Why Launch Academy in a Nutshell]]></title>
-    <link href="http://johnk.herokuapp.com/blog/2014/03/16/why-launch-academy-in-a-nutshell/"/>
-    <updated>2014-03-16T14:53:05-04:00</updated>
-    <id>http://johnk.herokuapp.com/blog/2014/03/16/why-launch-academy-in-a-nutshell</id>
-    <content type="html"><![CDATA[<p>As another part of our pre-work for Launch Academy, we&rsquo;ve been asked to setup a blog. Luckily, I actually (miraculously) got this Octopress installation started back when I was applying to Launch. That said, I liked one of the writing prompts provided to us as part of this exercise &ndash; &ldquo;Three Reasons I Felt Launch Academy Was the Best Fit for Me&rdquo; &ndash; and I thought offering my three cents on why I&rsquo;m heading to Launch could be informative for anyone else looking to apply to development bootcamps.</p>
-
-<p><strong>Student-centric approach to everything</strong></p>
-
-<p>Above all else, Launch Academy feels very student-centered. From the moment you start looking at their webpage to your first conversations with their experience engineers, the immediate impression you receive is that Launch is completely dedicated to their mission of transforming students from all walks of life into software engineers. Now, I&rsquo;m sure many, many of the other bootcamps out there are equally fixated on this goal, but I felt that Launch Academy had the greatest commitment to their students of any of the programs I talked with.</p>
-
-<p><strong>Excellent, comprehensive curriculum</strong></p>
-
-<p>One of the parts of Launch Academy that I spent the most time dissecting before making my commitment to attend was the curriculum. I wanted to make sure that after Launch I would feel prepared to jump into the job market as a web developer. I can say from many conversations and emails with the Launch staff that I feel confident the program will provide the broad exposure and focus on fundamental skills to transform us into capable and confident web developers.</p>
-
-<p><strong>Post-graduation assistance</strong></p>
-
-<p>This may be part and parcel of Launch&rsquo;s commitment to their students, but the career assistance that Launch offers to its graduates was another huge reason that I decided on them over other bootcamps. While many other programs talk about their tuition breaks for taking a job through a partner company, I believe Launch is much more focused on helping you find a job where you will both succeed and be happy, rather than one that benefits their partnerships.</p>
-
-<p>And of course, Boston! Having come back from Korea almost three years ago, I&rsquo;m ready for a new adventure and a radical change of scenery. While I will miss Columbia (weather-wise and otherwise), I cannot wait to come up to Boston in May.</p>
 ]]></content>
   </entry>
   

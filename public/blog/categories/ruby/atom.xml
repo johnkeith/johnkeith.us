@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Ruby | John Keith]]></title>
   <link href="http://johnk.herokuapp.com/blog/categories/ruby/atom.xml" rel="self"/>
   <link href="http://johnk.herokuapp.com/"/>
-  <updated>2014-06-09T07:50:23-04:00</updated>
+  <updated>2014-06-15T21:59:47-04:00</updated>
   <id>http://johnk.herokuapp.com/</id>
   <author>
     <name><![CDATA[John Keith]]></name>
@@ -12,6 +12,23 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[How I've Learned in Five Short Weeks at Launch]]></title>
+    <link href="http://johnk.herokuapp.com/blog/2014/06/15/how-ive-learned-in-five-short/"/>
+    <updated>2014-06-15T21:20:25-04:00</updated>
+    <id>http://johnk.herokuapp.com/blog/2014/06/15/how-ive-learned-in-five-short</id>
+    <content type="html"><![CDATA[<p>We are now officially halfway through our ten weeks at Launch. What I&rsquo;m still marveling at after five weeks is how Launch Academy is transforming me as a learner.</p>
+
+<p>Pre-Launch, back in high school and college, I was a very learn-by-the-book kind of guy. I would read cover to cover any text put in front of me, but asking me to jump into a topic or domain without much preparation beforehand was always a struggle.</p>
+
+<p>One great part about learning web development is that the read first, execute later approach I relied on in the past does not work. I&rsquo;ve felt myself constantly challenged the past few weeks to dive into projects knowing only enough to get started and then to seek out only the knowledge I need to complete to reach the goal.</p>
+
+<p>Fundamentally, I guess this is what makes project-based learning powerful: the fact that the knowledge you acquire is all acquired in a specific context of doing or creating. Even as I&rsquo;ve started to head off on tangents of my own, like diving deeply into Javascript prototypes last week, this learning is done to serve a purpose, to bring some piece of functionality into existence.</p>
+
+<p>If you want to take the metaphor perhaps a little too far (which is always a fun exercise), it is almost like the project-based curriculum of Launch is like OOP for your brain. Sure, you can gather knowledge together in your mind about a certain object, but these little tarballs of information are worthless until you start defining behaviors and passing messages between them. Knowledge as an object in and of itself does nothing &ndash; it is only once it starts to interact with other bits of information that the effect is meaningful.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Week Four and the Challenges of OOP]]></title>
@@ -185,7 +202,7 @@ end
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[Launch Academy Week 1 Reflections]]></title>
+    <title type="html"><![CDATA[Launch Academy Week One Reflections]]></title>
     <link href="http://johnk.herokuapp.com/blog/2014/05/16/launch-academy-week-1-reflections/"/>
     <updated>2014-05-16T20:41:21-04:00</updated>
     <id>http://johnk.herokuapp.com/blog/2014/05/16/launch-academy-week-1-reflections</id>
@@ -240,74 +257,6 @@ end
 end
 puts &ldquo;The time elapsed in milliseconds is #{time*1000} with the recursive fibonacci method.&rdquo;
 ```</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Final Prep for Launch Academy]]></title>
-    <link href="http://johnk.herokuapp.com/blog/2014/04/30/final-prep-for-launch-academy/"/>
-    <updated>2014-04-30T18:10:06-04:00</updated>
-    <id>http://johnk.herokuapp.com/blog/2014/04/30/final-prep-for-launch-academy</id>
-    <content type="html"><![CDATA[<p>The last part of our Launch Academy prep work is a moment of reflection. I feel like I&rsquo;ve come quite far since I started the prework &ndash; especially in terms of my understanding of Git. The Git Immersion and <a href="http://pcottle.github.io/learnGitBranching/">Learn Git Branching</a> were hugely helpful for me. Being able to visualize what is going on with rebases and merges made all the difference. Sandi Metz&rsquo;s book is by far my favorite of the readings and certainly the one I have spent the most time pouring over. Starting to understand the OOP patterns presented in that book has been a big turning point for me when it comes to grasping how entire applications are written and maintained.</p>
-
-<p>In addition to finishing out my prework, I&rsquo;ve been spending a good deal of time on a site a Launch Academy staffer recommended called <a href="http://www.codequizzes.com/">Code Quizzes</a> and this has been a great way to sharpen all the Ruby that I&rsquo;ve been absorbing. Here are a few of the awesome methods and tricks I&rsquo;ve encountered so far from the quiz questions.</p>
-
-<p><em>Question:</em>
-<em>a = [1, 2, 3] and b = [&ldquo;a&rdquo;, &ldquo;b&rdquo;, &ldquo;c&rdquo;].  Use these arrays to make [[1, &ldquo;a&rdquo;], [2, &ldquo;b&rdquo;], [3, &ldquo;c&rdquo;]]</em></p>
-
-<p>I really like the #zip method this question introduces. The #zip method allows you to combine two or more arrays with ease. Here&rsquo;s an example of combining three arrays.</p>
-
-<p>``` ruby
-a = [&ldquo;a&rdquo;, &ldquo;b&rdquo;, &ldquo;c&rdquo;]
-b = %w(1 2 3 4 5)
-c = [&ldquo;zip&rdquo;, &ldquo;method&rdquo;]</p>
-
-<p>a.zip(b, c)</p>
-
-<h1>[[&ldquo;a&rdquo;, &ldquo;1&rdquo;, &ldquo;zip&rdquo;], [&ldquo;b&rdquo;, &ldquo;2&rdquo;, &ldquo;method&rdquo;], [&ldquo;c&rdquo;, &ldquo;3&rdquo;, nil]]</h1>
-
-<p>Hash[a.zip(b)]</p>
-
-<h1>{&ldquo;a&rdquo;=>&ldquo;1&rdquo;, &ldquo;b&rdquo;=>&ldquo;2&rdquo;, &ldquo;c&rdquo;=>&ldquo;3&rdquo;}</h1>
-
-<p>```
-You can see from the above that zip can be quite flexible and formidable, mashing together arrays or even forming hashes.</p>
-
-<p>The #cycle method is another interesting array operation that came up in questions on Code Quizzes. With #cycle, you can perform a block for a specified amount of times. For example, if you had an array you can use #cycle to print out its contents in order any number of times.</p>
-
-<p>``` ruby
-a = [1, 2, 3, 4]</p>
-
-<p>a.cycle(4) { |i| p i }
-```</p>
-
-<p>Inject is certainly a method I want to master: it is really amazing how you can pass in a method to inject and let it do the work for you, without having to write a complete block.</p>
-
-<p><code>ruby
-[1, 2, 3, 4, 5, 42].inject(:+)
-</code></p>
-
-<p>One question that had me a tad <a href="http://www.gullahbible.com/e-GullahNT/Conc/44JHNGUL.htm">bumfumbled</a> involved passing a method as a block and it being considered a Proc.</p>
-
-<p><em>Question:</em>
-<em>arr = [&ldquo;a&rdquo;, &ldquo;b&rdquo;].  Capitalize each element of arr with a proc.</em></p>
-
-<p>The answer given was <code>arr.map(&amp;:upcase)</code>, which I am assuming means that you can pass methods as blocks and with some voodoo they turn into Procs.</p>
-
-<p>Further on, there was a great question that begged for a similar solution.</p>
-
-<p><em>Question:</em>
-<em>Use a one-liner to find the longest word in the array: arr = %w{what is the longest word in this arrrrrray}</em></p>
-
-<p>The site proposed the method below.</p>
-
-<p><code>ruby
-arr.inject { |longest_word, word| word.length &gt; longest_word.length ? word : longest_word}
-</code></p>
-
-<p>I think, however, it could be put more succicently with <code>arr.sort_by(&amp;:length).last</code>.</p>
-
-<p>The larger pattern that I&rsquo;m begining to see is that with Ruby there is always another way, or twenty, to solve a problem.</p>
 ]]></content>
   </entry>
   
