@@ -9,7 +9,7 @@
   <meta name="author" content="John Keith">
 
   
-  <meta name="description" content="I&rsquo;ve been meaning to take some time and learn one of the HTML templating engines. One of the best parts about the Codepen site is that it is a &hellip;">
+  <meta name="description" content="For a while, I&rsquo;ve been wondering &ndash; where is the better way of building static sites? I&rsquo;ve made a ton of stuff working off of &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -74,6 +74,67 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/02/05/finding-middle-ground-with-middleman/">Finding Middle Ground With Middleman</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-02-05T19:24:45-05:00" pubdate data-updated="true">Feb 5<span>th</span>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>For a while, I&rsquo;ve been wondering &ndash; where is the better way of building static sites? I&rsquo;ve made a ton of stuff working off of Bootstrap templates and Wordpress themes, but I also really love creating sites without all the mess of those big frameworks. I want to hand code sites to keep learning about the presentational side of web development, but an environment like Rails is not ideal for such explorations. Even the much more manageable Sinatra is only a little better, as I feel like my focus when building something in Sinatra is split evenly between the front-end and back-end.</p>
+
+<p>That said, after finding and playing with <a href="http://www.middlemanapp.com">Middleman</a>, I believe it provides the perfect way to focus on the front-end of things without sacrificing the power of HAML, SASS and the like. The LiveReload extension is also amazing &ndash; it is incredible how small efficiencies make all the differences when writing and testing out new ideas.</p>
+
+<p>I was really thrilled when I managed to figure out how to insert Markdown files into a HAML template built in a Middleman project.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='haml'><span class='line'><span class="nc">.main-contain</span>
+</span><span class='line'>  <span class="nc">.pure-g-r</span>
+</span><span class='line'>    <span class="nc">.pure-u-1-2</span>
+</span><span class='line'>      <span class="nt">%h1</span> Hello folks.
+</span><span class='line'>    <span class="nc">.pure-u-1-2</span>
+</span><span class='line'>      <span class="nt">%p</span> What up?
+</span><span class='line'>      <span class="nd">:markdown</span>
+</span><span class='line'>        <span class="si">#{</span><span class="no">File</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="no">File</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="no">File</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="bp">__FILE__</span><span class="p">),</span> <span class="s2">&quot;test.md&quot;</span><span class="p">))</span><span class="si">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The code is nothing special, but being able to read a file of Markdown text and insert it into my template was pretty exciting. I&rsquo;m planning to use this trick to create a text-heavy site that keeps its content as separate from the presentation as possible by inserting all the large chunks of text as Markdown files into templates.</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -216,6 +277,10 @@
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2014/06/22/week-six-and-embracing-tdd/">Week Six and Embracing TDD</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2014/06/15/how-ive-learned-in-five-short/">How I&#8217;ve Learned in Five Short Weeks at Launch</a>
       </li>
     
@@ -229,10 +294,6 @@
     
       <li class="post">
         <a href="/blog/2014/05/26/my-ruby-toolbox-at-the-end-of-week-two/">My Ruby Toolbox at the End of Week Two</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/05/16/launch-academy-week-1-reflections/">Launch Academy Week One Reflections</a>
       </li>
     
   </ul>

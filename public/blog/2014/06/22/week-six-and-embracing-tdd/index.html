@@ -5,11 +5,13 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Image Hosting for a Heroku Octopress Site - John Keith</title>
+  <title>Week Six and Embracing TDD - John Keith</title>
   <meta name="author" content="John Keith">
 
   
-  <meta name="description" content="Since Heroku only allows for 300 MB of storage for their free tier of hosting, it makes sense to store the images for an Octopress site in a separate &hellip;">
+  <meta name="description" content="We have made it to the end of week six. It was a big one for me: Pushed a Javascript game to Heroku
+Promptly got hacked
+Started figuring out OmniAuth &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +20,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://johnk.herokuapp.com/blog/2014/03/04/image-hosting-for-a-heroku-octopress-site">
+  <link rel="canonical" href="http://johnk.herokuapp.com/blog/2014/06/22/week-six-and-embracing-tdd">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="John Keith" type="application/atom+xml">
@@ -77,7 +79,7 @@
   
   <header>
     
-      <h1 class="entry-title">Image Hosting for a Heroku Octopress Site</h1>
+      <h1 class="entry-title">Week Six and Embracing TDD</h1>
     
     
       <p class="meta">
@@ -93,28 +95,30 @@
   
 
 
-<time datetime="2014-03-04T17:44:27-05:00" pubdate data-updated="true">Mar 4<span>th</span>, 2014</time>
+<time datetime="2014-06-22T19:41:39-04:00" pubdate data-updated="true">Jun 22<span>nd</span>, 2014</time>
         
       </p>
     
   </header>
 
 
-<div class="entry-content"><p>Since Heroku only allows for 300 MB of storage for their free tier of hosting, it makes sense to store the images for an Octopress site in a separate location. Previously, I used Flickr for a few posts, but the process of uploading the files and hunting down the embed link was tiresome.</p>
+<div class="entry-content"><p>We have made it to the end of week six. It was a big one for me:</p>
 
-<p>The better way, it seems, is to use Google Drive, despite the fact that Google doesn&rsquo;t provide an easy way to embed either. What makes using Google Drive much friendlier than Flickr, however, is a site called <a href="http://gdurl.com/%E2%80%8B">gdURL</a>.</p>
-
-<p>With gdURL, all you need to do is share an image file on Google Drive, change the privacy settings to &ldquo;Anyone who has the link can view&rdquo;, then run the link Google Drive provides you through the gdURL service and you receive a tidy, bite-sized link for embedding your image.</p>
-
-<p>For instance, I used gdURL in the following line to link to a picture of this site&rsquo;s new theme.</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>![So Fresh and So Green](http://gdurl.com/i4Wr)​</span></code></pre></td></tr></table></div></figure>
+<ul>
+<li>Pushed a <a href="http://unodos.herokuapp.com">Javascript game to Heroku</a></li>
+<li>Promptly got hacked</li>
+<li>Started figuring out OmniAuth</li>
+<li>Finally surmounted my fear/distaste for Test Driven Development.</li>
+</ul>
 
 
-<p><img src="http://gdurl.com/i4Wr" alt="So Fresh and So Green" />​</p>
+<p>TDD was one of the big aspects of the move to Rails that I was dreading. During our phase working in Sinatra, we didn&rsquo;t worry about TDD &ndash; it was enough trying to wrap our heads around the basics of HTTP, Postgres, and ActiveRecord. Now that we are building with Rails in ernest, TDD has moved to the foreground of our development process.</p>
 
-<p>Quick, easy, and keeps the size of your Octopress repo down.</p>
+<p>Initially, I was very wary of TDD. The Launch instructors did a great job of demonstrating the rationale behind TDD, showing us how TDD can ensure against your changes in one part of an app breaking another part, which was one thing that never quite sunk in for me working through tutorials online. That said, some of my early fumbling through Capybara and Rspec left me hesitant about TDD.</p>
+
+<p>When we started TDD, I shied away from the assignments, focusing on a side project in Javascript. We finally finished that Javascript game on Friday, turning it into a Sinatra app that we were able to put up on Heroku, and this weekend I resolved to put in the time to get comfortable using TDD.</p>
+
+<p>Having spent the past two days building a first Rails app from the ground up with TDD, my perspective has certainly changed. When you strictly adhere to the TDD methodology, it makes the process of building an app (especially a Rails app by hand, without scaffolding, as was the assignment this weekend) much more approachable and logical. My final product hardly had comprehensive test coverage, but now I feel comfortable with using TDD as a guide for building an app piece by piece.</p>
 </div>
 
 
@@ -137,12 +141,12 @@
   
 
 
-<time datetime="2014-03-04T17:44:27-05:00" pubdate data-updated="true">Mar 4<span>th</span>, 2014</time>
+<time datetime="2014-06-22T19:41:39-04:00" pubdate data-updated="true">Jun 22<span>nd</span>, 2014</time>
       
 
 <span class="categories">
   
-    <a class='category' href='/blog/categories/heroku/'>heroku</a>, <a class='category' href='/blog/categories/octopress/'>octopress</a>
+    <a class='category' href='/blog/categories/rails/'>rails</a>, <a class='category' href='/blog/categories/tdd/'>tdd</a>
   
 </span>
 
@@ -151,7 +155,7 @@
     
       <div class="sharing">
   
-  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://johnk.herokuapp.com/blog/2014/03/04/image-hosting-for-a-heroku-octopress-site/" data-via="mrjohnkeith" data-counturl="http://johnk.herokuapp.com/blog/2014/03/04/image-hosting-for-a-heroku-octopress-site/" >Tweet</a>
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://johnk.herokuapp.com/blog/2014/06/22/week-six-and-embracing-tdd/" data-via="mrjohnkeith" data-counturl="http://johnk.herokuapp.com/blog/2014/06/22/week-six-and-embracing-tdd/" >Tweet</a>
   
   
   
@@ -160,10 +164,8 @@
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2014/03/02/new-theme/" title="Previous Post: New look for the blog">&laquo; New look for the blog</a>
+        <a class="basic-alignment left" href="/blog/2014/06/15/how-ive-learned-in-five-short/" title="Previous Post: How I've Learned in Five Short Weeks at Launch">&laquo; How I've Learned in Five Short Weeks at Launch</a>
       
-      
-        <a class="basic-alignment right" href="/blog/2014/03/06/build-what-you-use-when-learning/" title="Next Post: Build What You Use As a Way to Learn">Build What You Use As a Way to Learn &raquo;</a>
       
     </p>
   </footer>
@@ -276,8 +278,8 @@
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://johnk.herokuapp.com/blog/2014/03/04/image-hosting-for-a-heroku-octopress-site/';
-        var disqus_url = 'http://johnk.herokuapp.com/blog/2014/03/04/image-hosting-for-a-heroku-octopress-site/';
+        var disqus_identifier = 'http://johnk.herokuapp.com/blog/2014/06/22/week-six-and-embracing-tdd/';
+        var disqus_url = 'http://johnk.herokuapp.com/blog/2014/06/22/week-six-and-embracing-tdd/';
         var disqus_script = 'embed.js';
       
     (function () {

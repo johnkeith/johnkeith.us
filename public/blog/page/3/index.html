@@ -9,7 +9,7 @@
   <meta name="author" content="John Keith">
 
   
-  <meta name="description" content="Gems are amazing. As a rookie developer, it is incredible to come into the Ruby/Rails community and discover the wealth of code that is available out &hellip;">
+  <meta name="description" content="Reader beware: I&rsquo;m learning Rails right now. In no way, shape or form should this post or any posts here for at least the next month and a half &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -74,6 +74,96 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/03/14/dynamically-control-button-labels-with-a-helper-method/">Dynamically Control Button Labels With a Helper Method</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-03-14T19:20:08-04:00" pubdate data-updated="true">Mar 14<span>th</span>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><em>Reader beware: I&rsquo;m learning Rails right now. In no way, shape or form should this post or any posts here for at least the next month and a half be taken as gospel truth of how to do things right in Rails. They probably are way, way out in right field.</em></p>
+
+<p>Okay, say you have a view and in that view you have a beautiful button. If you want to assign a name to that button dynamically, say based on the truthiness of some variable, here&rsquo;s an easy way to do it.</p>
+
+<p>Open up the <em>helper.rb file for your model. In your </em>helper file, write a method that will provide you two pieces of text, depending on a certain condition.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">sign_up_btn</span>
+</span><span class='line'>  <span class="k">if</span> <span class="no">User</span><span class="o">.</span><span class="n">sign_up_allowed</span> <span class="o">==</span> <span class="kp">true</span>
+</span><span class='line'>    <span class="s2">&quot;Prevent new account creation&quot;</span>
+</span><span class='line'>  <span class="k">else</span>
+</span><span class='line'>    <span class="s2">&quot;Allow new account creation&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Or, if you want to be fancy, try this refactored-while-in-the-midst-of-blogging-version.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">sign_up_btn</span>
+</span><span class='line'>  <span class="no">User</span><span class="o">.</span><span class="n">sign_up_allowed</span> <span class="p">?</span> <span class="s2">&quot;Prevent new account creation&quot;</span> <span class="p">:</span> <span class="s2">&quot;Allow new account creation&quot;</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Then, back over in your view file, add this bit to create the button and assign it a title based on the results of the method above.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="cp">&lt;%=</span> <span class="n">button_to</span> <span class="ss">action</span><span class="p">:</span> <span class="s2">&quot;disallow_sign_up&quot;</span> <span class="k">do</span> <span class="cp">%&gt;&lt;%=</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="n">sign_up_btn</span><span class="si">}</span><span class="s2">&quot;</span> <span class="cp">%&gt;&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>(Just so you get a fuller picture, here&rsquo;s my disallow_sign_up method from my users_controller. I wrote it as a way for an admin to turn off access to the sign up page in the expense tracking app I&rsquo;m working on.)</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">disallow_sign_up</span>
+</span><span class='line'>  <span class="no">User</span><span class="o">.</span><span class="n">sign_up_allowed</span> <span class="p">?</span> <span class="no">User</span><span class="o">.</span><span class="n">sign_up_allowed</span> <span class="o">=</span> <span class="kp">false</span> <span class="p">:</span> <span class="no">User</span><span class="o">.</span><span class="n">sign_up_allowed</span> <span class="o">=</span> <span class="kp">true</span>
+</span><span class='line'>  <span class="n">redirect_to</span> <span class="n">users_index_path</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>I have a serious fixation on the ternary operator, if you haven&rsquo;t noticed.</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -725,67 +815,6 @@ word &#8220;and,” the class likely has more than one responsibility.​&rdquo;
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/02/05/finding-middle-ground-with-middleman/">Finding Middle Ground With Middleman</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-02-05T19:24:45-05:00" pubdate data-updated="true">Feb 5<span>th</span>, 2014</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>For a while, I&rsquo;ve been wondering &ndash; where is the better way of building static sites? I&rsquo;ve made a ton of stuff working off of Bootstrap templates and Wordpress themes, but I also really love creating sites without all the mess of those big frameworks. I want to hand code sites to keep learning about the presentational side of web development, but an environment like Rails is not ideal for such explorations. Even the much more manageable Sinatra is only a little better, as I feel like my focus when building something in Sinatra is split evenly between the front-end and back-end.</p>
-
-<p>That said, after finding and playing with <a href="http://www.middlemanapp.com">Middleman</a>, I believe it provides the perfect way to focus on the front-end of things without sacrificing the power of HAML, SASS and the like. The LiveReload extension is also amazing &ndash; it is incredible how small efficiencies make all the differences when writing and testing out new ideas.</p>
-
-<p>I was really thrilled when I managed to figure out how to insert Markdown files into a HAML template built in a Middleman project.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class='haml'><span class='line'><span class="nc">.main-contain</span>
-</span><span class='line'>  <span class="nc">.pure-g-r</span>
-</span><span class='line'>    <span class="nc">.pure-u-1-2</span>
-</span><span class='line'>      <span class="nt">%h1</span> Hello folks.
-</span><span class='line'>    <span class="nc">.pure-u-1-2</span>
-</span><span class='line'>      <span class="nt">%p</span> What up?
-</span><span class='line'>      <span class="nd">:markdown</span>
-</span><span class='line'>        <span class="si">#{</span><span class="no">File</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="no">File</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="no">File</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="bp">__FILE__</span><span class="p">),</span> <span class="s2">&quot;test.md&quot;</span><span class="p">))</span><span class="si">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>The code is nothing special, but being able to read a file of Markdown text and insert it into my template was pretty exciting. I&rsquo;m planning to use this trick to create a text-heavy site that keeps its content as separate from the presentation as possible by inserting all the large chunks of text as Markdown files into templates.</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/4/">&larr; Older</a>
@@ -811,6 +840,10 @@ word &#8220;and,” the class likely has more than one responsibility.​&rdquo;
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2014/06/22/week-six-and-embracing-tdd/">Week Six and Embracing TDD</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2014/06/15/how-ive-learned-in-five-short/">How I&#8217;ve Learned in Five Short Weeks at Launch</a>
       </li>
     
@@ -824,10 +857,6 @@ word &#8220;and,” the class likely has more than one responsibility.​&rdquo;
     
       <li class="post">
         <a href="/blog/2014/05/26/my-ruby-toolbox-at-the-end-of-week-two/">My Ruby Toolbox at the End of Week Two</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/05/16/launch-academy-week-1-reflections/">Launch Academy Week One Reflections</a>
       </li>
     
   </ul>

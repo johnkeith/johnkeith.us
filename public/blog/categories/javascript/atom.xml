@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Javascript | John Keith]]></title>
   <link href="http://johnk.herokuapp.com/blog/categories/javascript/atom.xml" rel="self"/>
   <link href="http://johnk.herokuapp.com/"/>
-  <updated>2014-06-15T21:59:47-04:00</updated>
+  <updated>2014-06-22T20:45:17-04:00</updated>
   <id>http://johnk.herokuapp.com/</id>
   <author>
     <name><![CDATA[John Keith]]></name>
@@ -26,7 +26,7 @@
 
 <p>Fundamentally, I guess this is what makes project-based learning powerful: the fact that the knowledge you acquire is all acquired in a specific context of doing or creating. Even as I&rsquo;ve started to head off on tangents of my own, like diving deeply into Javascript prototypes last week, this learning is done to serve a purpose, to bring some piece of functionality into existence.</p>
 
-<p>If you want to take the metaphor perhaps a little too far (which is always a fun exercise), it is almost like the project-based curriculum of Launch is like OOP for your brain. Sure, you can gather knowledge together in your mind about a certain object, but these little tarballs of information are worthless until you start defining behaviors and passing messages between them. Knowledge as an object in and of itself does nothing &ndash; it is only once it starts to interact with other bits of information that the effect is meaningful.</p>
+<p>If you want to take the metaphor perhaps a little too far (which is always a fun exercise), it is almost like the project-based curriculum of Launch is OOP for your brain. Sure, you can gather knowledge together in your mind about a certain object, but these little tarballs of information are worthless until you start defining behaviors and passing messages between them. Knowledge as an object in and of itself does nothing &ndash; it is only once it starts to interact with other bits of information that the effect is meaningful.</p>
 ]]></content>
   </entry>
   

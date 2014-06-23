@@ -9,7 +9,9 @@
   <meta name="author" content="John Keith">
 
   
-  <meta name="description" content="We are now officially halfway through our ten weeks at Launch. What I&rsquo;m still marveling at after five weeks is how Launch Academy is &hellip;">
+  <meta name="description" content="We have made it to the end of week six. It was a big one for me: Pushed a Javascript game to Heroku
+Promptly got hacked
+Started figuring out OmniAuth &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -78,6 +80,56 @@
     <article class="post">
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2014/06/22/week-six-and-embracing-tdd/">Week Six and Embracing TDD</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-06-22T19:41:39-04:00" pubdate data-updated="true">Jun 22<span>nd</span>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>We have made it to the end of week six. It was a big one for me:</p>
+
+<ul>
+<li>Pushed a <a href="http://unodos.herokuapp.com">Javascript game to Heroku</a></li>
+<li>Promptly got hacked</li>
+<li>Started figuring out OmniAuth</li>
+<li>Finally surmounted my fear/distaste for Test Driven Development.</li>
+</ul>
+
+
+<p>TDD was one of the big aspects of the move to Rails that I was dreading. During our phase working in Sinatra, we didn&rsquo;t worry about TDD &ndash; it was enough trying to wrap our heads around the basics of HTTP, Postgres, and ActiveRecord. Now that we are building with Rails in ernest, TDD has moved to the foreground of our development process.</p>
+
+<p>Initially, I was very wary of TDD. The Launch instructors did a great job of demonstrating the rationale behind TDD, showing us how TDD can ensure against your changes in one part of an app breaking another part, which was one thing that never quite sunk in for me working through tutorials online. That said, some of my early fumbling through Capybara and Rspec left me hesitant about TDD.</p>
+
+<p>When we started TDD, I shied away from the assignments, focusing on a side project in Javascript. We finally finished that Javascript game on Friday, turning it into a Sinatra app that we were able to put up on Heroku, and this weekend I resolved to put in the time to get comfortable using TDD.</p>
+
+<p>Having spent the past two days building a first Rails app from the ground up with TDD, my perspective has certainly changed. When you strictly adhere to the TDD methodology, it makes the process of building an app (especially a Rails app by hand, without scaffolding, as was the assignment this weekend) much more approachable and logical. My final product hardly had comprehensive test coverage, but now I feel comfortable with using TDD as a guide for building an app piece by piece.</p>
+</div>
+  
+  
+
+</article>
+
+
+    <article class="post">
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2014/06/15/how-ive-learned-in-five-short/">How I&#8217;ve Learned in Five Short Weeks at Launch</a></h1>
     
     
@@ -109,7 +161,7 @@
 
 <p>Fundamentally, I guess this is what makes project-based learning powerful: the fact that the knowledge you acquire is all acquired in a specific context of doing or creating. Even as I&rsquo;ve started to head off on tangents of my own, like diving deeply into Javascript prototypes last week, this learning is done to serve a purpose, to bring some piece of functionality into existence.</p>
 
-<p>If you want to take the metaphor perhaps a little too far (which is always a fun exercise), it is almost like the project-based curriculum of Launch is like OOP for your brain. Sure, you can gather knowledge together in your mind about a certain object, but these little tarballs of information are worthless until you start defining behaviors and passing messages between them. Knowledge as an object in and of itself does nothing &ndash; it is only once it starts to interact with other bits of information that the effect is meaningful.</p>
+<p>If you want to take the metaphor perhaps a little too far (which is always a fun exercise), it is almost like the project-based curriculum of Launch is OOP for your brain. Sure, you can gather knowledge together in your mind about a certain object, but these little tarballs of information are worthless until you start defining behaviors and passing messages between them. Knowledge as an object in and of itself does nothing &ndash; it is only once it starts to interact with other bits of information that the effect is meaningful.</p>
 </div>
   
   
@@ -547,111 +599,6 @@
 </span><span class='line'><span class="nb">puts</span> <span class="s2">&quot;The time elapsed in milliseconds is </span><span class="si">#{</span><span class="n">time</span><span class="o">*</span><span class="mi">1000</span><span class="si">}</span><span class="s2"> with the recursive fibonacci method.&quot;</span>
 </span></code></pre></td></tr></table></div></figure>
 
-</div>
-  
-  
-
-</article>
-
-
-    <article class="post">
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/04/30/final-prep-for-launch-academy/">Final Prep for Launch Academy</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-04-30T18:10:06-04:00" pubdate data-updated="true">Apr 30<span>th</span>, 2014</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>The last part of our Launch Academy prep work is a moment of reflection. I feel like I&rsquo;ve come quite far since I started the prework &ndash; especially in terms of my understanding of Git. The Git Immersion and <a href="http://pcottle.github.io/learnGitBranching/">Learn Git Branching</a> were hugely helpful for me. Being able to visualize what is going on with rebases and merges made all the difference. Sandi Metz&rsquo;s book is by far my favorite of the readings and certainly the one I have spent the most time pouring over. Starting to understand the OOP patterns presented in that book has been a big turning point for me when it comes to grasping how entire applications are written and maintained.</p>
-
-<p>In addition to finishing out my prework, I&rsquo;ve been spending a good deal of time on a site a Launch Academy staffer recommended called <a href="http://www.codequizzes.com/">Code Quizzes</a> and this has been a great way to sharpen all the Ruby that I&rsquo;ve been absorbing. Here are a few of the awesome methods and tricks I&rsquo;ve encountered so far from the quiz questions.</p>
-
-<p><em>Question:</em>
-<em>a = [1, 2, 3] and b = [&ldquo;a&rdquo;, &ldquo;b&rdquo;, &ldquo;c&rdquo;].  Use these arrays to make [[1, &ldquo;a&rdquo;], [2, &ldquo;b&rdquo;], [3, &ldquo;c&rdquo;]]</em></p>
-
-<p>I really like the #zip method this question introduces. The #zip method allows you to combine two or more arrays with ease. Here&rsquo;s an example of combining three arrays.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">a</span> <span class="o">=</span> <span class="o">[</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">,</span> <span class="s2">&quot;c&quot;</span><span class="o">]</span>
-</span><span class='line'><span class="n">b</span> <span class="o">=</span> <span class="sx">%w(1 2 3 4 5)</span>
-</span><span class='line'><span class="n">c</span> <span class="o">=</span> <span class="o">[</span><span class="s2">&quot;zip&quot;</span><span class="p">,</span> <span class="s2">&quot;method&quot;</span><span class="o">]</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">a</span><span class="o">.</span><span class="n">zip</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">)</span>
-</span><span class='line'><span class="c1"># [[&quot;a&quot;, &quot;1&quot;, &quot;zip&quot;], [&quot;b&quot;, &quot;2&quot;, &quot;method&quot;], [&quot;c&quot;, &quot;3&quot;, nil]]</span>
-</span><span class='line'>
-</span><span class='line'><span class="no">Hash</span><span class="o">[</span><span class="n">a</span><span class="o">.</span><span class="n">zip</span><span class="p">(</span><span class="n">b</span><span class="p">)</span><span class="o">]</span>
-</span><span class='line'><span class="c1"># {&quot;a&quot;=&gt;&quot;1&quot;, &quot;b&quot;=&gt;&quot;2&quot;, &quot;c&quot;=&gt;&quot;3&quot;}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>You can see from the above that zip can be quite flexible and formidable, mashing together arrays or even forming hashes.</p>
-
-<p>The #cycle method is another interesting array operation that came up in questions on Code Quizzes. With #cycle, you can perform a block for a specified amount of times. For example, if you had an array you can use #cycle to print out its contents in order any number of times.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">a</span> <span class="o">=</span> <span class="o">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="o">]</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">a</span><span class="o">.</span><span class="n">cycle</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span> <span class="p">{</span> <span class="o">|</span><span class="n">i</span><span class="o">|</span> <span class="nb">p</span> <span class="n">i</span> <span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Inject is certainly a method I want to master: it is really amazing how you can pass in a method to inject and let it do the work for you, without having to write a complete block.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="o">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">42</span><span class="o">].</span><span class="n">inject</span><span class="p">(</span><span class="ss">:+</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>One question that had me a tad <a href="http://www.gullahbible.com/e-GullahNT/Conc/44JHNGUL.htm">bumfumbled</a> involved passing a method as a block and it being considered a Proc.</p>
-
-<p><em>Question:</em>
-<em>arr = [&ldquo;a&rdquo;, &ldquo;b&rdquo;].  Capitalize each element of arr with a proc.</em></p>
-
-<p>The answer given was <code>arr.map(&amp;:upcase)</code>, which I am assuming means that you can pass methods as blocks and with some voodoo they turn into Procs.</p>
-
-<p>Further on, there was a great question that begged for a similar solution.</p>
-
-<p><em>Question:</em>
-<em>Use a one-liner to find the longest word in the array: arr = %w{what is the longest word in this arrrrrray}</em></p>
-
-<p>The site proposed the method below.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">arr</span><span class="o">.</span><span class="n">inject</span> <span class="p">{</span> <span class="o">|</span><span class="n">longest_word</span><span class="p">,</span> <span class="n">word</span><span class="o">|</span> <span class="n">word</span><span class="o">.</span><span class="n">length</span> <span class="o">&gt;</span> <span class="n">longest_word</span><span class="o">.</span><span class="n">length</span> <span class="p">?</span> <span class="n">word</span> <span class="p">:</span> <span class="n">longest_word</span><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>I think, however, it could be put more succicently with <code>arr.sort_by(&amp;:length).last</code>.</p>
-
-<p>The larger pattern that I&rsquo;m begining to see is that with Ruby there is always another way, or twenty, to solve a problem.</p>
 </div>
   
   
