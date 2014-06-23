@@ -8,3 +8,6 @@
 @import "partials";
 @import "plugins/**/*";
 @import "custom/styles";
+
+$fontAwesomePath: 'fontawesome-webfont';
+@import "font-awesome/font-awesome";
