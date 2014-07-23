@@ -208,7 +208,7 @@
 
 <p>That should be it! Now you can run your test suite, watch it pass, and see a folder of the requests in req_cache.</p>
 
-<p>Below is an example of a basic feature I wrote for what I believe is the world&rsquo;s first, only, and hopefully last GitHub dating app. (Not sure I&rsquo;ll be continuing with that side project&hellip;but it was a good example for learning Ajax testing).</p>
+<p>Below is an example of a basic feature I wrote for what I believe is the world&rsquo;s first, only, and hopefully last GitHub dating app. (Not sure I&rsquo;ll be continuing with that side project&hellip;but it was a good example for learning Ajax testing). I&rsquo;ll also include all the necessary configs you need to get RSpec, Capybara, and Puffing Billy to run these test.</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -253,7 +253,11 @@
 <span class='line-number'>41</span>
 <span class='line-number'>42</span>
 <span class='line-number'>43</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">require_relative</span> <span class="s1">&#39;../rails_helper&#39;</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># onboarding page feature</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">require_relative</span> <span class="s1">&#39;../rails_helper&#39;</span>
 </span><span class='line'>
 </span><span class='line'><span class="n">feature</span> <span class="s2">&quot;user enters basic information on homepage&quot;</span><span class="p">,</span> <span class="ss">js</span><span class="p">:</span> <span class="kp">true</span> <span class="k">do</span>
 </span><span class='line'>  <span class="n">scenario</span> <span class="s2">&quot;fills in github username&quot;</span> <span class="k">do</span>
@@ -296,6 +300,249 @@
 </span><span class='line'>    <span class="n">expect</span><span class="p">(</span><span class="n">page</span><span class="p">)</span><span class="o">.</span><span class="n">to</span> <span class="n">have_select</span><span class="p">(</span><span class="s2">&quot;match-pref-select&quot;</span><span class="p">,</span> <span class="ss">selected</span><span class="p">:</span> <span class="s2">&quot;Women&quot;</span><span class="p">)</span>
 </span><span class='line'>  <span class="k">end</span>
 </span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># rails_helper.rb</span>
+</span><span class='line'>
+</span><span class='line'><span class="no">ENV</span><span class="o">[</span><span class="s2">&quot;RAILS_ENV&quot;</span><span class="o">]</span> <span class="o">||=</span> <span class="s1">&#39;test&#39;</span>
+</span><span class='line'><span class="nb">require</span> <span class="s1">&#39;spec_helper&#39;</span>
+</span><span class='line'><span class="nb">require</span> <span class="no">File</span><span class="o">.</span><span class="n">expand_path</span><span class="p">(</span><span class="s2">&quot;../../config/environment&quot;</span><span class="p">,</span> <span class="bp">__FILE__</span><span class="p">)</span>
+</span><span class='line'><span class="nb">require</span> <span class="s1">&#39;rspec/rails&#39;</span>
+</span><span class='line'><span class="nb">require</span> <span class="s1">&#39;capybara/rails&#39;</span>
+</span><span class='line'><span class="nb">require</span> <span class="s1">&#39;shoulda/matchers&#39;</span>
+</span><span class='line'><span class="nb">require</span> <span class="s1">&#39;capybara/poltergeist&#39;</span>
+</span><span class='line'><span class="nb">require</span> <span class="s1">&#39;billy/rspec&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="no">Dir</span><span class="o">[</span><span class="no">Rails</span><span class="o">.</span><span class="n">root</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;spec/support/**/*.rb&quot;</span><span class="p">)</span><span class="o">].</span><span class="n">each</span> <span class="p">{</span> <span class="o">|</span><span class="n">f</span><span class="o">|</span> <span class="nb">require</span> <span class="n">f</span> <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="ss">ActiveRecord</span><span class="p">:</span><span class="ss">:Migration</span><span class="o">.</span><span class="n">maintain_test_schema!</span>
+</span><span class='line'>
+</span><span class='line'><span class="no">Capybara</span><span class="o">.</span><span class="n">javascript_driver</span> <span class="o">=</span> <span class="ss">:poltergeist_billy</span>
+</span><span class='line'>
+</span><span class='line'><span class="no">Billy</span><span class="o">.</span><span class="n">configure</span> <span class="k">do</span> <span class="o">|</span><span class="n">c</span><span class="o">|</span>
+</span><span class='line'>  <span class="n">c</span><span class="o">.</span><span class="n">cache</span> <span class="o">=</span> <span class="kp">true</span>
+</span><span class='line'>  <span class="n">c</span><span class="o">.</span><span class="n">cache_request_headers</span> <span class="o">=</span> <span class="kp">false</span>
+</span><span class='line'>  <span class="n">c</span><span class="o">.</span><span class="n">ignore_params</span> <span class="o">=</span> <span class="o">[</span><span class="s2">&quot;http://www.google-analytics.com/__utm.gif&quot;</span><span class="p">,</span>
+</span><span class='line'>                     <span class="s2">&quot;https://r.twimg.com/jot&quot;</span><span class="p">,</span>
+</span><span class='line'>                     <span class="s2">&quot;http://p.twitter.com/t.gif&quot;</span><span class="p">,</span>
+</span><span class='line'>                     <span class="s2">&quot;http://p.twitter.com/f.gif&quot;</span><span class="p">,</span>
+</span><span class='line'>                     <span class="s2">&quot;http://www.facebook.com/plugins/like.php&quot;</span><span class="p">,</span>
+</span><span class='line'>                     <span class="s2">&quot;https://www.facebook.com/dialog/oauth&quot;</span><span class="p">,</span>
+</span><span class='line'>                     <span class="s2">&quot;http://cdn.api.twitter.com/1/urls/count.json&quot;</span><span class="o">]</span>
+</span><span class='line'>  <span class="n">c</span><span class="o">.</span><span class="n">path_blacklist</span> <span class="o">=</span> <span class="o">[]</span>
+</span><span class='line'>  <span class="n">c</span><span class="o">.</span><span class="n">persist_cache</span> <span class="o">=</span> <span class="kp">true</span>
+</span><span class='line'>  <span class="n">c</span><span class="o">.</span><span class="n">ignore_cache_port</span> <span class="o">=</span> <span class="kp">true</span> <span class="c1"># defaults to true</span>
+</span><span class='line'>  <span class="n">c</span><span class="o">.</span><span class="n">non_successful_cache_disabled</span> <span class="o">=</span> <span class="kp">false</span>
+</span><span class='line'>  <span class="n">c</span><span class="o">.</span><span class="n">non_successful_error_level</span> <span class="o">=</span> <span class="ss">:warn</span>
+</span><span class='line'>  <span class="n">c</span><span class="o">.</span><span class="n">non_whitelisted_requests_disabled</span> <span class="o">=</span> <span class="kp">false</span>
+</span><span class='line'>  <span class="n">c</span><span class="o">.</span><span class="n">cache_path</span> <span class="o">=</span> <span class="s1">&#39;spec/req_cache/&#39;</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># spec_helper.rb</span>
+</span><span class='line'>
+</span><span class='line'><span class="nb">require</span> <span class="s1">&#39;webmock/rspec&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="no">WebMock</span><span class="o">.</span><span class="n">disable_net_connect!</span><span class="p">(</span><span class="n">allow_localhost</span><span class="p">:</span> <span class="kp">true</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="no">RSpec</span><span class="o">.</span><span class="n">configure</span> <span class="k">do</span> <span class="o">|</span><span class="n">config</span><span class="o">|</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># Gemfile</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">group</span> <span class="ss">:development</span><span class="p">,</span> <span class="ss">:test</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">gem</span> <span class="s1">&#39;dotenv-rails&#39;</span>
+</span><span class='line'>  <span class="n">gem</span> <span class="s1">&#39;rspec-rails&#39;</span>
+</span><span class='line'>  <span class="n">gem</span> <span class="s1">&#39;capybara&#39;</span>
+</span><span class='line'>  <span class="n">gem</span> <span class="s1">&#39;launchy&#39;</span>
+</span><span class='line'>  <span class="n">gem</span> <span class="s1">&#39;factory_girl_rails&#39;</span>
+</span><span class='line'>  <span class="n">gem</span> <span class="s1">&#39;pry-rails&#39;</span>
+</span><span class='line'>  <span class="n">gem</span> <span class="s1">&#39;poltergeist&#39;</span>
+</span><span class='line'>  <span class="n">gem</span> <span class="s1">&#39;puffing-billy&#39;</span>
+</span><span class='line'>  <span class="n">gem</span> <span class="s1">&#39;webmock&#39;</span>
+</span><span class='line'>  <span class="n">gem</span> <span class="s1">&#39;valid_attribute&#39;</span>
+</span><span class='line'>  <span class="n">gem</span> <span class="s1">&#39;shoulda-matchers&#39;</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+</pre></td><td class='code'><pre><code class='haml'><span class='line'><span class="c">/ home page with form to be tested</span>
+</span><span class='line'>
+</span><span class='line'><span class="nc">.row</span>
+</span><span class='line'>  <span class="nc">.col-md-3</span>
+</span><span class='line'>    <span class="nc">.portrait-placeholder</span>
+</span><span class='line'>      <span class="nt">%img</span><span class="p">{</span> <span class="ss">src</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="ss">class</span><span class="p">:</span> <span class="s2">&quot;img-responsive img-thumbnail&quot;</span><span class="p">,</span> <span class="nb">id</span><span class="p">:</span> <span class="s2">&quot;github-avatar&quot;</span> <span class="p">}</span>
+</span><span class='line'>  <span class="nc">.col-md-9</span>
+</span><span class='line'>    <span class="nt">%form</span><span class="p">{</span> <span class="ss">role</span><span class="p">:</span> <span class="s2">&quot;form&quot;</span><span class="p">,</span> <span class="nb">id</span><span class="p">:</span> <span class="s2">&quot;onboard-form&quot;</span> <span class="p">}</span>
+</span><span class='line'>      <span class="nc">.form-group.form-group-lg</span><span class="nf">#github-username-group</span>
+</span><span class='line'>        <span class="nt">%input</span><span class="p">{</span> <span class="ss">type</span><span class="p">:</span> <span class="s2">&quot;text&quot;</span><span class="p">,</span> <span class="ss">class</span><span class="p">:</span> <span class="s2">&quot;form-control input-lg&quot;</span><span class="p">,</span> <span class="ss">placeholder</span><span class="p">:</span> <span class="s2">&quot;Your Github username&quot;</span><span class="p">,</span> <span class="nb">id</span><span class="p">:</span> <span class="s2">&quot;github-username&quot;</span> <span class="p">}</span>
+</span><span class='line'>      <span class="nc">.form-group.form-group-lg</span><span class="nf">#gender-group</span>
+</span><span class='line'>        <span class="nt">%select</span><span class="p">{</span> <span class="ss">class</span><span class="p">:</span> <span class="s2">&quot;form-control input-lg&quot;</span><span class="p">,</span> <span class="nb">id</span><span class="p">:</span> <span class="s2">&quot;gender-select&quot;</span> <span class="p">}</span>
+</span><span class='line'>          <span class="nt">%option</span><span class="p">{</span> <span class="ss">value</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="s2">&quot;disabled&quot;</span> <span class="o">=&gt;</span> <span class="s2">&quot;disabled&quot;</span><span class="p">,</span> <span class="s2">&quot;selected&quot;</span> <span class="o">=&gt;</span> <span class="s2">&quot;selected&quot;</span> <span class="p">}</span> Select your gender
+</span><span class='line'>          <span class="nt">%option</span><span class="p">{</span> <span class="ss">value</span><span class="p">:</span> <span class="s2">&quot;male&quot;</span><span class="p">,</span> <span class="nb">id</span><span class="p">:</span> <span class="s2">&quot;gender-male&quot;</span> <span class="p">}</span> Male
+</span><span class='line'>          <span class="nt">%option</span><span class="p">{</span> <span class="ss">value</span><span class="p">:</span> <span class="s2">&quot;female&quot;</span><span class="p">,</span> <span class="nb">id</span><span class="p">:</span> <span class="s2">&quot;gender-female&quot;</span> <span class="p">}</span> Female
+</span><span class='line'>      <span class="nc">.form-group.form-group-lg</span><span class="nf">#match-group</span>
+</span><span class='line'>        <span class="nt">%select</span><span class="p">{</span> <span class="ss">class</span><span class="p">:</span> <span class="s2">&quot;form-control input-lg&quot;</span><span class="p">,</span> <span class="nb">id</span><span class="p">:</span> <span class="s2">&quot;match-pref-select&quot;</span> <span class="p">}</span>
+</span><span class='line'>          <span class="nt">%option</span><span class="p">{</span> <span class="ss">value</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="s2">&quot;disabled&quot;</span> <span class="o">=&gt;</span> <span class="s2">&quot;disabled&quot;</span><span class="p">,</span> <span class="s2">&quot;selected&quot;</span> <span class="o">=&gt;</span> <span class="s2">&quot;selected&quot;</span> <span class="p">}</span> Select your preference
+</span><span class='line'>          <span class="nt">%option</span><span class="p">{</span> <span class="ss">value</span><span class="p">:</span> <span class="s2">&quot;men&quot;</span><span class="p">,</span> <span class="nb">id</span><span class="p">:</span> <span class="s2">&quot;match-men&quot;</span> <span class="p">}</span> Men
+</span><span class='line'>          <span class="nt">%option</span><span class="p">{</span> <span class="ss">value</span><span class="p">:</span> <span class="s2">&quot;women&quot;</span><span class="p">,</span> <span class="nb">id</span><span class="p">:</span> <span class="s2">&quot;match-women&quot;</span> <span class="p">}</span> Women
+</span><span class='line'>    <span class="nc">.form-errors</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="c1">// jquery for form </span>
+</span><span class='line'>
+</span><span class='line'><span class="nx">$</span><span class="p">(</span><span class="kd">function</span><span class="p">(){</span>
+</span><span class='line'>  <span class="nx">$</span><span class="p">(</span><span class="s2">&quot;#github-username&quot;</span><span class="p">).</span><span class="nx">change</span><span class="p">(</span><span class="kd">function</span><span class="p">(){</span>
+</span><span class='line'>    <span class="kd">var</span> <span class="nx">username</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="s2">&quot;#github-username&quot;</span><span class="p">).</span><span class="nx">val</span><span class="p">();</span>
+</span><span class='line'>    <span class="nx">$</span><span class="p">.</span><span class="nx">ajax</span><span class="p">({</span>
+</span><span class='line'>      <span class="nx">type</span><span class="o">:</span> <span class="s2">&quot;GET&quot;</span><span class="p">,</span>
+</span><span class='line'>      <span class="nx">url</span><span class="o">:</span> <span class="s2">&quot;https://api.github.com/users/&quot;</span> <span class="o">+</span> <span class="nx">username</span><span class="p">,</span>
+</span><span class='line'>      <span class="nx">success</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">d</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="nx">$</span><span class="p">(</span><span class="s2">&quot;#github-avatar&quot;</span><span class="p">).</span><span class="nx">attr</span><span class="p">(</span><span class="s2">&quot;src&quot;</span><span class="p">,</span> <span class="nx">d</span><span class="p">.</span><span class="nx">avatar_url</span><span class="p">);</span>
+</span><span class='line'>        <span class="nx">$</span><span class="p">(</span><span class="s2">&quot;#github-username-group&quot;</span><span class="p">).</span><span class="nx">addClass</span><span class="p">(</span><span class="s2">&quot;has-success&quot;</span><span class="p">);</span>
+</span><span class='line'>        <span class="nx">$</span><span class="p">(</span><span class="s2">&quot;#github-username-group&quot;</span><span class="p">).</span><span class="nx">removeClass</span><span class="p">(</span><span class="s2">&quot;has-error&quot;</span><span class="p">);</span>
+</span><span class='line'>        <span class="nx">$</span><span class="p">(</span><span class="s2">&quot;.form-errors&quot;</span><span class="p">).</span><span class="nx">text</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="p">},</span>
+</span><span class='line'>      <span class="nx">error</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>        <span class="nx">$</span><span class="p">(</span><span class="s2">&quot;.form-errors&quot;</span><span class="p">).</span><span class="nx">text</span><span class="p">(</span><span class="s2">&quot;Sorry, that is not a Github username.&quot;</span><span class="p">);</span>
+</span><span class='line'>        <span class="nx">$</span><span class="p">(</span><span class="s2">&quot;#github-avatar&quot;</span><span class="p">).</span><span class="nx">attr</span><span class="p">(</span><span class="s2">&quot;src&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">);</span>
+</span><span class='line'>        <span class="nx">$</span><span class="p">(</span><span class="s2">&quot;#github-username-group&quot;</span><span class="p">).</span><span class="nx">addClass</span><span class="p">(</span><span class="s2">&quot;has-error&quot;</span><span class="p">);</span>
+</span><span class='line'>        <span class="nx">$</span><span class="p">(</span><span class="s2">&quot;#github-username-group&quot;</span><span class="p">).</span><span class="nx">removeClass</span><span class="p">(</span><span class="s2">&quot;has-success&quot;</span><span class="p">);</span>
+</span><span class='line'>      <span class="p">}</span>
+</span><span class='line'>    <span class="p">});</span>
+</span><span class='line'>  <span class="p">});</span>
+</span><span class='line'>  <span class="nx">$</span><span class="p">(</span><span class="s2">&quot;#gender-select&quot;</span><span class="p">).</span><span class="nx">change</span><span class="p">(</span><span class="kd">function</span><span class="p">(){</span>
+</span><span class='line'>    <span class="nx">$</span><span class="p">(</span><span class="s2">&quot;#gender-group&quot;</span><span class="p">).</span><span class="nx">addClass</span><span class="p">(</span><span class="s2">&quot;has-success&quot;</span><span class="p">);</span>
+</span><span class='line'>  <span class="p">});</span>
+</span><span class='line'>  <span class="nx">$</span><span class="p">(</span><span class="s2">&quot;#match-pref-select&quot;</span><span class="p">).</span><span class="nx">change</span><span class="p">(</span><span class="kd">function</span><span class="p">(){</span>
+</span><span class='line'>    <span class="nx">$</span><span class="p">(</span><span class="s2">&quot;#match-group&quot;</span><span class="p">).</span><span class="nx">addClass</span><span class="p">(</span><span class="s2">&quot;has-success&quot;</span><span class="p">);</span>
+</span><span class='line'>  <span class="p">});</span>
+</span><span class='line'><span class="p">});</span>
 </span></code></pre></td></tr></table></div></figure>
 
 

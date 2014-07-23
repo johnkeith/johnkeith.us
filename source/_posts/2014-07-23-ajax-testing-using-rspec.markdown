@@ -77,9 +77,11 @@ end
 ```
 That should be it! Now you can run your test suite, watch it pass, and see a folder of the requests in req_cache. 
 
-Below is an example of a basic feature I wrote for what I believe is the world's first, only, and hopefully last GitHub dating app. (Not sure I'll be continuing with that side project...but it was a good example for learning Ajax testing). 
+Below is an example of a basic feature I wrote for what I believe is the world's first, only, and hopefully last GitHub dating app. (Not sure I'll be continuing with that side project...but it was a good example for learning Ajax testing). I'll also include all the necessary configs you need to get RSpec, Capybara, and Puffing Billy to run these test.
 
 ``` ruby
+# onboarding page feature
+
 require_relative '../rails_helper'
 
 feature "user enters basic information on homepage", js: true do
@@ -124,5 +126,131 @@ feature "user enters basic information on homepage", js: true do
   end
 end
 ```
+``` ruby
+# rails_helper.rb
+
+ENV["RAILS_ENV"] ||= 'test'
+require 'spec_helper'
+require File.expand_path("../../config/environment", __FILE__)
+require 'rspec/rails'
+require 'capybara/rails'
+require 'shoulda/matchers'
+require 'capybara/poltergeist'
+require 'billy/rspec'
+
+Dir[Rails.root.join("spec/support/**/*.rb")].each { |f| require f }
+
+ActiveRecord::Migration.maintain_test_schema!
+
+Capybara.javascript_driver = :poltergeist_billy
+
+Billy.configure do |c|
+  c.cache = true
+  c.cache_request_headers = false
+  c.ignore_params = ["http://www.google-analytics.com/__utm.gif",
+                     "https://r.twimg.com/jot",
+                     "http://p.twitter.com/t.gif",
+                     "http://p.twitter.com/f.gif",
+                     "http://www.facebook.com/plugins/like.php",
+                     "https://www.facebook.com/dialog/oauth",
+                     "http://cdn.api.twitter.com/1/urls/count.json"]
+  c.path_blacklist = []
+  c.persist_cache = true
+  c.ignore_cache_port = true # defaults to true
+  c.non_successful_cache_disabled = false
+  c.non_successful_error_level = :warn
+  c.non_whitelisted_requests_disabled = false
+  c.cache_path = 'spec/req_cache/'
+end
+```
+
+``` ruby
+# spec_helper.rb
+
+require 'webmock/rspec'
+
+WebMock.disable_net_connect!(allow_localhost: true)
+
+RSpec.configure do |config|
+
+end
+```
+
+``` ruby
+# Gemfile
+
+group :development, :test do
+  gem 'dotenv-rails'
+  gem 'rspec-rails'
+  gem 'capybara'
+  gem 'launchy'
+  gem 'factory_girl_rails'
+  gem 'pry-rails'
+  gem 'poltergeist'
+  gem 'puffing-billy'
+  gem 'webmock'
+  gem 'valid_attribute'
+  gem 'shoulda-matchers'
+end
+```
+
+``` haml
+/ home page with form to be tested
+
+.row
+  .col-md-3
+    .portrait-placeholder
+      %img{ src: "", class: "img-responsive img-thumbnail", id: "github-avatar" }
+  .col-md-9
+    %form{ role: "form", id: "onboard-form" }
+      .form-group.form-group-lg#github-username-group
+        %input{ type: "text", class: "form-control input-lg", placeholder: "Your Github username", id: "github-username" }
+      .form-group.form-group-lg#gender-group
+        %select{ class: "form-control input-lg", id: "gender-select" }
+          %option{ value: "", "disabled" => "disabled", "selected" => "selected" } Select your gender
+          %option{ value: "male", id: "gender-male" } Male
+          %option{ value: "female", id: "gender-female" } Female
+      .form-group.form-group-lg#match-group
+        %select{ class: "form-control input-lg", id: "match-pref-select" }
+          %option{ value: "", "disabled" => "disabled", "selected" => "selected" } Select your preference
+          %option{ value: "men", id: "match-men" } Men
+          %option{ value: "women", id: "match-women" } Women
+    .form-errors
+```
+
+``` javascript
+// jquery for form 
+
+$(function(){
+  $("#github-username").change(function(){
+    var username = $("#github-username").val();
+    $.ajax({
+      type: "GET",
+      url: "https://api.github.com/users/" + username,
+      success: function(d) {
+        $("#github-avatar").attr("src", d.avatar_url);
+        $("#github-username-group").addClass("has-success");
+        $("#github-username-group").removeClass("has-error");
+        $(".form-errors").text("");
+
+      },
+      error: function() {
+        $(".form-errors").text("Sorry, that is not a Github username.");
+        $("#github-avatar").attr("src", "");
+        $("#github-username-group").addClass("has-error");
+        $("#github-username-group").removeClass("has-success");
+      }
+    });
+  });
+  $("#gender-select").change(function(){
+    $("#gender-group").addClass("has-success");
+  });
+  $("#match-pref-select").change(function(){
+    $("#match-group").addClass("has-success");
+  });
+});
+```
+
+
 
 

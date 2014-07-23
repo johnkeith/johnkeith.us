@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Rails | John Keith]]></title>
   <link href="http://johnk.herokuapp.com/blog/categories/rails/atom.xml" rel="self"/>
   <link href="http://johnk.herokuapp.com/"/>
-  <updated>2014-07-23T09:06:30-04:00</updated>
+  <updated>2014-07-23T11:13:03-04:00</updated>
   <id>http://johnk.herokuapp.com/</id>
   <author>
     <name><![CDATA[John Keith]]></name>
@@ -93,10 +93,13 @@ end
 ```
 That should be it! Now you can run your test suite, watch it pass, and see a folder of the requests in req_cache.</p>
 
-<p>Below is an example of a basic feature I wrote for what I believe is the world&rsquo;s first, only, and hopefully last GitHub dating app. (Not sure I&rsquo;ll be continuing with that side project&hellip;but it was a good example for learning Ajax testing).</p>
+<p>Below is an example of a basic feature I wrote for what I believe is the world&rsquo;s first, only, and hopefully last GitHub dating app. (Not sure I&rsquo;ll be continuing with that side project&hellip;but it was a good example for learning Ajax testing). I&rsquo;ll also include all the necessary configs you need to get RSpec, Capybara, and Puffing Billy to run these test.</p>
 
-<p>``` ruby
-require_relative &lsquo;../rails_helper&rsquo;</p>
+<p>``` ruby</p>
+
+<h1>onboarding page feature</h1>
+
+<p>require_relative &lsquo;../rails_helper&rsquo;</p>
 
 <p>feature &ldquo;user enters basic information on homepage&rdquo;, js: true do
   scenario &ldquo;fills in github username&rdquo; do</p>
@@ -154,6 +157,151 @@ expect(page).to have_select("match-pref-select", selected: "Women")
 
 <p>  end
 end
+<code>
+</code> ruby</p>
+
+<h1>rails_helper.rb</h1>
+
+<p>ENV[&ldquo;RAILS_ENV&rdquo;] ||= &lsquo;test&rsquo;
+require &lsquo;spec_helper&rsquo;
+require File.expand_path(&ldquo;../../config/environment&rdquo;, <strong>FILE</strong>)
+require &lsquo;rspec/rails&rsquo;
+require &lsquo;capybara/rails&rsquo;
+require &lsquo;shoulda/matchers&rsquo;
+require &lsquo;capybara/poltergeist&rsquo;
+require &lsquo;billy/rspec&rsquo;</p>
+
+<p>Dir[Rails.root.join(&ldquo;spec/support/<em>*/</em>.rb&rdquo;)].each { |f| require f }</p>
+
+<p>ActiveRecord::Migration.maintain_test_schema!</p>
+
+<p>Capybara.javascript_driver = :poltergeist_billy</p>
+
+<p>Billy.configure do |c|
+  c.cache = true
+  c.cache_request_headers = false
+  c.ignore_params = [&ldquo;<a href="http://www.google-analytics.com/__utm.gif">http://www.google-analytics.com/__utm.gif</a>&rdquo;,</p>
+
+<pre><code>                 "https://r.twimg.com/jot",
+                 "http://p.twitter.com/t.gif",
+                 "http://p.twitter.com/f.gif",
+                 "http://www.facebook.com/plugins/like.php",
+                 "https://www.facebook.com/dialog/oauth",
+                 "http://cdn.api.twitter.com/1/urls/count.json"]
+</code></pre>
+
+<p>  c.path_blacklist = []
+  c.persist_cache = true
+  c.ignore_cache_port = true # defaults to true
+  c.non_successful_cache_disabled = false
+  c.non_successful_error_level = :warn
+  c.non_whitelisted_requests_disabled = false
+  c.cache_path = &lsquo;spec/req_cache/&rsquo;
+end
+```</p>
+
+<p>``` ruby</p>
+
+<h1>spec_helper.rb</h1>
+
+<p>require &lsquo;webmock/rspec&rsquo;</p>
+
+<p>WebMock.disable_net_connect!(allow_localhost: true)</p>
+
+<p>RSpec.configure do |config|</p>
+
+<p>end
+```</p>
+
+<p>``` ruby</p>
+
+<h1>Gemfile</h1>
+
+<p>group :development, :test do
+  gem &lsquo;dotenv-rails&rsquo;
+  gem &lsquo;rspec-rails&rsquo;
+  gem &lsquo;capybara&rsquo;
+  gem &lsquo;launchy&rsquo;
+  gem &lsquo;factory_girl_rails&rsquo;
+  gem &lsquo;pry-rails&rsquo;
+  gem &lsquo;poltergeist&rsquo;
+  gem &lsquo;puffing-billy&rsquo;
+  gem &lsquo;webmock&rsquo;
+  gem &lsquo;valid_attribute&rsquo;
+  gem &lsquo;shoulda-matchers&rsquo;
+end
+```</p>
+
+<p>``` haml
+/ home page with form to be tested</p>
+
+<p>.row
+  .col-md-3</p>
+
+<pre><code>.portrait-placeholder
+  %img{ src: "", class: "img-responsive img-thumbnail", id: "github-avatar" }
+</code></pre>
+
+<p>  .col-md-9</p>
+
+<pre><code>%form{ role: "form", id: "onboard-form" }
+  .form-group.form-group-lg#github-username-group
+    %input{ type: "text", class: "form-control input-lg", placeholder: "Your Github username", id: "github-username" }
+  .form-group.form-group-lg#gender-group
+    %select{ class: "form-control input-lg", id: "gender-select" }
+      %option{ value: "", "disabled" =&gt; "disabled", "selected" =&gt; "selected" } Select your gender
+      %option{ value: "male", id: "gender-male" } Male
+      %option{ value: "female", id: "gender-female" } Female
+  .form-group.form-group-lg#match-group
+    %select{ class: "form-control input-lg", id: "match-pref-select" }
+      %option{ value: "", "disabled" =&gt; "disabled", "selected" =&gt; "selected" } Select your preference
+      %option{ value: "men", id: "match-men" } Men
+      %option{ value: "women", id: "match-women" } Women
+.form-errors
+</code></pre>
+
+<p>```</p>
+
+<p>``` javascript
+// jquery for form</p>
+
+<p>$(function(){
+  $(&ldquo;#github-username&rdquo;).change(function(){</p>
+
+<pre><code>var username = $("#github-username").val();
+$.ajax({
+  type: "GET",
+  url: "https://api.github.com/users/" + username,
+  success: function(d) {
+    $("#github-avatar").attr("src", d.avatar_url);
+    $("#github-username-group").addClass("has-success");
+    $("#github-username-group").removeClass("has-error");
+    $(".form-errors").text("");
+
+  },
+  error: function() {
+    $(".form-errors").text("Sorry, that is not a Github username.");
+    $("#github-avatar").attr("src", "");
+    $("#github-username-group").addClass("has-error");
+    $("#github-username-group").removeClass("has-success");
+  }
+});
+</code></pre>
+
+<p>  });
+  $(&ldquo;#gender-select&rdquo;).change(function(){</p>
+
+<pre><code>$("#gender-group").addClass("has-success");
+</code></pre>
+
+<p>  });
+  $(&ldquo;#match-pref-select&rdquo;).change(function(){</p>
+
+<pre><code>$("#match-group").addClass("has-success");
+</code></pre>
+
+<p>  });
+});
 ```</p>
 ]]></content>
   </entry>
