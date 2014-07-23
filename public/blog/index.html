@@ -9,9 +9,7 @@
   <meta name="author" content="John Keith">
 
   
-  <meta name="description" content="We have made it to the end of week six. It was a big one for me: Pushed a Javascript game to Heroku
-Promptly got hacked
-Started figuring out OmniAuth &hellip;">
+  <meta name="description" content="Launch Academy has come to an end. It was an incredible 10 weeks, but I already want to jump into a new project while beginning my developer job &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -78,6 +76,236 @@ Started figuring out OmniAuth &hellip;">
   <div id="main">
     <div id="content">
       
+
+
+    <article class="post">
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/07/23/ajax-testing-using-rspec/">Ajax Testing Using RSpec, Capybara, and Puffing Billy</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-07-23T09:02:38-04:00" pubdate data-updated="true">Jul 23<span>rd</span>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Launch Academy has come to an end. It was an incredible 10 weeks, but I already want to jump into a new project while beginning my developer job search.</p>
+
+<p>Ajax testing was one of the areas I only briefly touched on at the end of the course so I wanted to spend some time this week exploring this area. The engineers at Launch said that Ajax and other key Javascript operations of an app should be tested using a <a href="http://jasmine.github.io/">JavaScript testing framework</a>. I still see benefits to testing interactions that rely on Ajax with integration tests, especially if they are fundamental to a user&rsquo;s experience on the page. The example below is how I implemented a couple of Ajax tests using the GitHub API and a simple form.</p>
+
+<p>To start with, it is important to note that testing JavaScript requires you to add some extra configuration in your rails_helper and in your specs. Capybara by default uses the Selenium javascript driver to test Javascript on the page. From my initial testing, it seems like Selenium returns consistent results, but takes more time than other methods. Selenium opens a new instance of the browser for each test, which on a big test suite I imagine could lead to considerable delay.</p>
+
+<p>To enable Javascript on a test, simply pass the <code>js: true</code> option to the test. (Or better yet, pass <code>js: true</code> to your entire feature to use Javascript on all the tests in a spec). When you run RSpec, you should see browser windows pop up and replay the actions mapped out in your integration tests.</p>
+
+<p>There are other Javascript drivers, <a href="https://github.com/teampoltergeist/poltergeist">Poltergeist</a> being the second one I implemented. Poltergeist needs a little extra setup to get it running, as it is built upon <a href="http://phantomjs.org/">PhantomJS</a>, which allows it to run your tests without opening new browser windows each time.</p>
+
+<p>First, add Poltergeist to your Gemfile.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">gem</span> <span class="s1">&#39;poltergeist&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Then, in your rails_helper, specify the default javascript driver to be used in your tests.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Capybara</span><span class="o">.</span><span class="n">javascript_driver</span> <span class="o">=</span> <span class="ss">:poltergeist</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Again, make sure either a single test or your entire feature has Javascript enabled by passing the <code>js: true</code> option.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">require_relative</span> <span class="s1">&#39;../rails_helper&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">feature</span> <span class="s2">&quot;user enters basic information on homepage&quot;</span><span class="p">,</span> <span class="ss">js</span><span class="p">:</span> <span class="kp">true</span> <span class="k">do</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Finally, install PhantomJS from the link above. When running RSpec, you should see your test suite function as normal, without browser windows materializing all over the screen.</p>
+
+<p>One major issue that arises with these two approaches is API calls. When using these Javascript drivers on their own, the test suite is still reaching out and making API requests. At first I thought I was safe &ndash; I had <a href="https://github.com/vcr/vcr">VCR</a> and <a href="https://github.com/bblimke/webmock">WebMock</a> enabled in order to record and replay HTTP interactions. I found out the old fashioned way &ndash; by disconnecting from my wi-fi and causing the tests to fail &ndash; that these mechanisms were  in fact not capturing my Ajax requests.</p>
+
+<p>To grab these Ajax requests, I hunted down a gem called <a href="https://github.com/oesmith/puffing-billy">Puffing Billy</a>. Puffing Billy handles the recording of Ajax calls like VCR, allowing you to run the test suite with genuine API requests once and then subsequently replay the recordings made from the first calls. Puffing Billy has a great readme on its GitHub page, but below are the steps I followed to get it working.</p>
+
+<p>First, add Puffing Billy to your Gemfile.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">gem</span> <span class="s1">&#39;puffing-billy&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Then, require Puffing Billy in your rails_helper.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;billy/rspec&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Next, set your default Javascript driver in your rails_helper. (Puffing Billy supports Selenium, Poltergeist, and Webkit. See the docs for more details.)</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Capybara</span><span class="o">.</span><span class="n">javascript_driver</span> <span class="o">=</span> <span class="ss">:poltergeist_billy</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Lastly, configure Puffing Billy to cache Ajax interactions with this configure block in your rails_helper.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Billy</span><span class="o">.</span><span class="n">configure</span> <span class="k">do</span> <span class="o">|</span><span class="n">c</span><span class="o">|</span>
+</span><span class='line'>  <span class="n">c</span><span class="o">.</span><span class="n">cache</span> <span class="o">=</span> <span class="kp">true</span>
+</span><span class='line'>  <span class="n">c</span><span class="o">.</span><span class="n">cache_request_headers</span> <span class="o">=</span> <span class="kp">false</span>
+</span><span class='line'>  <span class="n">c</span><span class="o">.</span><span class="n">ignore_params</span> <span class="o">=</span> <span class="o">[</span><span class="s2">&quot;http://www.google-analytics.com/__utm.gif&quot;</span><span class="p">,</span>
+</span><span class='line'>                     <span class="s2">&quot;https://r.twimg.com/jot&quot;</span><span class="p">,</span>
+</span><span class='line'>                     <span class="s2">&quot;http://p.twitter.com/t.gif&quot;</span><span class="p">,</span>
+</span><span class='line'>                     <span class="s2">&quot;http://p.twitter.com/f.gif&quot;</span><span class="p">,</span>
+</span><span class='line'>                     <span class="s2">&quot;http://www.facebook.com/plugins/like.php&quot;</span><span class="p">,</span>
+</span><span class='line'>                     <span class="s2">&quot;https://www.facebook.com/dialog/oauth&quot;</span><span class="p">,</span>
+</span><span class='line'>                     <span class="s2">&quot;http://cdn.api.twitter.com/1/urls/count.json&quot;</span><span class="o">]</span>
+</span><span class='line'>  <span class="n">c</span><span class="o">.</span><span class="n">path_blacklist</span> <span class="o">=</span> <span class="o">[]</span>
+</span><span class='line'>  <span class="n">c</span><span class="o">.</span><span class="n">persist_cache</span> <span class="o">=</span> <span class="kp">true</span>
+</span><span class='line'>  <span class="n">c</span><span class="o">.</span><span class="n">ignore_cache_port</span> <span class="o">=</span> <span class="kp">true</span> <span class="c1"># defaults to true</span>
+</span><span class='line'>  <span class="n">c</span><span class="o">.</span><span class="n">non_successful_cache_disabled</span> <span class="o">=</span> <span class="kp">false</span>
+</span><span class='line'>  <span class="n">c</span><span class="o">.</span><span class="n">non_successful_error_level</span> <span class="o">=</span> <span class="ss">:warn</span>
+</span><span class='line'>  <span class="n">c</span><span class="o">.</span><span class="n">non_whitelisted_requests_disabled</span> <span class="o">=</span> <span class="kp">false</span>
+</span><span class='line'>  <span class="n">c</span><span class="o">.</span><span class="n">cache_path</span> <span class="o">=</span> <span class="s1">&#39;spec/req_cache/&#39;</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>That should be it! Now you can run your test suite, watch it pass, and see a folder of the requests in req_cache.</p>
+
+<p>Below is an example of a basic feature I wrote for what I believe is the world&rsquo;s first, only, and hopefully last GitHub dating app. (Not sure I&rsquo;ll be continuing with that side project&hellip;but it was a good example for learning Ajax testing).</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">require_relative</span> <span class="s1">&#39;../rails_helper&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">feature</span> <span class="s2">&quot;user enters basic information on homepage&quot;</span><span class="p">,</span> <span class="ss">js</span><span class="p">:</span> <span class="kp">true</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">scenario</span> <span class="s2">&quot;fills in github username&quot;</span> <span class="k">do</span>
+</span><span class='line'>    <span class="n">visit</span> <span class="n">root_path</span>
+</span><span class='line'>    <span class="n">fill_in</span> <span class="s2">&quot;Your Github username&quot;</span><span class="p">,</span> <span class="ss">with</span><span class="p">:</span> <span class="s2">&quot;johnkeith&quot;</span>
+</span><span class='line'>    <span class="nb">select</span> <span class="s2">&quot;Male&quot;</span><span class="p">,</span> <span class="ss">from</span><span class="p">:</span> <span class="s2">&quot;gender-select&quot;</span>
+</span><span class='line'>    <span class="n">expect</span><span class="p">(</span><span class="n">page</span><span class="p">)</span><span class="o">.</span><span class="n">to</span> <span class="n">have_xpath</span> <span class="s2">&quot;//img[@src=</span><span class="se">\&quot;</span><span class="s2">https://avatars.githubusercontent.com/u/4976905?</span><span class="se">\&quot;</span><span class="s2">]&quot;</span>
+</span><span class='line'>    <span class="n">expect</span><span class="p">(</span><span class="n">page</span><span class="p">)</span><span class="o">.</span><span class="n">to</span> <span class="n">have_css</span> <span class="s2">&quot;div.has-success&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">scenario</span> <span class="s2">&quot;fills in a github username that doesn&#39;t exist&quot;</span> <span class="k">do</span>
+</span><span class='line'>    <span class="n">visit</span> <span class="n">root_path</span>
+</span><span class='line'>    <span class="n">fill_in</span> <span class="s2">&quot;Your Github username&quot;</span><span class="p">,</span> <span class="ss">with</span><span class="p">:</span> <span class="s2">&quot;notaghuser&quot;</span>
+</span><span class='line'>    <span class="nb">select</span> <span class="s2">&quot;Male&quot;</span><span class="p">,</span> <span class="ss">from</span><span class="p">:</span> <span class="s2">&quot;gender-select&quot;</span>
+</span><span class='line'>    <span class="n">expect</span><span class="p">(</span><span class="n">page</span><span class="p">)</span><span class="o">.</span><span class="n">to</span> <span class="n">have_content</span> <span class="s2">&quot;Sorry, that is not a Github username.&quot;</span>
+</span><span class='line'>    <span class="n">expect</span><span class="p">(</span><span class="n">page</span><span class="p">)</span><span class="o">.</span><span class="n">to</span> <span class="n">have_css</span> <span class="s2">&quot;div.has-error&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">scenario</span> <span class="s2">&quot;selects own gender&quot;</span> <span class="k">do</span>
+</span><span class='line'>    <span class="n">visit</span> <span class="n">root_path</span>
+</span><span class='line'>    <span class="nb">select</span> <span class="s2">&quot;Male&quot;</span><span class="p">,</span> <span class="ss">from</span><span class="p">:</span> <span class="s2">&quot;gender-select&quot;</span>
+</span><span class='line'>    <span class="n">fill_in</span> <span class="s2">&quot;Your Github username&quot;</span><span class="p">,</span> <span class="ss">with</span><span class="p">:</span> <span class="s2">&quot;johnkeith&quot;</span>
+</span><span class='line'>    <span class="n">expect</span><span class="p">(</span><span class="n">page</span><span class="p">)</span><span class="o">.</span><span class="n">to</span> <span class="n">have_css</span> <span class="s2">&quot;div.has-success&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">scenario</span> <span class="s2">&quot;selects preference for matches&quot;</span> <span class="k">do</span>
+</span><span class='line'>    <span class="n">visit</span> <span class="n">root_path</span>
+</span><span class='line'>    <span class="nb">select</span> <span class="s2">&quot;Men&quot;</span><span class="p">,</span> <span class="ss">from</span><span class="p">:</span> <span class="s2">&quot;match-pref-select&quot;</span>
+</span><span class='line'>    <span class="n">fill_in</span> <span class="s2">&quot;Your Github username&quot;</span><span class="p">,</span> <span class="ss">with</span><span class="p">:</span> <span class="s2">&quot;johnkeith&quot;</span>
+</span><span class='line'>    <span class="n">expect</span><span class="p">(</span><span class="n">page</span><span class="p">)</span><span class="o">.</span><span class="n">to</span> <span class="n">have_css</span> <span class="s2">&quot;div.has-success&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">scenario</span> <span class="s2">&quot;fills username, selects gender, selects preferences&quot;</span> <span class="k">do</span>
+</span><span class='line'>    <span class="n">visit</span> <span class="n">root_path</span>
+</span><span class='line'>    <span class="n">fill_in</span> <span class="s2">&quot;Your Github username&quot;</span><span class="p">,</span> <span class="ss">with</span><span class="p">:</span> <span class="s2">&quot;johnkeith&quot;</span>
+</span><span class='line'>    <span class="nb">select</span> <span class="s2">&quot;Male&quot;</span><span class="p">,</span> <span class="ss">from</span><span class="p">:</span> <span class="s2">&quot;gender-select&quot;</span>
+</span><span class='line'>    <span class="nb">select</span> <span class="s2">&quot;Women&quot;</span><span class="p">,</span> <span class="ss">from</span><span class="p">:</span> <span class="s2">&quot;match-pref-select&quot;</span>
+</span><span class='line'>    <span class="n">expect</span><span class="p">(</span><span class="n">page</span><span class="p">)</span><span class="o">.</span><span class="n">to</span> <span class="n">have_xpath</span> <span class="s2">&quot;//img[@src=</span><span class="se">\&quot;</span><span class="s2">https://avatars.githubusercontent.com/u/4976905?</span><span class="se">\&quot;</span><span class="s2">]&quot;</span>
+</span><span class='line'>    <span class="n">expect</span><span class="p">(</span><span class="n">page</span><span class="p">)</span><span class="o">.</span><span class="n">to</span> <span class="n">have_select</span><span class="p">(</span><span class="s2">&quot;gender-select&quot;</span><span class="p">,</span> <span class="ss">selected</span><span class="p">:</span> <span class="s2">&quot;Male&quot;</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">expect</span><span class="p">(</span><span class="n">page</span><span class="p">)</span><span class="o">.</span><span class="n">to</span> <span class="n">have_select</span><span class="p">(</span><span class="s2">&quot;match-pref-select&quot;</span><span class="p">,</span> <span class="ss">selected</span><span class="p">:</span> <span class="s2">&quot;Women&quot;</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+</div>
+  
+  
+
+</article>
 
 
     <article class="post">
@@ -489,117 +717,6 @@ Started figuring out OmniAuth &hellip;">
 </span><span class='line'><span class="n">sandwiches</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">item</span><span class="o">|</span>
 </span><span class='line'>  <span class="n">sandwich_list</span> <span class="o">&lt;&lt;</span> <span class="n">item</span><span class="o">.</span><span class="n">text</span><span class="o">.</span><span class="n">downcase</span><span class="o">.</span><span class="n">gsub</span><span class="p">(</span><span class="sr">/[\d+\W+\s]/</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">gsub</span><span class="p">(</span><span class="sr">/the/</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
 </span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-</div>
-  
-  
-
-</article>
-
-
-    <article class="post">
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/05/16/launch-academy-week-1-reflections/">Launch Academy Week One Reflections</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-05-16T20:41:21-04:00" pubdate data-updated="true">May 16<span>th</span>, 2014</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Summing up week one of Launch Academy is tough: it&rsquo;s been a whirlwind of information and challenges. Here&rsquo;s what I do know: I could not be more excited to be here and on my way to becoming a software developer.</p>
-
-<p>This first week really affirmed my desire to become a developer. Coming into Launch Academy, I was unsure of what life would be like working in web development professionally &ndash; I knew I&rsquo;d enjoyed tinkering in the past, but I didn&rsquo;t know what would it be like to be writing software everyday. At the end of this first week, I feel confident that I&rsquo;m going to enjoy this new career tremendously.</p>
-
-<p>That&rsquo;s not to say this week was without it&rsquo;s travails. The Launch Academy instructors stressed from day one that software development is not just about code: great software is the product of strong communication. This is definitely been a big shift in thinking for me as up until now I&rsquo;ve essentially been flying solo when coding. It is certainly taken some adjustment and I feel one of the most important things I&rsquo;ve been working on this week is learning how to collaborate and develop solutions with other people.</p>
-
-<p>On the technical side, the past five days been a huge boost for my abilities in Ruby. As we take on bigger and bigger problems, I&rsquo;m really enjoying figuring out how to design programs and implement them as concisely as possible. Towards the end of the week, after seeing it mentioned in one of our Ruby challenges, I started playing around with the Benchmark module and it has been very interesting to look at how different ways of performing operations can be more efficient than others. Here&rsquo;s some messing around with different methods of calculating the nth number in the Fibonacci sequence that I found interesting.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;benchmark&#39;</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">time</span> <span class="o">=</span> <span class="no">Benchmark</span><span class="o">.</span><span class="n">realtime</span> <span class="k">do</span>
-</span><span class='line'>  <span class="k">def</span> <span class="nf">fibonacci</span><span class="p">(</span><span class="n">nth</span><span class="p">)</span>
-</span><span class='line'>    <span class="n">array_o_fibs</span> <span class="o">=</span> <span class="o">[]</span>
-</span><span class='line'>    <span class="k">if</span> <span class="n">nth</span> <span class="o">==</span> <span class="mi">1</span> <span class="o">||</span> <span class="n">nth</span> <span class="o">==</span> <span class="mi">2</span>
-</span><span class='line'>      <span class="k">return</span> <span class="mi">1</span>
-</span><span class='line'>    <span class="k">else</span>
-</span><span class='line'>      <span class="n">array_o_fibs</span> <span class="o">&lt;&lt;</span> <span class="mi">1</span><span class="p">;</span> <span class="n">array_o_fibs</span> <span class="o">&lt;&lt;</span> <span class="mi">1</span>
-</span><span class='line'>      <span class="k">until</span> <span class="n">array_o_fibs</span><span class="o">.</span><span class="n">length</span> <span class="o">==</span> <span class="n">nth</span>
-</span><span class='line'>        <span class="n">array_o_fibs</span> <span class="o">&lt;&lt;</span> <span class="n">array_o_fibs</span><span class="o">[-</span><span class="mi">1</span><span class="o">]</span> <span class="o">+</span> <span class="n">array_o_fibs</span><span class="o">[-</span><span class="mi">2</span><span class="o">]</span>
-</span><span class='line'>      <span class="k">end</span>
-</span><span class='line'>    <span class="k">end</span>
-</span><span class='line'>    <span class="n">array_o_fibs</span><span class="o">[-</span><span class="mi">1</span><span class="o">]</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="n">fibonacci</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>
-</span><span class='line'><span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'><span class="nb">puts</span> <span class="s2">&quot;The time elapsed in milliseconds is </span><span class="si">#{</span><span class="n">time</span><span class="o">*</span><span class="mi">1000</span><span class="si">}</span><span class="s2"> with the non-recursive fibonacci method.&quot;</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">time</span> <span class="o">=</span> <span class="no">Benchmark</span><span class="o">.</span><span class="n">realtime</span> <span class="k">do</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="k">def</span> <span class="nf">other_fibonacci</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
-</span><span class='line'>    <span class="k">if</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">1</span> <span class="o">||</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">2</span>
-</span><span class='line'>      <span class="mi">1</span>
-</span><span class='line'>    <span class="k">else</span>
-</span><span class='line'>      <span class="n">fibonacci</span><span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">fibonacci</span><span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">2</span><span class="p">)</span>
-</span><span class='line'>    <span class="k">end</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="n">other_fibonacci</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>
-</span><span class='line'><span class="k">end</span>
-</span><span class='line'><span class="nb">puts</span> <span class="s2">&quot;The time elapsed in milliseconds is </span><span class="si">#{</span><span class="n">time</span><span class="o">*</span><span class="mi">1000</span><span class="si">}</span><span class="s2"> with the recursive fibonacci method.&quot;</span>
 </span></code></pre></td></tr></table></div></figure>
 
 </div>

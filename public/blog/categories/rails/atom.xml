@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Rails | John Keith]]></title>
   <link href="http://johnk.herokuapp.com/blog/categories/rails/atom.xml" rel="self"/>
   <link href="http://johnk.herokuapp.com/"/>
-  <updated>2014-07-21T14:07:29-04:00</updated>
+  <updated>2014-07-23T09:06:30-04:00</updated>
   <id>http://johnk.herokuapp.com/</id>
   <author>
     <name><![CDATA[John Keith]]></name>
@@ -12,6 +12,151 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Ajax Testing Using RSpec, Capybara, and Puffing Billy]]></title>
+    <link href="http://johnk.herokuapp.com/blog/2014/07/23/ajax-testing-using-rspec/"/>
+    <updated>2014-07-23T09:02:38-04:00</updated>
+    <id>http://johnk.herokuapp.com/blog/2014/07/23/ajax-testing-using-rspec</id>
+    <content type="html"><![CDATA[<p>Launch Academy has come to an end. It was an incredible 10 weeks, but I already want to jump into a new project while beginning my developer job search.</p>
+
+<p>Ajax testing was one of the areas I only briefly touched on at the end of the course so I wanted to spend some time this week exploring this area. The engineers at Launch said that Ajax and other key Javascript operations of an app should be tested using a <a href="http://jasmine.github.io/">JavaScript testing framework</a>. I still see benefits to testing interactions that rely on Ajax with integration tests, especially if they are fundamental to a user&rsquo;s experience on the page. The example below is how I implemented a couple of Ajax tests using the GitHub API and a simple form.</p>
+
+<p>To start with, it is important to note that testing JavaScript requires you to add some extra configuration in your rails_helper and in your specs. Capybara by default uses the Selenium javascript driver to test Javascript on the page. From my initial testing, it seems like Selenium returns consistent results, but takes more time than other methods. Selenium opens a new instance of the browser for each test, which on a big test suite I imagine could lead to considerable delay.</p>
+
+<p>To enable Javascript on a test, simply pass the <code>js: true</code> option to the test. (Or better yet, pass <code>js: true</code> to your entire feature to use Javascript on all the tests in a spec). When you run RSpec, you should see browser windows pop up and replay the actions mapped out in your integration tests.</p>
+
+<p>There are other Javascript drivers, <a href="https://github.com/teampoltergeist/poltergeist">Poltergeist</a> being the second one I implemented. Poltergeist needs a little extra setup to get it running, as it is built upon <a href="http://phantomjs.org/">PhantomJS</a>, which allows it to run your tests without opening new browser windows each time.</p>
+
+<p>First, add Poltergeist to your Gemfile.</p>
+
+<p><code>ruby
+gem 'poltergeist'
+</code>
+Then, in your rails_helper, specify the default javascript driver to be used in your tests.</p>
+
+<p><code>ruby
+Capybara.javascript_driver = :poltergeist
+</code>
+Again, make sure either a single test or your entire feature has Javascript enabled by passing the <code>js: true</code> option.</p>
+
+<p>``` ruby
+require_relative &lsquo;../rails_helper&rsquo;</p>
+
+<p>feature &ldquo;user enters basic information on homepage&rdquo;, js: true do
+```
+Finally, install PhantomJS from the link above. When running RSpec, you should see your test suite function as normal, without browser windows materializing all over the screen.</p>
+
+<p>One major issue that arises with these two approaches is API calls. When using these Javascript drivers on their own, the test suite is still reaching out and making API requests. At first I thought I was safe &ndash; I had <a href="https://github.com/vcr/vcr">VCR</a> and <a href="https://github.com/bblimke/webmock">WebMock</a> enabled in order to record and replay HTTP interactions. I found out the old fashioned way &ndash; by disconnecting from my wi-fi and causing the tests to fail &ndash; that these mechanisms were  in fact not capturing my Ajax requests.</p>
+
+<p>To grab these Ajax requests, I hunted down a gem called <a href="https://github.com/oesmith/puffing-billy">Puffing Billy</a>. Puffing Billy handles the recording of Ajax calls like VCR, allowing you to run the test suite with genuine API requests once and then subsequently replay the recordings made from the first calls. Puffing Billy has a great readme on its GitHub page, but below are the steps I followed to get it working.</p>
+
+<p>First, add Puffing Billy to your Gemfile.</p>
+
+<p><code>ruby
+gem 'puffing-billy'
+</code>
+Then, require Puffing Billy in your rails_helper.</p>
+
+<p><code>
+require 'billy/rspec'
+</code>
+Next, set your default Javascript driver in your rails_helper. (Puffing Billy supports Selenium, Poltergeist, and Webkit. See the docs for more details.)</p>
+
+<p><code>ruby
+Capybara.javascript_driver = :poltergeist_billy
+</code>
+Lastly, configure Puffing Billy to cache Ajax interactions with this configure block in your rails_helper.</p>
+
+<p>``` ruby
+Billy.configure do |c|
+  c.cache = true
+  c.cache_request_headers = false
+  c.ignore_params = [&ldquo;<a href="http://www.google-analytics.com/__utm.gif">http://www.google-analytics.com/__utm.gif</a>&rdquo;,</p>
+
+<pre><code>                 "https://r.twimg.com/jot",
+                 "http://p.twitter.com/t.gif",
+                 "http://p.twitter.com/f.gif",
+                 "http://www.facebook.com/plugins/like.php",
+                 "https://www.facebook.com/dialog/oauth",
+                 "http://cdn.api.twitter.com/1/urls/count.json"]
+</code></pre>
+
+<p>  c.path_blacklist = []
+  c.persist_cache = true
+  c.ignore_cache_port = true # defaults to true
+  c.non_successful_cache_disabled = false
+  c.non_successful_error_level = :warn
+  c.non_whitelisted_requests_disabled = false
+  c.cache_path = &lsquo;spec/req_cache/&rsquo;
+end
+```
+That should be it! Now you can run your test suite, watch it pass, and see a folder of the requests in req_cache.</p>
+
+<p>Below is an example of a basic feature I wrote for what I believe is the world&rsquo;s first, only, and hopefully last GitHub dating app. (Not sure I&rsquo;ll be continuing with that side project&hellip;but it was a good example for learning Ajax testing).</p>
+
+<p>``` ruby
+require_relative &lsquo;../rails_helper&rsquo;</p>
+
+<p>feature &ldquo;user enters basic information on homepage&rdquo;, js: true do
+  scenario &ldquo;fills in github username&rdquo; do</p>
+
+<pre><code>visit root_path
+fill_in "Your Github username", with: "johnkeith"
+select "Male", from: "gender-select"
+expect(page).to have_xpath "//img[@src=\"https://avatars.githubusercontent.com/u/4976905?\"]"
+expect(page).to have_css "div.has-success"
+</code></pre>
+
+<p>  end</p>
+
+<p>  scenario &ldquo;fills in a github username that doesn&rsquo;t exist&rdquo; do</p>
+
+<pre><code>visit root_path
+fill_in "Your Github username", with: "notaghuser"
+select "Male", from: "gender-select"
+expect(page).to have_content "Sorry, that is not a Github username."
+expect(page).to have_css "div.has-error"
+</code></pre>
+
+<p>  end</p>
+
+<p>  scenario &ldquo;selects own gender&rdquo; do</p>
+
+<pre><code>visit root_path
+select "Male", from: "gender-select"
+fill_in "Your Github username", with: "johnkeith"
+expect(page).to have_css "div.has-success"
+</code></pre>
+
+<p>  end</p>
+
+<p>  scenario &ldquo;selects preference for matches&rdquo; do</p>
+
+<pre><code>visit root_path
+select "Men", from: "match-pref-select"
+fill_in "Your Github username", with: "johnkeith"
+expect(page).to have_css "div.has-success"
+</code></pre>
+
+<p>  end</p>
+
+<p>  scenario &ldquo;fills username, selects gender, selects preferences&rdquo; do</p>
+
+<pre><code>visit root_path
+fill_in "Your Github username", with: "johnkeith"
+select "Male", from: "gender-select"
+select "Women", from: "match-pref-select"
+expect(page).to have_xpath "//img[@src=\"https://avatars.githubusercontent.com/u/4976905?\"]"
+expect(page).to have_select("gender-select", selected: "Male")
+expect(page).to have_select("match-pref-select", selected: "Women")
+</code></pre>
+
+<p>  end
+end
+```</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Week Six and Embracing TDD]]></title>
@@ -155,109 +300,6 @@ end
 </code></p>
 
 <p>I have a serious fixation on the ternary operator, if you haven&rsquo;t noticed.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Simple File Uploads to Rails With Dragonfly]]></title>
-    <link href="http://johnk.herokuapp.com/blog/2014/03/11/simple-file-uploads-to-rails-with-dragonfly/"/>
-    <updated>2014-03-11T17:42:53-04:00</updated>
-    <id>http://johnk.herokuapp.com/blog/2014/03/11/simple-file-uploads-to-rails-with-dragonfly</id>
-    <content type="html"><![CDATA[<p>Gems are amazing. As a rookie developer, it is incredible to come into the Ruby/Rails community and discover the wealth of code that is available out there, packaged and ready to be used. I&rsquo;d encountered and enjoyed open source software before, but it was not until I started writing code that I really came to appreciate what the concept means.</p>
-
-<p>Take for instance file uploading with Rails. You can perform basic uploads using what Rails offers natively or you can choose from a multitude of gems (Paperclip, Carrierwave, Dragonfly, the <a href="https://www.ruby-toolbox.com/categories/rails_file_uploads">list goes on</a>) that add more advanced methods of uploading and storing files in your Rails app.</p>
-
-<p>For the expense tracker I am currently working on, I selected <a href="https://github.com/markevans/dragonfly">Dragonfly</a>. I&rsquo;ll admit, I tried Paperclip first and I was unable to make it function correctly. My lack of success with Paperclip, however, was only half the reason I ended up with Dragonfly.</p>
-
-<p>As I was envisioning document uploads in my app, I wanted the document (a receipt or invoice of a purchase) to become part of the Expenses table that I had already set up with a multitude of fields. With Paperclip, as far as I understood from the tutorials provided, it seemed like the documents would be set up as a separate model in the database, then associated with my current Expenses model. I can see advantages to the Paperclip approach (making all the documents easily accessible in one section of the database), but I wanted keep the relationships in this app as simple as possible, if only for my own sanity.</p>
-
-<p>The great part about Dragonfly is it makes adding a :document column to your current model incredibly easy. The instructions below were what I did to install and integrate Dragonfly to upload documents when creating a new record in my Expense model.</p>
-
-<p>First, I added Dragonfly to my gemfile and ran bundler.</p>
-
-<p><code>ruby
-gem 'dragonfly', "~&gt;1.0.3"
-</code></p>
-
-<p><code>
-$ bundle install
-</code></p>
-
-<p>Then, in my app/models/expense.rb, I added an accessor for my document.</p>
-
-<p><code>ruby
-dragonfly_accessor :document
-</code></p>
-
-<p>Back at the command line, I setup a migration to add a document column to my expenses model.</p>
-
-<p><code>
-$ Rails generate migration AddDocumentToExpenses
-</code></p>
-
-<p>Inside the migration document, I added two columns, one for the :document_uid and :document_name, per the <a href="http://markevans.github.io/dragonfly/">Dragonfly wiki</a>.</p>
-
-<p>``` ruby
-class AddDocumentToExpenses &lt; ActiveRecord::Migration
-  def change</p>
-
-<pre><code>add_column :expenses, :document_uid, :string
-add_column :expenses, :document_name, :string
-</code></pre>
-
-<p>  end
-end
-```</p>
-
-<p>Then came migrating the database.</p>
-
-<p><code>
-rake db:migrate
-</code></p>
-
-<p>Next was altering my app/views/expenses/_form.html.erb to include a field for file uploads.</p>
-
-<p>``` erb</p>
-
-<div class="field">
-    <%= f.label :document %><br>
-    <%= f.file_field :document %>
-</div>
-
-
-<p>```
-Then, inside my app/controllers/expenses_controller.rb, I added :document to the list of permitted parameters near the bottom.</p>
-
-<p>``` ruby
-def expense_params</p>
-
-<pre><code>params.require(:expense).permit(:user_id, :date, :reseller, :item_or_service, :payment_form, :charged_to, :cost, :amount_from_budget, :notes, :document)
-</code></pre>
-
-<p>end
-```</p>
-
-<p>With the next step, I was unsure if this was the correct course to take. I was worried about my files being uploaded to the public folder, as I assumed anything in that area would be easily accessible from the outside. I created a directory in the root of my app called secure_storage, though I have no idea if that name is a complete misnomer. Then, I opened the config/initializers/dragonfly.rb and changed the default location for where files would be stored. Again, hopefully this will put them in a better location than the public directory, but I am not a hundred precent sure.</p>
-
-<p><code>ruby
-datastore :file,
-  root_path: Rails.root.join('secure_storage/system/dragonfly', Rails.env),
-  server_root: Rails.root.join('secure_storage')
-</code></p>
-
-<p>Finally, I added a file link (with a condition to make sure it didn&rsquo;t appear if no file was present with the record) on the app/views/expenses/show.html.erb.</p>
-
-<p>``` erb
-&lt;% if @expense.document %></p>
-
-<p><p>
-  <strong>Document:</strong>
-  &lt;%= link_to &ldquo;File&rdquo;, root_url.chop + @expense.document.url %>
-</p>
-&lt;% end %>
-```</p>
-
-<p>That, I believe, was all! You should now have a working file upload function, one that even lets you download the file too! If you try this and have trouble, let me know in the comments below.</p>
 ]]></content>
   </entry>
   

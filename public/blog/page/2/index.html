@@ -9,7 +9,7 @@
   <meta name="author" content="John Keith">
 
   
-  <meta name="description" content="The last part of our Launch Academy prep work is a moment of reflection. I feel like I&rsquo;ve come quite far since I started the prework &ndash; &hellip;">
+  <meta name="description" content="Summing up week one of Launch Academy is tough: it&rsquo;s been a whirlwind of information and challenges. Here&rsquo;s what I do know: I could not &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -77,6 +77,119 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/05/16/launch-academy-week-1-reflections/">Launch Academy Week One Reflections</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-05-16T20:41:21-04:00" pubdate data-updated="true">May 16<span>th</span>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Summing up week one of Launch Academy is tough: it&rsquo;s been a whirlwind of information and challenges. Here&rsquo;s what I do know: I could not be more excited to be here and on my way to becoming a software developer.</p>
+
+<p>This first week really affirmed my desire to become a developer. Coming into Launch Academy, I was unsure of what life would be like working in web development professionally &ndash; I knew I&rsquo;d enjoyed tinkering in the past, but I didn&rsquo;t know what would it be like to be writing software everyday. At the end of this first week, I feel confident that I&rsquo;m going to enjoy this new career tremendously.</p>
+
+<p>That&rsquo;s not to say this week was without it&rsquo;s travails. The Launch Academy instructors stressed from day one that software development is not just about code: great software is the product of strong communication. This is definitely been a big shift in thinking for me as up until now I&rsquo;ve essentially been flying solo when coding. It is certainly taken some adjustment and I feel one of the most important things I&rsquo;ve been working on this week is learning how to collaborate and develop solutions with other people.</p>
+
+<p>On the technical side, the past five days been a huge boost for my abilities in Ruby. As we take on bigger and bigger problems, I&rsquo;m really enjoying figuring out how to design programs and implement them as concisely as possible. Towards the end of the week, after seeing it mentioned in one of our Ruby challenges, I started playing around with the Benchmark module and it has been very interesting to look at how different ways of performing operations can be more efficient than others. Here&rsquo;s some messing around with different methods of calculating the nth number in the Fibonacci sequence that I found interesting.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;benchmark&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">time</span> <span class="o">=</span> <span class="no">Benchmark</span><span class="o">.</span><span class="n">realtime</span> <span class="k">do</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">fibonacci</span><span class="p">(</span><span class="n">nth</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">array_o_fibs</span> <span class="o">=</span> <span class="o">[]</span>
+</span><span class='line'>    <span class="k">if</span> <span class="n">nth</span> <span class="o">==</span> <span class="mi">1</span> <span class="o">||</span> <span class="n">nth</span> <span class="o">==</span> <span class="mi">2</span>
+</span><span class='line'>      <span class="k">return</span> <span class="mi">1</span>
+</span><span class='line'>    <span class="k">else</span>
+</span><span class='line'>      <span class="n">array_o_fibs</span> <span class="o">&lt;&lt;</span> <span class="mi">1</span><span class="p">;</span> <span class="n">array_o_fibs</span> <span class="o">&lt;&lt;</span> <span class="mi">1</span>
+</span><span class='line'>      <span class="k">until</span> <span class="n">array_o_fibs</span><span class="o">.</span><span class="n">length</span> <span class="o">==</span> <span class="n">nth</span>
+</span><span class='line'>        <span class="n">array_o_fibs</span> <span class="o">&lt;&lt;</span> <span class="n">array_o_fibs</span><span class="o">[-</span><span class="mi">1</span><span class="o">]</span> <span class="o">+</span> <span class="n">array_o_fibs</span><span class="o">[-</span><span class="mi">2</span><span class="o">]</span>
+</span><span class='line'>      <span class="k">end</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>    <span class="n">array_o_fibs</span><span class="o">[-</span><span class="mi">1</span><span class="o">]</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">fibonacci</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="nb">puts</span> <span class="s2">&quot;The time elapsed in milliseconds is </span><span class="si">#{</span><span class="n">time</span><span class="o">*</span><span class="mi">1000</span><span class="si">}</span><span class="s2"> with the non-recursive fibonacci method.&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">time</span> <span class="o">=</span> <span class="no">Benchmark</span><span class="o">.</span><span class="n">realtime</span> <span class="k">do</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">other_fibonacci</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">if</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">1</span> <span class="o">||</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">2</span>
+</span><span class='line'>      <span class="mi">1</span>
+</span><span class='line'>    <span class="k">else</span>
+</span><span class='line'>      <span class="n">fibonacci</span><span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">fibonacci</span><span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">2</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">other_fibonacci</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'><span class="nb">puts</span> <span class="s2">&quot;The time elapsed in milliseconds is </span><span class="si">#{</span><span class="n">time</span><span class="o">*</span><span class="mi">1000</span><span class="si">}</span><span class="s2"> with the recursive fibonacci method.&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -482,56 +595,6 @@
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/03/16/why-launch-academy-in-a-nutshell/">Why Launch Academy in a Nutshell</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-03-16T14:53:05-04:00" pubdate data-updated="true">Mar 16<span>th</span>, 2014</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>As another part of our pre-work for Launch Academy, we&rsquo;ve been asked to setup a blog. Luckily, I actually (miraculously) got this Octopress installation started back when I was applying to Launch. That said, I liked one of the writing prompts provided to us as part of this exercise &ndash; &ldquo;Three Reasons I Felt Launch Academy Was the Best Fit for Me&rdquo; &ndash; and I thought offering my three cents on why I&rsquo;m heading to Launch could be informative for anyone else looking to apply to development bootcamps.</p>
-
-<p><strong>Student-centric approach to everything</strong></p>
-
-<p>Above all else, Launch Academy feels very student-centered. From the moment you start looking at their webpage to your first conversations with their experience engineers, the immediate impression you receive is that Launch is completely dedicated to their mission of transforming students from all walks of life into software engineers. Now, I&rsquo;m sure many, many of the other bootcamps out there are equally fixated on this goal, but I felt that Launch Academy had the greatest commitment to their students of any of the programs I talked with.</p>
-
-<p><strong>Excellent, comprehensive curriculum</strong></p>
-
-<p>One of the parts of Launch Academy that I spent the most time dissecting before making my commitment to attend was the curriculum. I wanted to make sure that after Launch I would feel prepared to jump into the job market as a web developer. I can say from many conversations and emails with the Launch staff that I feel confident the program will provide the broad exposure and focus on fundamental skills to transform us into capable and confident web developers.</p>
-
-<p><strong>Post-graduation assistance</strong></p>
-
-<p>This may be part and parcel of Launch&rsquo;s commitment to their students, but the career assistance that Launch offers to its graduates was another huge reason that I decided on them over other bootcamps. While many other programs talk about their tuition breaks for taking a job through a partner company, I believe Launch is much more focused on helping you find a job where you will both succeed and be happy, rather than one that benefits their partnerships.</p>
-
-<p>And of course, Boston! Having come back from Korea almost three years ago, I&rsquo;m ready for a new adventure and a radical change of scenery. While I will miss Columbia (weather-wise and otherwise), I cannot wait to come up to Boston in May.</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/3/">&larr; Older</a>
@@ -557,6 +620,10 @@
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2014/07/23/ajax-testing-using-rspec/">Ajax Testing Using RSpec, Capybara, and Puffing Billy</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2014/06/22/week-six-and-embracing-tdd/">Week Six and Embracing TDD</a>
       </li>
     
@@ -570,10 +637,6 @@
     
       <li class="post">
         <a href="/blog/2014/06/01/week-three-and-designing-for-efficiency/">Week Three and Designing for Efficiency</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/05/26/my-ruby-toolbox-at-the-end-of-week-two/">My Ruby Toolbox at the End of Week Two</a>
       </li>
     
   </ul>

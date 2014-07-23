@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Testing, | John Keith]]></title>
+  <link href="http://johnk.herokuapp.com/blog/categories/testing/atom.xml" rel="self"/>
+  <link href="http://johnk.herokuapp.com/"/>
+  <updated>2014-07-23T09:06:30-04:00</updated>
+  <id>http://johnk.herokuapp.com/</id>
+  <author>
+    <name><![CDATA[John Keith]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Ajax Testing Using RSpec, Capybara, and Puffing Billy]]></title>
+    <link href="http://johnk.herokuapp.com/blog/2014/07/23/ajax-testing-using-rspec/"/>
+    <updated>2014-07-23T09:02:38-04:00</updated>
+    <id>http://johnk.herokuapp.com/blog/2014/07/23/ajax-testing-using-rspec</id>
+    <content type="html"><![CDATA[<p>Launch Academy has come to an end. It was an incredible 10 weeks, but I already want to jump into a new project while beginning my developer job search.</p>
+
+<p>Ajax testing was one of the areas I only briefly touched on at the end of the course so I wanted to spend some time this week exploring this area. The engineers at Launch said that Ajax and other key Javascript operations of an app should be tested using a <a href="http://jasmine.github.io/">JavaScript testing framework</a>. I still see benefits to testing interactions that rely on Ajax with integration tests, especially if they are fundamental to a user&rsquo;s experience on the page. The example below is how I implemented a couple of Ajax tests using the GitHub API and a simple form.</p>
+
+<p>To start with, it is important to note that testing JavaScript requires you to add some extra configuration in your rails_helper and in your specs. Capybara by default uses the Selenium javascript driver to test Javascript on the page. From my initial testing, it seems like Selenium returns consistent results, but takes more time than other methods. Selenium opens a new instance of the browser for each test, which on a big test suite I imagine could lead to considerable delay.</p>
+
+<p>To enable Javascript on a test, simply pass the <code>js: true</code> option to the test. (Or better yet, pass <code>js: true</code> to your entire feature to use Javascript on all the tests in a spec). When you run RSpec, you should see browser windows pop up and replay the actions mapped out in your integration tests.</p>
+
+<p>There are other Javascript drivers, <a href="https://github.com/teampoltergeist/poltergeist">Poltergeist</a> being the second one I implemented. Poltergeist needs a little extra setup to get it running, as it is built upon <a href="http://phantomjs.org/">PhantomJS</a>, which allows it to run your tests without opening new browser windows each time.</p>
+
+<p>First, add Poltergeist to your Gemfile.</p>
+
+<p><code>ruby
+gem 'poltergeist'
+</code>
+Then, in your rails_helper, specify the default javascript driver to be used in your tests.</p>
+
+<p><code>ruby
+Capybara.javascript_driver = :poltergeist
+</code>
+Again, make sure either a single test or your entire feature has Javascript enabled by passing the <code>js: true</code> option.</p>
+
+<p>``` ruby
+require_relative &lsquo;../rails_helper&rsquo;</p>
+
+<p>feature &ldquo;user enters basic information on homepage&rdquo;, js: true do
+```
+Finally, install PhantomJS from the link above. When running RSpec, you should see your test suite function as normal, without browser windows materializing all over the screen.</p>
+
+<p>One major issue that arises with these two approaches is API calls. When using these Javascript drivers on their own, the test suite is still reaching out and making API requests. At first I thought I was safe &ndash; I had <a href="https://github.com/vcr/vcr">VCR</a> and <a href="https://github.com/bblimke/webmock">WebMock</a> enabled in order to record and replay HTTP interactions. I found out the old fashioned way &ndash; by disconnecting from my wi-fi and causing the tests to fail &ndash; that these mechanisms were  in fact not capturing my Ajax requests.</p>
+
+<p>To grab these Ajax requests, I hunted down a gem called <a href="https://github.com/oesmith/puffing-billy">Puffing Billy</a>. Puffing Billy handles the recording of Ajax calls like VCR, allowing you to run the test suite with genuine API requests once and then subsequently replay the recordings made from the first calls. Puffing Billy has a great readme on its GitHub page, but below are the steps I followed to get it working.</p>
+
+<p>First, add Puffing Billy to your Gemfile.</p>
+
+<p><code>ruby
+gem 'puffing-billy'
+</code>
+Then, require Puffing Billy in your rails_helper.</p>
+
+<p><code>
+require 'billy/rspec'
+</code>
+Next, set your default Javascript driver in your rails_helper. (Puffing Billy supports Selenium, Poltergeist, and Webkit. See the docs for more details.)</p>
+
+<p><code>ruby
+Capybara.javascript_driver = :poltergeist_billy
+</code>
+Lastly, configure Puffing Billy to cache Ajax interactions with this configure block in your rails_helper.</p>
+
+<p>``` ruby
+Billy.configure do |c|
+  c.cache = true
+  c.cache_request_headers = false
+  c.ignore_params = [&ldquo;<a href="http://www.google-analytics.com/__utm.gif">http://www.google-analytics.com/__utm.gif</a>&rdquo;,</p>
+
+<pre><code>                 "https://r.twimg.com/jot",
+                 "http://p.twitter.com/t.gif",
+                 "http://p.twitter.com/f.gif",
+                 "http://www.facebook.com/plugins/like.php",
+                 "https://www.facebook.com/dialog/oauth",
+                 "http://cdn.api.twitter.com/1/urls/count.json"]
+</code></pre>
+
+<p>  c.path_blacklist = []
+  c.persist_cache = true
+  c.ignore_cache_port = true # defaults to true
+  c.non_successful_cache_disabled = false
+  c.non_successful_error_level = :warn
+  c.non_whitelisted_requests_disabled = false
+  c.cache_path = &lsquo;spec/req_cache/&rsquo;
+end
+```
+That should be it! Now you can run your test suite, watch it pass, and see a folder of the requests in req_cache.</p>
+
+<p>Below is an example of a basic feature I wrote for what I believe is the world&rsquo;s first, only, and hopefully last GitHub dating app. (Not sure I&rsquo;ll be continuing with that side project&hellip;but it was a good example for learning Ajax testing).</p>
+
+<p>``` ruby
+require_relative &lsquo;../rails_helper&rsquo;</p>
+
+<p>feature &ldquo;user enters basic information on homepage&rdquo;, js: true do
+  scenario &ldquo;fills in github username&rdquo; do</p>
+
+<pre><code>visit root_path
+fill_in "Your Github username", with: "johnkeith"
+select "Male", from: "gender-select"
+expect(page).to have_xpath "//img[@src=\"https://avatars.githubusercontent.com/u/4976905?\"]"
+expect(page).to have_css "div.has-success"
+</code></pre>
+
+<p>  end</p>
+
+<p>  scenario &ldquo;fills in a github username that doesn&rsquo;t exist&rdquo; do</p>
+
+<pre><code>visit root_path
+fill_in "Your Github username", with: "notaghuser"
+select "Male", from: "gender-select"
+expect(page).to have_content "Sorry, that is not a Github username."
+expect(page).to have_css "div.has-error"
+</code></pre>
+
+<p>  end</p>
+
+<p>  scenario &ldquo;selects own gender&rdquo; do</p>
+
+<pre><code>visit root_path
+select "Male", from: "gender-select"
+fill_in "Your Github username", with: "johnkeith"
+expect(page).to have_css "div.has-success"
+</code></pre>
+
+<p>  end</p>
+
+<p>  scenario &ldquo;selects preference for matches&rdquo; do</p>
+
+<pre><code>visit root_path
+select "Men", from: "match-pref-select"
+fill_in "Your Github username", with: "johnkeith"
+expect(page).to have_css "div.has-success"
+</code></pre>
+
+<p>  end</p>
+
+<p>  scenario &ldquo;fills username, selects gender, selects preferences&rdquo; do</p>
+
+<pre><code>visit root_path
+fill_in "Your Github username", with: "johnkeith"
+select "Male", from: "gender-select"
+select "Women", from: "match-pref-select"
+expect(page).to have_xpath "//img[@src=\"https://avatars.githubusercontent.com/u/4976905?\"]"
+expect(page).to have_select("gender-select", selected: "Male")
+expect(page).to have_select("match-pref-select", selected: "Women")
+</code></pre>
+
+<p>  end
+end
+```</p>
+]]></content>
+  </entry>
+  
+</feed>
