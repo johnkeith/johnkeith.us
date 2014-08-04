@@ -9,7 +9,7 @@
   <meta name="author" content="John Keith">
 
   
-  <meta name="description" content="Launch Academy has come to an end. It was an incredible 10 weeks, but I already want to jump into a new project while beginning my developer job &hellip;">
+  <meta name="description" content="Launch Academy has come to an end. It was an incredible 10 weeks, but I&rsquo;m already itching to jump into a new project while beginning my &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -106,9 +106,9 @@
   </header>
 
 
-  <div class="entry-content"><p>Launch Academy has come to an end. It was an incredible 10 weeks, but I already want to jump into a new project while beginning my developer job search.</p>
+  <div class="entry-content"><p>Launch Academy has come to an end. It was an incredible 10 weeks, but I&rsquo;m already itching to jump into a new project while beginning my developer job search.</p>
 
-<p>Ajax testing was one of the areas I only briefly touched on at the end of the course so I wanted to spend some time this week exploring this area. The engineers at Launch said that Ajax and other key Javascript operations of an app should be tested using a <a href="http://jasmine.github.io/">JavaScript testing framework</a>. I still see benefits to testing interactions that rely on Ajax with integration tests, especially if they are fundamental to a user&rsquo;s experience on the page. The example below is how I implemented a couple of Ajax tests using the GitHub API and a simple form.</p>
+<p>Ajax testing was one of the areas I only briefly touched on at the end of the course so I wanted to spend some time this week exploring the ins and outs of this crucial aspect of testing. The engineers at Launch said that Ajax and other key Javascript operations of an app should be tested using a <a href="http://jasmine.github.io/">JavaScript testing framework</a>. I&rsquo;m still tempted, however, see benefits to testing interactions that rely on Ajax with integration tests, especially if they are fundamental to a user&rsquo;s experience on the page. The example below is how I implemented a couple of Ajax tests using the GitHub API and a simple form.</p>
 
 <p>To start with, it is important to note that testing JavaScript requires you to add some extra configuration in your rails_helper and in your specs. Capybara by default uses the Selenium javascript driver to test Javascript on the page. From my initial testing, it seems like Selenium returns consistent results, but takes more time than other methods. Selenium opens a new instance of the browser for each test, which on a big test suite I imagine could lead to considerable delay.</p>
 

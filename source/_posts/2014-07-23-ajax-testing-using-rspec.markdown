@@ -5,9 +5,9 @@ date: 2014-07-23 09:02:38 -0400
 comments: true
 categories: rspec, testing, capybara, rails
 ---
-Launch Academy has come to an end. It was an incredible 10 weeks, but I already want to jump into a new project while beginning my developer job search. 
+Launch Academy has come to an end. It was an incredible 10 weeks, but I'm already itching to jump into a new project while beginning my developer job search. 
 
-Ajax testing was one of the areas I only briefly touched on at the end of the course so I wanted to spend some time this week exploring this area. The engineers at Launch said that Ajax and other key Javascript operations of an app should be tested using a [JavaScript testing framework](http://jasmine.github.io/). I still see benefits to testing interactions that rely on Ajax with integration tests, especially if they are fundamental to a user's experience on the page. The example below is how I implemented a couple of Ajax tests using the GitHub API and a simple form. 
+Ajax testing was one of the areas I only briefly touched on at the end of the course so I wanted to spend some time this week exploring the ins and outs of this crucial aspect of testing. The engineers at Launch said that Ajax and other key Javascript operations of an app should be tested using a [JavaScript testing framework](http://jasmine.github.io/). I'm still tempted, however, see benefits to testing interactions that rely on Ajax with integration tests, especially if they are fundamental to a user's experience on the page. The example below is how I implemented a couple of Ajax tests using the GitHub API and a simple form. 
 
 To start with, it is important to note that testing JavaScript requires you to add some extra configuration in your rails_helper and in your specs. Capybara by default uses the Selenium javascript driver to test Javascript on the page. From my initial testing, it seems like Selenium returns consistent results, but takes more time than other methods. Selenium opens a new instance of the browser for each test, which on a big test suite I imagine could lead to considerable delay. 
 
