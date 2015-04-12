@@ -24,7 +24,9 @@ body {
       font-family: $serif;
     }
   }
-  >header {
+  > header {
+    padding-top: 1em;
+    padding-bottom: 1em;
     h1 a {
     font-weight: bold;
     }
