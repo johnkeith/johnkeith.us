@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: Rails | John Keith]]></title>
+  <title><![CDATA[Category: Rails, | John Keith]]></title>
   <link href="http://johnk.herokuapp.com/blog/categories/rails/atom.xml" rel="self"/>
   <link href="http://johnk.herokuapp.com/"/>
-  <updated>2015-04-11T14:07:01-04:00</updated>
+  <updated>2015-04-12T00:02:01-04:00</updated>
   <id>http://johnk.herokuapp.com/</id>
   <author>
     <name><![CDATA[John Keith]]></name>
@@ -14,440 +14,83 @@
 
   
   <entry>
-    <title type="html"><![CDATA[Ajax Testing Using RSpec, Capybara, and Puffing Billy]]></title>
-    <link href="http://johnk.herokuapp.com/blog/2014/07/23/ajax-testing-using-rspec/"/>
-    <updated>2014-07-23T09:02:38-04:00</updated>
-    <id>http://johnk.herokuapp.com/blog/2014/07/23/ajax-testing-using-rspec</id>
-    <content type="html"><![CDATA[<p>Launch Academy has come to an end. It was an incredible 10 weeks, but I&rsquo;m already itching to jump into a new project while beginning my developer job search.</p>
+    <title type="html"><![CDATA[Defining a Method Accessible From Anywhere in a Rails App]]></title>
+    <link href="http://johnk.herokuapp.com/blog/2015/04/11/defining-a-method-accessible-from-anywhere-in-a-rails-app/"/>
+    <updated>2015-04-11T19:56:11-04:00</updated>
+    <id>http://johnk.herokuapp.com/blog/2015/04/11/defining-a-method-accessible-from-anywhere-in-a-rails-app</id>
+    <content type="html"><![CDATA[<p>It started as an innocuous attempt to dry up some controller code.</p>
 
-<p>Ajax testing was one of the areas I only briefly touched on at the end of the course so I wanted to spend some time this week exploring the ins and outs of this crucial aspect of testing. The engineers at Launch said that Ajax and other key Javascript operations of an app should be tested using a <a href="http://jasmine.github.io/">JavaScript testing framework</a>. I&rsquo;m still tempted, however, see benefits to testing interactions that rely on Ajax with integration tests, especially if they are fundamental to a user&rsquo;s experience on the page. The example below is how I implemented a couple of Ajax tests using the GitHub API and a simple form.</p>
+<p>```ruby</p>
 
-<p>To start with, it is important to note that testing JavaScript requires you to add some extra configuration in your rails_helper and in your specs. Capybara by default uses the Selenium javascript driver to test Javascript on the page. From my initial testing, it seems like Selenium returns consistent results, but takes more time than other methods. Selenium opens a new instance of the browser for each test, which on a big test suite I imagine could lead to considerable delay.</p>
+<h1>app/controllers/export_controller.rb</h1>
 
-<p>To enable Javascript on a test, simply pass the <code>js: true</code> option to the test. (Or better yet, pass <code>js: true</code> to your entire feature to use Javascript on all the tests in a spec). When you run RSpec, you should see browser windows pop up and replay the actions mapped out in your integration tests.</p>
+<p>if ENV[&lsquo;TORQUEBOX_APP_TYPE&rsquo;].present? || ENV[&lsquo;TORQUEBOX_APP_NAME&rsquo;].present?</p>
 
-<p>There are other Javascript drivers, <a href="https://github.com/teampoltergeist/poltergeist">Poltergeist</a> being the second one I implemented. Poltergeist needs a little extra setup to get it running, as it is built upon <a href="http://phantomjs.org/">PhantomJS</a>, which allows it to run your tests without opening new browser windows each time.</p>
-
-<p>First, add Poltergeist to your Gemfile.</p>
-
-<p><code>ruby
-gem 'poltergeist'
-</code>
-Then, in your rails_helper, specify the default javascript driver to be used in your tests.</p>
-
-<p><code>ruby
-Capybara.javascript_driver = :poltergeist
-</code>
-Again, make sure either a single test or your entire feature has Javascript enabled by passing the <code>js: true</code> option.</p>
-
-<p>``` ruby
-require_relative &lsquo;../rails_helper&rsquo;</p>
-
-<p>feature &ldquo;user enters basic information on homepage&rdquo;, js: true do
-```
-Finally, install PhantomJS from the link above. When running RSpec, you should see your test suite function as normal, without browser windows materializing all over the screen.</p>
-
-<p>One major issue that arises with these two approaches is API calls. When using these Javascript drivers on their own, the test suite is still reaching out and making API requests. At first I thought I was safe &ndash; I had <a href="https://github.com/vcr/vcr">VCR</a> and <a href="https://github.com/bblimke/webmock">WebMock</a> enabled in order to record and replay HTTP interactions. I found out the old fashioned way &ndash; by disconnecting from my wi-fi and causing the tests to fail &ndash; that these mechanisms were  in fact not capturing my Ajax requests.</p>
-
-<p>To grab these Ajax requests, I hunted down a gem called <a href="https://github.com/oesmith/puffing-billy">Puffing Billy</a>. Puffing Billy handles the recording of Ajax calls like VCR, allowing you to run the test suite with genuine API requests once and then subsequently replay the recordings made from the first calls. Puffing Billy has a great readme on its GitHub page, but below are the steps I followed to get it working.</p>
-
-<p>First, add Puffing Billy to your Gemfile.</p>
-
-<p><code>ruby
-gem 'puffing-billy'
-</code>
-Then, require Puffing Billy in your rails_helper.</p>
-
-<p><code>
-require 'billy/rspec'
-</code>
-Next, set your default Javascript driver in your rails_helper. (Puffing Billy supports Selenium, Poltergeist, and Webkit. See the docs for more details.)</p>
-
-<p><code>ruby
-Capybara.javascript_driver = :poltergeist_billy
-</code>
-Lastly, configure Puffing Billy to cache Ajax interactions with this configure block in your rails_helper.</p>
-
-<p>``` ruby
-Billy.configure do |c|
-  c.cache = true
-  c.cache_request_headers = false
-  c.ignore_params = [&ldquo;<a href="http://www.google-analytics.com/__utm.gif">http://www.google-analytics.com/__utm.gif</a>&rdquo;,</p>
-
-<pre><code>                 "https://r.twimg.com/jot",
-                 "http://p.twitter.com/t.gif",
-                 "http://p.twitter.com/f.gif",
-                 "http://www.facebook.com/plugins/like.php",
-                 "https://www.facebook.com/dialog/oauth",
-                 "http://cdn.api.twitter.com/1/urls/count.json"]
+<pre><code># do some crazy stuff in a background process since this is clearly running in production
 </code></pre>
 
-<p>  c.path_blacklist = []
-  c.persist_cache = true
-  c.ignore_cache_port = true # defaults to true
-  c.non_successful_cache_disabled = false
-  c.non_successful_error_level = :warn
-  c.non_whitelisted_requests_disabled = false
-  c.cache_path = &lsquo;spec/req_cache/&rsquo;
-end
-```
-That should be it! Now you can run your test suite, watch it pass, and see a folder of the requests in req_cache.</p>
+<p>else</p>
 
-<p>Below is an example of a basic feature I wrote for what I believe is the world&rsquo;s first, only, and hopefully last GitHub dating app. (Not sure I&rsquo;ll be continuing with that side project&hellip;but it was a good example for learning Ajax testing). I&rsquo;ll also include all the necessary configs you need to get RSpec, Capybara, and Puffing Billy to run these test.</p>
-
-<p>``` ruby</p>
-
-<h1>onboarding page feature</h1>
-
-<p>require_relative &lsquo;../rails_helper&rsquo;</p>
-
-<p>feature &ldquo;user enters basic information on homepage&rdquo;, js: true do
-  scenario &ldquo;fills in github username&rdquo; do</p>
-
-<pre><code>visit root_path
-fill_in "Your Github username", with: "johnkeith"
-select "Male", from: "gender-select"
-expect(page).to have_xpath "//img[@src=\"https://avatars.githubusercontent.com/u/4976905?\"]"
-expect(page).to have_css "div.has-success"
-</code></pre>
-
-<p>  end</p>
-
-<p>  scenario &ldquo;fills in a github username that doesn&rsquo;t exist&rdquo; do</p>
-
-<pre><code>visit root_path
-fill_in "Your Github username", with: "notaghuser"
-select "Male", from: "gender-select"
-expect(page).to have_content "Sorry, that is not a Github username."
-expect(page).to have_css "div.has-error"
-</code></pre>
-
-<p>  end</p>
-
-<p>  scenario &ldquo;selects own gender&rdquo; do</p>
-
-<pre><code>visit root_path
-select "Male", from: "gender-select"
-fill_in "Your Github username", with: "johnkeith"
-expect(page).to have_css "div.has-success"
-</code></pre>
-
-<p>  end</p>
-
-<p>  scenario &ldquo;selects preference for matches&rdquo; do</p>
-
-<pre><code>visit root_path
-select "Men", from: "match-pref-select"
-fill_in "Your Github username", with: "johnkeith"
-expect(page).to have_css "div.has-success"
-</code></pre>
-
-<p>  end</p>
-
-<p>  scenario &ldquo;fills username, selects gender, selects preferences&rdquo; do</p>
-
-<pre><code>visit root_path
-fill_in "Your Github username", with: "johnkeith"
-select "Male", from: "gender-select"
-select "Women", from: "match-pref-select"
-expect(page).to have_xpath "//img[@src=\"https://avatars.githubusercontent.com/u/4976905?\"]"
-expect(page).to have_select("gender-select", selected: "Male")
-expect(page).to have_select("match-pref-select", selected: "Women")
-</code></pre>
-
-<p>  end
-end
-<code>
-</code> ruby</p>
-
-<h1>rails_helper.rb</h1>
-
-<p>ENV[&ldquo;RAILS_ENV&rdquo;] ||= &lsquo;test&rsquo;
-require &lsquo;spec_helper&rsquo;
-require File.expand_path(&ldquo;../../config/environment&rdquo;, <strong>FILE</strong>)
-require &lsquo;rspec/rails&rsquo;
-require &lsquo;capybara/rails&rsquo;
-require &lsquo;shoulda/matchers&rsquo;
-require &lsquo;capybara/poltergeist&rsquo;
-require &lsquo;billy/rspec&rsquo;</p>
-
-<p>Dir[Rails.root.join(&ldquo;spec/support/<em>*/</em>.rb&rdquo;)].each { |f| require f }</p>
-
-<p>ActiveRecord::Migration.maintain_test_schema!</p>
-
-<p>Capybara.javascript_driver = :poltergeist_billy</p>
-
-<p>Billy.configure do |c|
-  c.cache = true
-  c.cache_request_headers = false
-  c.ignore_params = [&ldquo;<a href="http://www.google-analytics.com/__utm.gif">http://www.google-analytics.com/__utm.gif</a>&rdquo;,</p>
-
-<pre><code>                 "https://r.twimg.com/jot",
-                 "http://p.twitter.com/t.gif",
-                 "http://p.twitter.com/f.gif",
-                 "http://www.facebook.com/plugins/like.php",
-                 "https://www.facebook.com/dialog/oauth",
-                 "http://cdn.api.twitter.com/1/urls/count.json"]
-</code></pre>
-
-<p>  c.path_blacklist = []
-  c.persist_cache = true
-  c.ignore_cache_port = true # defaults to true
-  c.non_successful_cache_disabled = false
-  c.non_successful_error_level = :warn
-  c.non_whitelisted_requests_disabled = false
-  c.cache_path = &lsquo;spec/req_cache/&rsquo;
-end
-```</p>
-
-<p>``` ruby</p>
-
-<h1>spec_helper.rb</h1>
-
-<p>require &lsquo;webmock/rspec&rsquo;</p>
-
-<p>WebMock.disable_net_connect!(allow_localhost: true)</p>
-
-<p>RSpec.configure do |config|</p>
-
-<p>end
-```</p>
-
-<p>``` ruby</p>
-
-<h1>Gemfile</h1>
-
-<p>group :development, :test do
-  gem &lsquo;dotenv-rails&rsquo;
-  gem &lsquo;rspec-rails&rsquo;
-  gem &lsquo;capybara&rsquo;
-  gem &lsquo;launchy&rsquo;
-  gem &lsquo;factory_girl_rails&rsquo;
-  gem &lsquo;pry-rails&rsquo;
-  gem &lsquo;poltergeist&rsquo;
-  gem &lsquo;puffing-billy&rsquo;
-  gem &lsquo;webmock&rsquo;
-  gem &lsquo;valid_attribute&rsquo;
-  gem &lsquo;shoulda-matchers&rsquo;
-end
-```</p>
-
-<p>``` haml
-/ home page with form to be tested</p>
-
-<p>.row
-  .col-md-3</p>
-
-<pre><code>.portrait-placeholder
-  %img{ src: "", class: "img-responsive img-thumbnail", id: "github-avatar" }
-</code></pre>
-
-<p>  .col-md-9</p>
-
-<pre><code>%form{ role: "form", id: "onboard-form" }
-  .form-group.form-group-lg#github-username-group
-    %input{ type: "text", class: "form-control input-lg", placeholder: "Your Github username", id: "github-username" }
-  .form-group.form-group-lg#gender-group
-    %select{ class: "form-control input-lg", id: "gender-select" }
-      %option{ value: "", "disabled" =&gt; "disabled", "selected" =&gt; "selected" } Select your gender
-      %option{ value: "male", id: "gender-male" } Male
-      %option{ value: "female", id: "gender-female" } Female
-  .form-group.form-group-lg#match-group
-    %select{ class: "form-control input-lg", id: "match-pref-select" }
-      %option{ value: "", "disabled" =&gt; "disabled", "selected" =&gt; "selected" } Select your preference
-      %option{ value: "men", id: "match-men" } Men
-      %option{ value: "women", id: "match-women" } Women
-.form-errors
+<pre><code># Rails must be running locally, so do it in the foreground
 </code></pre>
 
 <p>```</p>
 
-<p>``` javascript
-// jquery for form</p>
+<p>I noticed that the same <code>if</code> statement was used in our config/application.rb to setup the correct logging when Torquebox is running. After searching the rest of the code and seeing the same logic was present in config/environments/development.rb I mistakenly thought, &ldquo;It can&rsquo;t be too hard to figure out how to have a method accessible from anywhere in a Rails app.&rdquo;</p>
 
-<p>$(function(){
-  $(&ldquo;#github-username&rdquo;).change(function(){</p>
+<p>How wrong I was!</p>
 
-<pre><code>var username = $("#github-username").val();
-$.ajax({
-  type: "GET",
-  url: "https://api.github.com/users/" + username,
-  success: function(d) {
-    $("#github-avatar").attr("src", d.avatar_url);
-    $("#github-username-group").addClass("has-success");
-    $("#github-username-group").removeClass("has-error");
-    $(".form-errors").text("");
-
-  },
-  error: function() {
-    $(".form-errors").text("Sorry, that is not a Github username.");
-    $("#github-avatar").attr("src", "");
-    $("#github-username-group").addClass("has-error");
-    $("#github-username-group").removeClass("has-success");
-  }
-});
-</code></pre>
-
-<p>  });
-  $(&ldquo;#gender-select&rdquo;).change(function(){</p>
-
-<pre><code>$("#gender-group").addClass("has-success");
-</code></pre>
-
-<p>  });
-  $(&ldquo;#match-pref-select&rdquo;).change(function(){</p>
-
-<pre><code>$("#match-group").addClass("has-success");
-</code></pre>
-
-<p>  });
-});
-```</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Week Six and Embracing TDD]]></title>
-    <link href="http://johnk.herokuapp.com/blog/2014/06/22/week-six-and-embracing-tdd/"/>
-    <updated>2014-06-22T19:41:39-04:00</updated>
-    <id>http://johnk.herokuapp.com/blog/2014/06/22/week-six-and-embracing-tdd</id>
-    <content type="html"><![CDATA[<p>We have made it to the end of week six. It was a big one for me:</p>
-
-<ul>
-<li>Pushed a <a href="http://unodos.herokuapp.com">Javascript game to Heroku</a></li>
-<li>Promptly got hacked</li>
-<li>Started figuring out OmniAuth</li>
-<li>Finally surmounted my fear/distaste for Test Driven Development.</li>
-</ul>
-
-
-<p>TDD was one of the big aspects of the move to Rails that I was dreading. During our phase working in Sinatra, we didn&rsquo;t worry about TDD &ndash; it was enough trying to wrap our heads around the basics of HTTP, Postgres, and ActiveRecord. Now that we are building with Rails in ernest, TDD has moved to the foreground of our development process.</p>
-
-<p>Initially, I was very wary of TDD. The Launch instructors did a great job of demonstrating the rationale behind TDD, showing us how TDD can ensure against your changes in one part of an app breaking another part, which was one thing that never quite sunk in for me working through tutorials online. That said, some of my early fumbling through Capybara and Rspec left me hesitant about TDD.</p>
-
-<p>When we started TDD, I shied away from the assignments, focusing on a side project in Javascript. We finally finished that Javascript game on Friday, turning it into a Sinatra app that we were able to put up on Heroku, and this weekend I resolved to put in the time to get comfortable using TDD.</p>
-
-<p>Having spent the past two days building a first Rails app from the ground up with TDD, my perspective has certainly changed. When you strictly adhere to the TDD methodology, it makes the process of building an app (especially a Rails app by hand, without scaffolding, as was the assignment this weekend) much more approachable and logical. My final product hardly had comprehensive test coverage, but now I feel comfortable with using TDD as a guide for building an app piece by piece.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[How I've Learned in Five Short Weeks at Launch]]></title>
-    <link href="http://johnk.herokuapp.com/blog/2014/06/15/how-ive-learned-in-five-short/"/>
-    <updated>2014-06-15T21:20:25-04:00</updated>
-    <id>http://johnk.herokuapp.com/blog/2014/06/15/how-ive-learned-in-five-short</id>
-    <content type="html"><![CDATA[<p>We are now officially halfway through our ten weeks at Launch. What I&rsquo;m still marveling at after five weeks is how Launch Academy is transforming me as a learner.</p>
-
-<p>Pre-Launch, back in high school and college, I was a very learn-by-the-book kind of guy. I would read cover to cover any text put in front of me, but asking me to jump into a topic or domain without much preparation beforehand was always a struggle.</p>
-
-<p>One great part about learning web development is that the read first, execute later approach I relied on in the past does not work. I&rsquo;ve felt myself constantly challenged the past few weeks to dive into projects knowing only enough to get started and then to seek out only the knowledge I need to complete to reach the goal.</p>
-
-<p>Fundamentally, I guess this is what makes project-based learning powerful: the fact that the knowledge you acquire is all acquired in a specific context of doing or creating. Even as I&rsquo;ve started to head off on tangents of my own, like diving deeply into Javascript prototypes last week, this learning is done to serve a purpose, to bring some piece of functionality into existence.</p>
-
-<p>If you want to take the metaphor perhaps a little too far (which is always a fun exercise), it is almost like the project-based curriculum of Launch is OOP for your brain. Sure, you can gather knowledge together in your mind about a certain object, but these little tarballs of information are worthless until you start defining behaviors and passing messages between them. Knowledge as an object in and of itself does nothing &ndash; it is only once it starts to interact with other bits of information that the effect is meaningful.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Trying to Remember the Small Stuff]]></title>
-    <link href="http://johnk.herokuapp.com/blog/2014/03/19/trying-to-remember-the-small-stuff/"/>
-    <updated>2014-03-19T17:47:29-04:00</updated>
-    <id>http://johnk.herokuapp.com/blog/2014/03/19/trying-to-remember-the-small-stuff</id>
-    <content type="html"><![CDATA[<p>Refactoring is really fun, especially in those moments when you have an &ldquo;Aha!&rdquo; flash and one of those little details clicks into place. I had that today with method I wrote for changing the sorting on a table in a Rails view.</p>
+<p>That said, I came up with two possible solutions. The first was to create a proc, stuff it in a global variable, and then access that from each of the places I needed (the config files and the controller).</p>
 
 <p><code>ruby
-def sortable(column, title = nil)
-  title ||= column.titleize
-  direction = (column == sort_column &amp;&amp; sort_direction == "asc") ? "desc" : "asc"
-  font_awesome_direction = direction == "asc" ? "up" : "down"
-  css_class = column == sort_column ? "fa-caret-#{font_awesome_direction}" : nil
-  link_to title, {:sort =&gt; column, :direction =&gt; direction}, {class: css_class}
-end
+$torquebox_running = Proc.new { ENV['TORQUEBOX_APP_TYPE'].present? || ENV['TORQUEBOX_APP_NAME'].present? }
 </code></p>
 
-<p>That sortable method was placed in my application_helper.rb. It works with these two methods from my view controller.</p>
+<p>While the proc worked, I didn&rsquo;t think it was the best solution for two structural reasons.</p>
 
-<p>``` ruby
-def sort_direction
-  %w[asc desc].include?(params[:direction]) ?  params[:direction] : &ldquo;asc&rdquo;
-end</p>
+<ol>
+<li><p>It would have to be defined in application.rb in order to be used in the start up process, but being defined in that file outside of the Application class (so that it could be accessed elsewhere in the app) would be a tad strange.</p></li>
+<li><p>Usage wise, the syntax of $torquebox_running.call seemed a bit strained to me.</p></li>
+</ol>
 
-<p>def sort_column
-  Expense.column_names.include?(params[:sort]) ? params[:sort] : &ldquo;date&rdquo;
+
+<p>My gut told me that I might be breaking every law in the book by declaring a global proc during the boot-up process of a Rails app. So I decided on a more compartmentalized (though still perhaps not object-oriented) approach to solving the problem.</p>
+
+<p>```ruby</p>
+
+<h1>lib/services/torquebox_information_service.rb</h1>
+
+<p>module TorqueboxInformationService</p>
+
+<pre><code>extend self
+
+def env_vars_present? 
+    ENV['TORQUEBOX_APP_TYPE'].present? || ENV['TORQUEBOX_APP_NAME'].present?
 end
+
+def process_running?
+    # not working, needs refinement
+    process_pid = Process.pid
+    process_info = `ps -ef | grep #{process_pid}`
+    process_info.downcase.include?('torquebox')
+end
+</code></pre>
+
+<p>end
 ```</p>
 
-<p>And all of these are put into place with the index method in that same view controller.</p>
+<p>```ruby</p>
 
-<p><code>ruby
-def index
-  @expenses = Expense.order(sort_column + ' ' + sort_direction).paginate(page: params[:page])
-end
-</code></p>
+<h1>config/application.rb</h1>
 
-<p>Initially, what I&rsquo;d written wasn&rsquo;t terrible: it worked in the browser, my columns resorted themselves on prompting, and a nice little caret was provided as feedback and a guide post for the user. That said, I was irked by the way the caret was smushed right up against the text and the way that adding the caret threw off the font sizing and styling I had going at the top of my table.</p>
-
-<p>So, I took a step back and tried to determine out if it was possible to embed HTML inside of a link_to in Rails. A couple minutes later, I had figured out it was perfectly acceptable and learned a little bit about the nifty #html_safe method that Rails provides. This led me to a rewritten last line that I think provides a much more pleasing output.</p>
-
-<p><code>ruby
-link_to "&lt;i class='fa #{css_class}'&gt;&lt;/i&gt; ".html_safe+title, {:sort =&gt; column, :direction =&gt; direction}
-</code></p>
-
-<p>It was also great to have one of those moments when all that reading comes in handy. I couldn&rsquo;t get the icons to appear the first time I fired up the page, because I had wrapped my icon HTML in single quotes instead of double. Using double quotes on the outside and then single on the inside allows Ruby to interpolate the css_class variable. Nothing fancy, but still a good learning experience that will hopefully keep me more consistent with my use of quotes.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Dynamically Control Button Labels With a Helper Method]]></title>
-    <link href="http://johnk.herokuapp.com/blog/2014/03/14/dynamically-control-button-labels-with-a-helper-method/"/>
-    <updated>2014-03-14T19:20:08-04:00</updated>
-    <id>http://johnk.herokuapp.com/blog/2014/03/14/dynamically-control-button-labels-with-a-helper-method</id>
-    <content type="html"><![CDATA[<p><em>Reader beware: I&rsquo;m learning Rails right now. In no way, shape or form should this post or any posts here for at least the next month and a half be taken as gospel truth of how to do things right in Rails. They probably are way, way out in right field.</em></p>
-
-<p>Okay, say you have a view and in that view you have a beautiful button. If you want to assign a name to that button dynamically, say based on the truthiness of some variable, here&rsquo;s an easy way to do it.</p>
-
-<p>Open up the <em>helper.rb file for your model. In your </em>helper file, write a method that will provide you two pieces of text, depending on a certain condition.</p>
-
-<p>``` ruby
-def sign_up_btn
-  if User.sign_up_allowed == true</p>
-
-<pre><code>"Prevent new account creation"
-</code></pre>
-
-<p>  else</p>
-
-<pre><code>"Allow new account creation"
-</code></pre>
-
-<p>  end
-end
+<p>require File.expand_path(&lsquo;../../lib/services/torquebox_information_service&rsquo;, <strong>FILE</strong>)
 ```</p>
 
-<p>Or, if you want to be fancy, try this refactored-while-in-the-midst-of-blogging-version.</p>
+<p>By wrapping these environment checking methods inside a module and using the handy <code>extend self</code>, the logic was kept isolated and no awful globals created in the process.</p>
 
-<p><code>ruby
-def sign_up_btn
-  User.sign_up_allowed ? "Prevent new account creation" : "Allow new account creation"
-end
-</code></p>
+<p>I then required the module in the application.rb above all other requirements and the Application class in order that it would be available in every part of the app (config files, models, controllers, the whole gaggle of them!). So far, this approach is working and allows the logic for checking if Torquebox is running to be stored in a single place.</p>
 
-<p>Then, back over in your view file, add this bit to create the button and assign it a title based on the results of the method above.</p>
-
-<p><code>erb
-&lt;%= button_to action: "disallow_sign_up" do %&gt;&lt;%= "#{sign_up_btn}" %&gt;&lt;% end %&gt;
-</code></p>
-
-<p>(Just so you get a fuller picture, here&rsquo;s my disallow_sign_up method from my users_controller. I wrote it as a way for an admin to turn off access to the sign up page in the expense tracking app I&rsquo;m working on.)</p>
-
-<p><code>ruby
-def disallow_sign_up
-  User.sign_up_allowed ? User.sign_up_allowed = false : User.sign_up_allowed = true
-  redirect_to users_index_path
-end
-</code></p>
-
-<p>I have a serious fixation on the ternary operator, if you haven&rsquo;t noticed.</p>
+<p>I still feel like this could be improved, though. Maybe by not using <code>extend self</code> and instead including the module on any of the classes that need access to these methods it would better keep these Torquebox logic confined to only the places in the app that need access?</p>
 ]]></content>
   </entry>
   

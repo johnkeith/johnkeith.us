@@ -9,7 +9,13 @@
   <meta name="author" content="John Keith">
 
   
-  <meta name="description" content="Launch Academy has come to an end. It was an incredible 10 weeks, but I&rsquo;m already itching to jump into a new project while beginning my &hellip;">
+  <meta name="description" content="It started as an innocuous attempt to dry up some controller code. 1
+2
+3
+4
+5
+6
+# app/controllers/export_controller.rb if ENV[&#39;TORQUEBOX_APP_TYPE &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -51,7 +57,7 @@
   <header role="banner"><hgroup>
   <h1><a href="/">John Keith</a></h1>
   
-    <h2>Javascript, Ruby, UX/UI. Formerly at <a href="http://www.launchacademy.com/">Launch Academy</a>.</h2>
+    <h2>Developer - Ruby, Rails, Angular, iOS</h2>
   
 </hgroup>
 
@@ -82,6 +88,126 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2015/04/11/defining-a-method-accessible-from-anywhere-in-a-rails-app/">Defining a Method Accessible From Anywhere in a Rails App</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-04-11T19:56:11-04:00" pubdate data-updated="true">Apr 11<span>th</span>, 2015</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>It started as an innocuous attempt to dry up some controller code.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># app/controllers/export_controller.rb</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">if</span> <span class="no">ENV</span><span class="o">[</span><span class="s1">&#39;TORQUEBOX_APP_TYPE&#39;</span><span class="o">].</span><span class="n">present?</span> <span class="o">||</span> <span class="no">ENV</span><span class="o">[</span><span class="s1">&#39;TORQUEBOX_APP_NAME&#39;</span><span class="o">].</span><span class="n">present?</span>
+</span><span class='line'>  <span class="c1"># do some crazy stuff in a background process since this is clearly running in production</span>
+</span><span class='line'><span class="k">else</span>
+</span><span class='line'>  <span class="c1"># Rails must be running locally, so do it in the foreground</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>I noticed that the same <code>if</code> statement was used in our config/application.rb to setup the correct logging when Torquebox is running. After searching the rest of the code and seeing the same logic was present in config/environments/development.rb I mistakenly thought, &ldquo;It can&rsquo;t be too hard to figure out how to have a method accessible from anywhere in a Rails app.&rdquo;</p>
+
+<p>How wrong I was!</p>
+
+<p>That said, I came up with two possible solutions. The first was to create a proc, stuff it in a global variable, and then access that from each of the places I needed (the config files and the controller).</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="vg">$torquebox_running</span> <span class="o">=</span> <span class="no">Proc</span><span class="o">.</span><span class="n">new</span> <span class="p">{</span> <span class="no">ENV</span><span class="o">[</span><span class="s1">&#39;TORQUEBOX_APP_TYPE&#39;</span><span class="o">].</span><span class="n">present?</span> <span class="o">||</span> <span class="no">ENV</span><span class="o">[</span><span class="s1">&#39;TORQUEBOX_APP_NAME&#39;</span><span class="o">].</span><span class="n">present?</span> <span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>While the proc worked, I didn&rsquo;t think it was the best solution for two structural reasons.</p>
+
+<ol>
+<li><p>It would have to be defined in application.rb in order to be used in the start up process, but being defined in that file outside of the Application class (so that it could be accessed elsewhere in the app) would be a tad strange.</p></li>
+<li><p>Usage wise, the syntax of $torquebox_running.call seemed a bit strained to me.</p></li>
+</ol>
+
+
+<p>My gut told me that I might be breaking every law in the book by declaring a global proc during the boot-up process of a Rails app. So I decided on a more compartmentalized (though still perhaps not object-oriented) approach to solving the problem.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># lib/services/torquebox_information_service.rb</span>
+</span><span class='line'><span class="k">module</span> <span class="nn">TorqueboxInformationService</span>
+</span><span class='line'>  <span class="kp">extend</span> <span class="nb">self</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">env_vars_present?</span>
+</span><span class='line'>      <span class="no">ENV</span><span class="o">[</span><span class="s1">&#39;TORQUEBOX_APP_TYPE&#39;</span><span class="o">].</span><span class="n">present?</span> <span class="o">||</span> <span class="no">ENV</span><span class="o">[</span><span class="s1">&#39;TORQUEBOX_APP_NAME&#39;</span><span class="o">].</span><span class="n">present?</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">process_running?</span>
+</span><span class='line'>      <span class="c1"># not working, needs refinement</span>
+</span><span class='line'>      <span class="n">process_pid</span> <span class="o">=</span> <span class="no">Process</span><span class="o">.</span><span class="n">pid</span>
+</span><span class='line'>      <span class="n">process_info</span> <span class="o">=</span> <span class="sb">`ps -ef | grep </span><span class="si">#{</span><span class="n">process_pid</span><span class="si">}</span><span class="sb">`</span>
+</span><span class='line'>      <span class="n">process_info</span><span class="o">.</span><span class="n">downcase</span><span class="o">.</span><span class="n">include?</span><span class="p">(</span><span class="s1">&#39;torquebox&#39;</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># config/application.rb</span>
+</span><span class='line'><span class="nb">require</span> <span class="no">File</span><span class="o">.</span><span class="n">expand_path</span><span class="p">(</span><span class="s1">&#39;../../lib/services/torquebox_information_service&#39;</span><span class="p">,</span> <span class="bp">__FILE__</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>By wrapping these environment checking methods inside a module and using the handy <code>extend self</code>, the logic was kept isolated and no awful globals created in the process.</p>
+
+<p>I then required the module in the application.rb above all other requirements and the Application class in order that it would be available in every part of the app (config files, models, controllers, the whole gaggle of them!). So far, this approach is working and allows the logic for checking if Torquebox is running to be stored in a single place.</p>
+
+<p>I still feel like this could be improved, though. Maybe by not using <code>extend self</code> and instead including the module on any of the classes that need access to these methods it would better keep these Torquebox logic confined to only the places in the app that need access?</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2014/07/23/ajax-testing-using-rspec/">Ajax Testing Using RSpec, Capybara, and Puffing Billy</a></h1>
     
     
@@ -98,7 +224,7 @@
   
 
 
-<time datetime="2014-07-23T09:02:38-04:00" pubdate data-updated="true"></time>
+<time datetime="2014-07-23T09:02:38-04:00" pubdate data-updated="true">Jul 23<span>rd</span>, 2014</time>
         
       </p>
     
@@ -577,7 +703,7 @@
   
 
 
-<time datetime="2014-06-22T19:41:39-04:00" pubdate data-updated="true"></time>
+<time datetime="2014-06-22T19:41:39-04:00" pubdate data-updated="true">Jun 22<span>nd</span>, 2014</time>
         
       </p>
     
@@ -629,7 +755,7 @@
   
 
 
-<time datetime="2014-06-15T21:20:25-04:00" pubdate data-updated="true"></time>
+<time datetime="2014-06-15T21:20:25-04:00" pubdate data-updated="true">Jun 15<span>th</span>, 2014</time>
         
       </p>
     
@@ -673,7 +799,7 @@
   
 
 
-<time datetime="2014-06-09T07:32:47-04:00" pubdate data-updated="true"></time>
+<time datetime="2014-06-09T07:32:47-04:00" pubdate data-updated="true">Jun 9<span>th</span>, 2014</time>
         
       </p>
     
@@ -717,7 +843,7 @@
   
 
 
-<time datetime="2014-06-01T19:31:07-04:00" pubdate data-updated="true"></time>
+<time datetime="2014-06-01T19:31:07-04:00" pubdate data-updated="true">Jun 1<span>st</span>, 2014</time>
         
       </p>
     
@@ -833,157 +959,6 @@
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/05/26/my-ruby-toolbox-at-the-end-of-week-two/">My Ruby Toolbox at the End of Week Two</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-05-26T07:49:44-04:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Week two flew by and it is amazing how far we have come. It is also amazing how overrun the Launch Academy folder on my laptop is right now. For my reflective post this week, I think it would be a good exercise to do some house keeping on the code I&rsquo;ve written so far and take a look at some of the awesome tools I&rsquo;m starting to learn how to use in Ruby.</p>
-
-<p>One of the most fun things I did was work with a couple other Launchers on recreating the <a href="https://github.com/johnkeith/Ruby2048">2048 game on the command line</a>. It was a great exercise &ndash; working with nested arrays that represented the board, constructing the methods that would move and recalculate the board each turn. The hardest part was combing Google to find out how to handle improper keyboard inputs from the terminal (for example, if you type &ldquo;Z&rdquo; instead of the &ldquo;A&rdquo;,&ldquo;S&rdquo;,&ldquo;W&rdquo;, or &ldquo;D&rdquo; keys we specified for moving). It was a slight distraction from our main work of the week, but I really loved figuring out how the mechanisms behind the game worked. (I&rsquo;d love to work on making an online playable version of the game in Sinatra, but that might have to wait until I have a better grasp of Javascript.) Here&rsquo;s a little snippet of our moving method using #transpose to flip the board around for easier calculating.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">strip_row_right</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
-</span><span class='line'>  <span class="n">row</span><span class="o">.</span><span class="n">delete_if</span> <span class="p">{</span><span class="o">|</span><span class="n">space</span><span class="o">|</span> <span class="n">space</span> <span class="o">==</span> <span class="s2">&quot; &quot;</span><span class="p">}</span>
-</span><span class='line'>  <span class="k">until</span> <span class="n">row</span><span class="o">.</span><span class="n">length</span> <span class="o">==</span> <span class="mi">4</span>
-</span><span class='line'>    <span class="n">row</span><span class="o">.</span><span class="n">unshift</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">)</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'>  <span class="n">row</span>
-</span><span class='line'><span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">def</span> <span class="nf">move_down</span><span class="p">(</span><span class="n">board</span><span class="p">)</span>
-</span><span class='line'>  <span class="n">board</span> <span class="o">=</span> <span class="n">board</span><span class="o">.</span><span class="n">transpose</span>
-</span><span class='line'>  <span class="n">board</span><span class="o">.</span><span class="n">each_with_index</span> <span class="k">do</span> <span class="o">|</span><span class="n">row</span><span class="p">,</span> <span class="n">row_idx</span><span class="o">|</span>
-</span><span class='line'>    <span class="n">strip_row_right</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
-</span><span class='line'>    <span class="n">row</span><span class="o">.</span><span class="n">reverse!</span><span class="o">.</span><span class="n">each_with_index</span> <span class="k">do</span> <span class="o">|</span><span class="n">column</span><span class="p">,</span> <span class="n">col_idx</span><span class="o">|</span>
-</span><span class='line'>      <span class="k">if</span> <span class="n">column</span> <span class="o">==</span> <span class="n">row</span><span class="o">[</span><span class="n">col_idx</span> <span class="o">+</span> <span class="mi">1</span><span class="o">]</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="p">(</span><span class="n">column</span> <span class="o">==</span> <span class="s2">&quot; &quot;</span> <span class="p">)</span>
-</span><span class='line'>        <span class="n">board</span><span class="o">[</span><span class="n">row_idx</span><span class="o">][</span><span class="n">col_idx</span><span class="o">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">board</span><span class="o">[</span><span class="n">row_idx</span><span class="o">][</span><span class="n">col_idx</span><span class="o">].</span><span class="n">to_i</span> <span class="o">*</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">to_s</span>
-</span><span class='line'>        <span class="n">board</span><span class="o">[</span><span class="n">row_idx</span><span class="o">][</span><span class="n">col_idx</span><span class="o">+</span><span class="mi">1</span><span class="o">]</span> <span class="o">=</span> <span class="s2">&quot; &quot;</span>
-</span><span class='line'>      <span class="k">else</span>
-</span><span class='line'>        <span class="k">next</span>
-</span><span class='line'>      <span class="k">end</span>
-</span><span class='line'>    <span class="k">end</span>
-</span><span class='line'>    <span class="n">row</span><span class="o">.</span><span class="n">reverse!</span>
-</span><span class='line'>    <span class="n">strip_row_right</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
-</span><span class='line'>  <span class="k">end</span>
-</span><span class='line'>  <span class="n">board</span><span class="o">.</span><span class="n">transpose</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Another non-core, but extremely rewarding set of exercised I played with this week came from the <a href="https://evernote.com/careers/challenge.php">Evernote Challenge</a>. Basically, the challenge is a set of three problems that Evernote posted on their website, each of which can be submitted and automatically tested on the site. While I was never able to get my tests passing, sadly, I think I was able to sufficiently solve two of the problems, one involving a circular buffer and the other with counting the frequency of terms in a given input. I even dived into writing a few tests for my circular buffer solution to start preparing myself for the leap into TDD that will be coming up in the next few weeks. The frequency problem also was a great opportunity to deal with the travails of sorting hashes and multidimensional sorting of arrays.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">terms_to_add</span> <span class="o">=</span> <span class="nb">gets</span><span class="o">.</span><span class="n">chomp</span><span class="o">.</span><span class="n">to_i</span>
-</span><span class='line'><span class="n">items_to_count</span> <span class="o">=</span> <span class="no">Hash</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-</span><span class='line'>
-</span><span class='line'><span class="mi">1</span><span class="o">.</span><span class="n">upto</span><span class="p">(</span><span class="n">terms_to_add</span><span class="p">)</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span>
-</span><span class='line'>  <span class="n">input</span> <span class="o">=</span> <span class="nb">gets</span><span class="o">.</span><span class="n">chomp</span><span class="o">.</span><span class="n">to_sym</span>
-</span><span class='line'>  <span class="n">items_to_count</span><span class="o">[</span><span class="n">input</span><span class="o">]</span> <span class="o">+=</span> <span class="mi">1</span>
-</span><span class='line'><span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">take_amount</span> <span class="o">=</span> <span class="nb">gets</span><span class="o">.</span><span class="n">chomp</span><span class="o">.</span><span class="n">to_i</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">take_top</span> <span class="o">=</span> <span class="n">items_to_count</span><span class="o">.</span><span class="n">sort_by</span> <span class="p">{</span> <span class="o">|</span><span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="o">|</span> <span class="n">v</span> <span class="p">}</span><span class="o">.</span><span class="n">reverse</span><span class="o">.</span><span class="n">take</span><span class="p">(</span><span class="n">take_amount</span><span class="p">)</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">fully_sorted</span> <span class="o">=</span> <span class="n">take_top</span><span class="o">.</span><span class="n">sort_by</span> <span class="p">{</span><span class="o">|</span><span class="n">item</span><span class="o">|</span> <span class="o">[-</span><span class="n">item</span><span class="o">[-</span><span class="mi">1</span><span class="o">]</span><span class="p">,</span> <span class="n">item</span><span class="o">[</span><span class="mi">0</span><span class="o">].</span><span class="n">to_s</span><span class="o">]</span> <span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">fully_sorted</span><span class="o">.</span><span class="n">each</span> <span class="p">{</span><span class="o">|</span><span class="n">item</span><span class="o">|</span> <span class="nb">puts</span> <span class="n">item</span><span class="o">[</span><span class="mi">0</span><span class="o">].</span><span class="n">to_s</span> <span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>As I mentioned, our big focus in class this week was on Sinatra. I built at least five Sinatra apps this week, ranging from ones that pulled in data from a CSV to ones that actually started creating dynamic pages based on JSON data from APIs. I also started using HAML extensively on these project. Its really awesome how simple and readable HAML makes an HTML page.</p>
-
-<p>This weekend I&rsquo;ve been wrestling with creating a URL shortener in Sinatra. I&rsquo;ve made it to the point where the site is mostly functioning, but I&rsquo;m working on error and exception handling, which is no easy task. I also cannot for the life of me get my head around Redis, the database they recommended we use for this project, so I think I&rsquo;m going to be spending a good amount of time next week trying to figure out databases once and for all. That said, working on the URL shortener gave me a great opportunity to play around with the web scraping gem Nokogiri. Using Nokogiri, I was easily able to scrape a list of sandwich names (to be the links in my URL shortener) off a website and into a easily accessible array.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">page</span> <span class="o">=</span> <span class="ss">Nokogiri</span><span class="p">:</span><span class="ss">:HTML</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="s2">&quot;http://www.thrillist.com/food/nation/national-sandwich-day&quot;</span><span class="p">))</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">sandwich_list</span> <span class="o">=</span> <span class="o">[]</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">sandwiches</span> <span class="o">=</span> <span class="n">page</span><span class="o">.</span><span class="n">css</span><span class="p">(</span><span class="s2">&quot;strong&quot;</span><span class="p">)</span>
-</span><span class='line'>
-</span><span class='line'><span class="n">sandwiches</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">item</span><span class="o">|</span>
-</span><span class='line'>  <span class="n">sandwich_list</span> <span class="o">&lt;&lt;</span> <span class="n">item</span><span class="o">.</span><span class="n">text</span><span class="o">.</span><span class="n">downcase</span><span class="o">.</span><span class="n">gsub</span><span class="p">(</span><span class="sr">/[\d+\W+\s]/</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">gsub</span><span class="p">(</span><span class="sr">/the/</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/2/">&larr; Older</a>
@@ -1007,6 +982,10 @@
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2015/04/11/defining-a-method-accessible-from-anywhere-in-a-rails-app/">Defining a Method Accessible From Anywhere in a Rails App</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2014/07/23/ajax-testing-using-rspec/">Ajax Testing Using RSpec, Capybara, and Puffing Billy</a>
       </li>
     
@@ -1020,10 +999,6 @@
     
       <li class="post">
         <a href="/blog/2014/06/09/week-four-and-the-challenges-of-oop/">Week Four and the Challenges of OOP</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/06/01/week-three-and-designing-for-efficiency/">Week Three and Designing for Efficiency</a>
       </li>
     
   </ul>

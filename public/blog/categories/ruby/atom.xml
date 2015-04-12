@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Ruby | John Keith]]></title>
   <link href="http://johnk.herokuapp.com/blog/categories/ruby/atom.xml" rel="self"/>
   <link href="http://johnk.herokuapp.com/"/>
-  <updated>2015-04-11T14:07:01-04:00</updated>
+  <updated>2015-04-12T00:02:01-04:00</updated>
   <id>http://johnk.herokuapp.com/</id>
   <author>
     <name><![CDATA[John Keith]]></name>
@@ -12,6 +12,87 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Defining a Method Accessible From Anywhere in a Rails App]]></title>
+    <link href="http://johnk.herokuapp.com/blog/2015/04/11/defining-a-method-accessible-from-anywhere-in-a-rails-app/"/>
+    <updated>2015-04-11T19:56:11-04:00</updated>
+    <id>http://johnk.herokuapp.com/blog/2015/04/11/defining-a-method-accessible-from-anywhere-in-a-rails-app</id>
+    <content type="html"><![CDATA[<p>It started as an innocuous attempt to dry up some controller code.</p>
+
+<p>```ruby</p>
+
+<h1>app/controllers/export_controller.rb</h1>
+
+<p>if ENV[&lsquo;TORQUEBOX_APP_TYPE&rsquo;].present? || ENV[&lsquo;TORQUEBOX_APP_NAME&rsquo;].present?</p>
+
+<pre><code># do some crazy stuff in a background process since this is clearly running in production
+</code></pre>
+
+<p>else</p>
+
+<pre><code># Rails must be running locally, so do it in the foreground
+</code></pre>
+
+<p>```</p>
+
+<p>I noticed that the same <code>if</code> statement was used in our config/application.rb to setup the correct logging when Torquebox is running. After searching the rest of the code and seeing the same logic was present in config/environments/development.rb I mistakenly thought, &ldquo;It can&rsquo;t be too hard to figure out how to have a method accessible from anywhere in a Rails app.&rdquo;</p>
+
+<p>How wrong I was!</p>
+
+<p>That said, I came up with two possible solutions. The first was to create a proc, stuff it in a global variable, and then access that from each of the places I needed (the config files and the controller).</p>
+
+<p><code>ruby
+$torquebox_running = Proc.new { ENV['TORQUEBOX_APP_TYPE'].present? || ENV['TORQUEBOX_APP_NAME'].present? }
+</code></p>
+
+<p>While the proc worked, I didn&rsquo;t think it was the best solution for two structural reasons.</p>
+
+<ol>
+<li><p>It would have to be defined in application.rb in order to be used in the start up process, but being defined in that file outside of the Application class (so that it could be accessed elsewhere in the app) would be a tad strange.</p></li>
+<li><p>Usage wise, the syntax of $torquebox_running.call seemed a bit strained to me.</p></li>
+</ol>
+
+
+<p>My gut told me that I might be breaking every law in the book by declaring a global proc during the boot-up process of a Rails app. So I decided on a more compartmentalized (though still perhaps not object-oriented) approach to solving the problem.</p>
+
+<p>```ruby</p>
+
+<h1>lib/services/torquebox_information_service.rb</h1>
+
+<p>module TorqueboxInformationService</p>
+
+<pre><code>extend self
+
+def env_vars_present? 
+    ENV['TORQUEBOX_APP_TYPE'].present? || ENV['TORQUEBOX_APP_NAME'].present?
+end
+
+def process_running?
+    # not working, needs refinement
+    process_pid = Process.pid
+    process_info = `ps -ef | grep #{process_pid}`
+    process_info.downcase.include?('torquebox')
+end
+</code></pre>
+
+<p>end
+```</p>
+
+<p>```ruby</p>
+
+<h1>config/application.rb</h1>
+
+<p>require File.expand_path(&lsquo;../../lib/services/torquebox_information_service&rsquo;, <strong>FILE</strong>)
+```</p>
+
+<p>By wrapping these environment checking methods inside a module and using the handy <code>extend self</code>, the logic was kept isolated and no awful globals created in the process.</p>
+
+<p>I then required the module in the application.rb above all other requirements and the Application class in order that it would be available in every part of the app (config files, models, controllers, the whole gaggle of them!). So far, this approach is working and allows the logic for checking if Torquebox is running to be stored in a single place.</p>
+
+<p>I still feel like this could be improved, though. Maybe by not using <code>extend self</code> and instead including the module on any of the classes that need access to these methods it would better keep these Torquebox logic confined to only the places in the app that need access?</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[How I've Learned in Five Short Weeks at Launch]]></title>
@@ -197,65 +278,6 @@ page = Nokogiri::HTML(open(&ldquo;<a href="http://www.thrillist.com/food/nation/
 <p>sandwiches.each do |item|
   sandwich_list &lt;&lt; item.text.downcase.gsub(/[\d+\W+\s]/, &ldquo;&rdquo;).gsub(/the/, &ldquo;&rdquo;)
 end
-```</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Launch Academy Week One Reflections]]></title>
-    <link href="http://johnk.herokuapp.com/blog/2014/05/16/launch-academy-week-1-reflections/"/>
-    <updated>2014-05-16T20:41:21-04:00</updated>
-    <id>http://johnk.herokuapp.com/blog/2014/05/16/launch-academy-week-1-reflections</id>
-    <content type="html"><![CDATA[<p>Summing up week one of Launch Academy is tough: it&rsquo;s been a whirlwind of information and challenges. Here&rsquo;s what I do know: I could not be more excited to be here and on my way to becoming a software developer.</p>
-
-<p>This first week really affirmed my desire to become a developer. Coming into Launch Academy, I was unsure of what life would be like working in web development professionally &ndash; I knew I&rsquo;d enjoyed tinkering in the past, but I didn&rsquo;t know what would it be like to be writing software everyday. At the end of this first week, I feel confident that I&rsquo;m going to enjoy this new career tremendously.</p>
-
-<p>That&rsquo;s not to say this week was without it&rsquo;s travails. The Launch Academy instructors stressed from day one that software development is not just about code: great software is the product of strong communication. This is definitely been a big shift in thinking for me as up until now I&rsquo;ve essentially been flying solo when coding. It is certainly taken some adjustment and I feel one of the most important things I&rsquo;ve been working on this week is learning how to collaborate and develop solutions with other people.</p>
-
-<p>On the technical side, the past five days been a huge boost for my abilities in Ruby. As we take on bigger and bigger problems, I&rsquo;m really enjoying figuring out how to design programs and implement them as concisely as possible. Towards the end of the week, after seeing it mentioned in one of our Ruby challenges, I started playing around with the Benchmark module and it has been very interesting to look at how different ways of performing operations can be more efficient than others. Here&rsquo;s some messing around with different methods of calculating the nth number in the Fibonacci sequence that I found interesting.</p>
-
-<p>```ruby</p>
-
-<p>require &lsquo;benchmark&rsquo;</p>
-
-<p>time = Benchmark.realtime do
-  def fibonacci(nth)</p>
-
-<pre><code>array_o_fibs = []
-if nth == 1 || nth == 2
-  return 1
-else
-  array_o_fibs &lt;&lt; 1; array_o_fibs &lt;&lt; 1
-  until array_o_fibs.length == nth
-    array_o_fibs &lt;&lt; array_o_fibs[-1] + array_o_fibs[-2]
-  end
-end
-array_o_fibs[-1]
-</code></pre>
-
-<p>  end</p>
-
-<p>  fibonacci(100)
-end</p>
-
-<p>puts &ldquo;The time elapsed in milliseconds is #{time*1000} with the non-recursive fibonacci method.&rdquo;</p>
-
-<p>time = Benchmark.realtime do</p>
-
-<p>  def other_fibonacci(n)</p>
-
-<pre><code>if n == 1 || n == 2
-  1
-else
-  fibonacci(n - 1) + fibonacci(n - 2)
-end
-</code></pre>
-
-<p>  end</p>
-
-<p>  other_fibonacci(100)
-end
-puts &ldquo;The time elapsed in milliseconds is #{time*1000} with the recursive fibonacci method.&rdquo;
 ```</p>
 ]]></content>
   </entry>

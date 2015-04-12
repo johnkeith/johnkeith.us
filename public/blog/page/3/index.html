@@ -9,7 +9,7 @@
   <meta name="author" content="John Keith">
 
   
-  <meta name="description" content="As another part of our pre-work for Launch Academy, we&rsquo;ve been asked to setup a blog. Luckily, I actually (miraculously) got this Octopress &hellip;">
+  <meta name="description" content="Refactoring is really fun, especially in those moments when you have an &ldquo;Aha!&rdquo; flash and one of those little details clicks into place. I &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -51,7 +51,7 @@
   <header role="banner"><hgroup>
   <h1><a href="/">John Keith</a></h1>
   
-    <h2>Javascript, Ruby, UX/UI. Formerly at <a href="http://www.launchacademy.com/">Launch Academy</a>.</h2>
+    <h2>Developer - Ruby, Rails, Angular, iOS</h2>
   
 </hgroup>
 
@@ -82,6 +82,102 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2014/03/19/trying-to-remember-the-small-stuff/">Trying to Remember the Small Stuff</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-03-19T17:47:29-04:00" pubdate data-updated="true">Mar 19<span>th</span>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Refactoring is really fun, especially in those moments when you have an &ldquo;Aha!&rdquo; flash and one of those little details clicks into place. I had that today with method I wrote for changing the sorting on a table in a Rails view.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">sortable</span><span class="p">(</span><span class="n">column</span><span class="p">,</span> <span class="n">title</span> <span class="o">=</span> <span class="kp">nil</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">title</span> <span class="o">||=</span> <span class="n">column</span><span class="o">.</span><span class="n">titleize</span>
+</span><span class='line'>  <span class="n">direction</span> <span class="o">=</span> <span class="p">(</span><span class="n">column</span> <span class="o">==</span> <span class="n">sort_column</span> <span class="o">&amp;&amp;</span> <span class="n">sort_direction</span> <span class="o">==</span> <span class="s2">&quot;asc&quot;</span><span class="p">)</span> <span class="p">?</span> <span class="s2">&quot;desc&quot;</span> <span class="p">:</span> <span class="s2">&quot;asc&quot;</span>
+</span><span class='line'>  <span class="n">font_awesome_direction</span> <span class="o">=</span> <span class="n">direction</span> <span class="o">==</span> <span class="s2">&quot;asc&quot;</span> <span class="p">?</span> <span class="s2">&quot;up&quot;</span> <span class="p">:</span> <span class="s2">&quot;down&quot;</span>
+</span><span class='line'>  <span class="n">css_class</span> <span class="o">=</span> <span class="n">column</span> <span class="o">==</span> <span class="n">sort_column</span> <span class="p">?</span> <span class="s2">&quot;fa-caret-</span><span class="si">#{</span><span class="n">font_awesome_direction</span><span class="si">}</span><span class="s2">&quot;</span> <span class="p">:</span> <span class="kp">nil</span>
+</span><span class='line'>  <span class="n">link_to</span> <span class="n">title</span><span class="p">,</span> <span class="p">{</span><span class="ss">:sort</span> <span class="o">=&gt;</span> <span class="n">column</span><span class="p">,</span> <span class="ss">:direction</span> <span class="o">=&gt;</span> <span class="n">direction</span><span class="p">},</span> <span class="p">{</span><span class="ss">class</span><span class="p">:</span> <span class="n">css_class</span><span class="p">}</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>That sortable method was placed in my application_helper.rb. It works with these two methods from my view controller.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">sort_direction</span>
+</span><span class='line'>  <span class="sx">%w[asc desc]</span><span class="o">.</span><span class="n">include?</span><span class="p">(</span><span class="n">params</span><span class="o">[</span><span class="ss">:direction</span><span class="o">]</span><span class="p">)</span> <span class="p">?</span>  <span class="n">params</span><span class="o">[</span><span class="ss">:direction</span><span class="o">]</span> <span class="p">:</span> <span class="s2">&quot;asc&quot;</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">def</span> <span class="nf">sort_column</span>
+</span><span class='line'>  <span class="no">Expense</span><span class="o">.</span><span class="n">column_names</span><span class="o">.</span><span class="n">include?</span><span class="p">(</span><span class="n">params</span><span class="o">[</span><span class="ss">:sort</span><span class="o">]</span><span class="p">)</span> <span class="p">?</span> <span class="n">params</span><span class="o">[</span><span class="ss">:sort</span><span class="o">]</span> <span class="p">:</span> <span class="s2">&quot;date&quot;</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>And all of these are put into place with the index method in that same view controller.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">index</span>
+</span><span class='line'>  <span class="vi">@expenses</span> <span class="o">=</span> <span class="no">Expense</span><span class="o">.</span><span class="n">order</span><span class="p">(</span><span class="n">sort_column</span> <span class="o">+</span> <span class="s1">&#39; &#39;</span> <span class="o">+</span> <span class="n">sort_direction</span><span class="p">)</span><span class="o">.</span><span class="n">paginate</span><span class="p">(</span><span class="ss">page</span><span class="p">:</span> <span class="n">params</span><span class="o">[</span><span class="ss">:page</span><span class="o">]</span><span class="p">)</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p></p>
+
+<p>Initially, what I&rsquo;d written wasn&rsquo;t terrible: it worked in the browser, my columns resorted themselves on prompting, and a nice little caret was provided as feedback and a guide post for the user. That said, I was irked by the way the caret was smushed right up against the text and the way that adding the caret threw off the font sizing and styling I had going at the top of my table.</p>
+
+<p>So, I took a step back and tried to determine out if it was possible to embed HTML inside of a link_to in Rails. A couple minutes later, I had figured out it was perfectly acceptable and learned a little bit about the nifty #html_safe method that Rails provides. This led me to a rewritten last line that I think provides a much more pleasing output.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">link_to</span> <span class="s2">&quot;&lt;i class=&#39;fa </span><span class="si">#{</span><span class="n">css_class</span><span class="si">}</span><span class="s2">&#39;&gt;&lt;/i&gt; &quot;</span><span class="o">.</span><span class="n">html_safe</span><span class="o">+</span><span class="n">title</span><span class="p">,</span> <span class="p">{</span><span class="ss">:sort</span> <span class="o">=&gt;</span> <span class="n">column</span><span class="p">,</span> <span class="ss">:direction</span> <span class="o">=&gt;</span> <span class="n">direction</span><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>It was also great to have one of those moments when all that reading comes in handy. I couldn&rsquo;t get the icons to appear the first time I fired up the page, because I had wrapped my icon HTML in single quotes instead of double. Using double quotes on the outside and then single on the inside allows Ruby to interpolate the css_class variable. Nothing fancy, but still a good learning experience that will hopefully keep me more consistent with my use of quotes.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2014/03/16/why-launch-academy-in-a-nutshell/">Why Launch Academy in a Nutshell</a></h1>
     
     
@@ -98,7 +194,7 @@
   
 
 
-<time datetime="2014-03-16T14:53:05-04:00" pubdate data-updated="true"></time>
+<time datetime="2014-03-16T14:53:05-04:00" pubdate data-updated="true">Mar 16<span>th</span>, 2014</time>
         
       </p>
     
@@ -148,7 +244,7 @@
   
 
 
-<time datetime="2014-03-14T19:20:08-04:00" pubdate data-updated="true"></time>
+<time datetime="2014-03-14T19:20:08-04:00" pubdate data-updated="true">Mar 14<span>th</span>, 2014</time>
         
       </p>
     
@@ -238,7 +334,7 @@
   
 
 
-<time datetime="2014-03-11T17:42:53-04:00" pubdate data-updated="true"></time>
+<time datetime="2014-03-11T17:42:53-04:00" pubdate data-updated="true">Mar 11<span>th</span>, 2014</time>
         
       </p>
     
@@ -388,7 +484,7 @@
   
 
 
-<time datetime="2014-03-08T13:05:43-05:00" pubdate data-updated="true"></time>
+<time datetime="2014-03-08T13:05:43-05:00" pubdate data-updated="true">Mar 8<span>th</span>, 2014</time>
         
       </p>
     
@@ -452,7 +548,7 @@
   
 
 
-<time datetime="2014-03-06T17:38:44-05:00" pubdate data-updated="true"></time>
+<time datetime="2014-03-06T17:38:44-05:00" pubdate data-updated="true">Mar 6<span>th</span>, 2014</time>
         
       </p>
     
@@ -770,56 +866,6 @@ word &#8220;and,” the class likely has more than one responsibility.​&rdquo;
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/03/04/image-hosting-for-a-heroku-octopress-site/">Image Hosting for a Heroku Octopress Site</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-03-04T17:44:27-05:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Since Heroku only allows for 300 MB of storage for their free tier of hosting, it makes sense to store the images for an Octopress site in a separate location. Previously, I used Flickr for a few posts, but the process of uploading the files and hunting down the embed link was tiresome.</p>
-
-<p>The better way, it seems, is to use Google Drive, despite the fact that Google doesn&rsquo;t provide an easy way to embed either. What makes using Google Drive much friendlier than Flickr, however, is a site called <a href="http://gdurl.com/%E2%80%8B">gdURL</a>.</p>
-
-<p>With gdURL, all you need to do is share an image file on Google Drive, change the privacy settings to &ldquo;Anyone who has the link can view&rdquo;, then run the link Google Drive provides you through the gdURL service and you receive a tidy, bite-sized link for embedding your image.</p>
-
-<p>For instance, I used gdURL in the following line to link to a picture of this site&rsquo;s new theme.</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>![So Fresh and So Green](http://gdurl.com/i4Wr)​</span></code></pre></td></tr></table></div></figure>
-
-
-<p><img src="http://gdurl.com/i4Wr" alt="So Fresh and So Green" />​</p>
-
-<p>Quick, easy, and keeps the size of your Octopress repo down.</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/4/">&larr; Older</a>
@@ -845,6 +891,10 @@ word &#8220;and,” the class likely has more than one responsibility.​&rdquo;
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2015/04/11/defining-a-method-accessible-from-anywhere-in-a-rails-app/">Defining a Method Accessible From Anywhere in a Rails App</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2014/07/23/ajax-testing-using-rspec/">Ajax Testing Using RSpec, Capybara, and Puffing Billy</a>
       </li>
     
@@ -858,10 +908,6 @@ word &#8220;and,” the class likely has more than one responsibility.​&rdquo;
     
       <li class="post">
         <a href="/blog/2014/06/09/week-four-and-the-challenges-of-oop/">Week Four and the Challenges of OOP</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/06/01/week-three-and-designing-for-efficiency/">Week Three and Designing for Efficiency</a>
       </li>
     
   </ul>

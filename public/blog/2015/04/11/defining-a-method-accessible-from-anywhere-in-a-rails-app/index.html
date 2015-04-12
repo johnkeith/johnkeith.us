@@ -5,11 +5,17 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Finding Middle Ground With Middleman - John Keith</title>
+  <title>Defining a Method Accessible From Anywhere in a Rails App - John Keith</title>
   <meta name="author" content="John Keith">
 
   
-  <meta name="description" content="For a while, I&rsquo;ve been wondering &ndash; where is the better way of building static sites? I&rsquo;ve made a ton of stuff working off of &hellip;">
+  <meta name="description" content="It started as an innocuous attempt to dry up some controller code. 1
+2
+3
+4
+5
+6
+# app/controllers/export_controller.rb if ENV[&#39;TORQUEBOX_APP_TYPE &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +24,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://johnk.herokuapp.com/blog/2014/02/05/finding-middle-ground-with-middleman">
+  <link rel="canonical" href="http://johnk.herokuapp.com/blog/2015/04/11/defining-a-method-accessible-from-anywhere-in-a-rails-app">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="John Keith" type="application/atom+xml">
@@ -79,7 +85,7 @@
   
   <header>
     
-      <h1 class="entry-title">Finding Middle Ground With Middleman</h1>
+      <h1 class="entry-title">Defining a Method Accessible From Anywhere in a Rails App</h1>
     
     
       <p class="meta">
@@ -95,18 +101,50 @@
   
 
 
-<time datetime="2014-02-05T19:24:45-05:00" pubdate data-updated="true">Feb 5<span>th</span>, 2014</time>
+<time datetime="2015-04-11T19:56:11-04:00" pubdate data-updated="true">Apr 11<span>th</span>, 2015</time>
         
       </p>
     
   </header>
 
 
-<div class="entry-content"><p>For a while, I&rsquo;ve been wondering &ndash; where is the better way of building static sites? I&rsquo;ve made a ton of stuff working off of Bootstrap templates and Wordpress themes, but I also really love creating sites without all the mess of those big frameworks. I want to hand code sites to keep learning about the presentational side of web development, but an environment like Rails is not ideal for such explorations. Even the much more manageable Sinatra is only a little better, as I feel like my focus when building something in Sinatra is split evenly between the front-end and back-end.</p>
+<div class="entry-content"><p>It started as an innocuous attempt to dry up some controller code.</p>
 
-<p>That said, after finding and playing with <a href="http://www.middlemanapp.com">Middleman</a>, I believe it provides the perfect way to focus on the front-end of things without sacrificing the power of HAML, SASS and the like. The LiveReload extension is also amazing &ndash; it is incredible how small efficiencies make all the differences when writing and testing out new ideas.</p>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># app/controllers/export_controller.rb</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">if</span> <span class="no">ENV</span><span class="o">[</span><span class="s1">&#39;TORQUEBOX_APP_TYPE&#39;</span><span class="o">].</span><span class="n">present?</span> <span class="o">||</span> <span class="no">ENV</span><span class="o">[</span><span class="s1">&#39;TORQUEBOX_APP_NAME&#39;</span><span class="o">].</span><span class="n">present?</span>
+</span><span class='line'>  <span class="c1"># do some crazy stuff in a background process since this is clearly running in production</span>
+</span><span class='line'><span class="k">else</span>
+</span><span class='line'>  <span class="c1"># Rails must be running locally, so do it in the foreground</span>
+</span></code></pre></td></tr></table></div></figure>
 
-<p>I was really thrilled when I managed to figure out how to insert Markdown files into a HAML template built in a Middleman project.</p>
+
+<p>I noticed that the same <code>if</code> statement was used in our config/application.rb to setup the correct logging when Torquebox is running. After searching the rest of the code and seeing the same logic was present in config/environments/development.rb I mistakenly thought, &ldquo;It can&rsquo;t be too hard to figure out how to have a method accessible from anywhere in a Rails app.&rdquo;</p>
+
+<p>How wrong I was!</p>
+
+<p>That said, I came up with two possible solutions. The first was to create a proc, stuff it in a global variable, and then access that from each of the places I needed (the config files and the controller).</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="vg">$torquebox_running</span> <span class="o">=</span> <span class="no">Proc</span><span class="o">.</span><span class="n">new</span> <span class="p">{</span> <span class="no">ENV</span><span class="o">[</span><span class="s1">&#39;TORQUEBOX_APP_TYPE&#39;</span><span class="o">].</span><span class="n">present?</span> <span class="o">||</span> <span class="no">ENV</span><span class="o">[</span><span class="s1">&#39;TORQUEBOX_APP_NAME&#39;</span><span class="o">].</span><span class="n">present?</span> <span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>While the proc worked, I didn&rsquo;t think it was the best solution for two structural reasons.</p>
+
+<ol>
+<li><p>It would have to be defined in application.rb in order to be used in the start up process, but being defined in that file outside of the Application class (so that it could be accessed elsewhere in the app) would be a tad strange.</p></li>
+<li><p>Usage wise, the syntax of $torquebox_running.call seemed a bit strained to me.</p></li>
+</ol>
+
+
+<p>My gut told me that I might be breaking every law in the book by declaring a global proc during the boot-up process of a Rails app. So I decided on a more compartmentalized (though still perhaps not object-oriented) approach to solving the problem.</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -116,18 +154,45 @@
 <span class='line-number'>6</span>
 <span class='line-number'>7</span>
 <span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class='haml'><span class='line'><span class="nc">.main-contain</span>
-</span><span class='line'>  <span class="nc">.pure-g-r</span>
-</span><span class='line'>    <span class="nc">.pure-u-1-2</span>
-</span><span class='line'>      <span class="nt">%h1</span> Hello folks.
-</span><span class='line'>    <span class="nc">.pure-u-1-2</span>
-</span><span class='line'>      <span class="nt">%p</span> What up?
-</span><span class='line'>      <span class="nd">:markdown</span>
-</span><span class='line'>        <span class="si">#{</span><span class="no">File</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="no">File</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="no">File</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="bp">__FILE__</span><span class="p">),</span> <span class="s2">&quot;test.md&quot;</span><span class="p">))</span><span class="si">}</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># lib/services/torquebox_information_service.rb</span>
+</span><span class='line'><span class="k">module</span> <span class="nn">TorqueboxInformationService</span>
+</span><span class='line'>  <span class="kp">extend</span> <span class="nb">self</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">env_vars_present?</span>
+</span><span class='line'>      <span class="no">ENV</span><span class="o">[</span><span class="s1">&#39;TORQUEBOX_APP_TYPE&#39;</span><span class="o">].</span><span class="n">present?</span> <span class="o">||</span> <span class="no">ENV</span><span class="o">[</span><span class="s1">&#39;TORQUEBOX_APP_NAME&#39;</span><span class="o">].</span><span class="n">present?</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">process_running?</span>
+</span><span class='line'>      <span class="c1"># not working, needs refinement</span>
+</span><span class='line'>      <span class="n">process_pid</span> <span class="o">=</span> <span class="no">Process</span><span class="o">.</span><span class="n">pid</span>
+</span><span class='line'>      <span class="n">process_info</span> <span class="o">=</span> <span class="sb">`ps -ef | grep </span><span class="si">#{</span><span class="n">process_pid</span><span class="si">}</span><span class="sb">`</span>
+</span><span class='line'>      <span class="n">process_info</span><span class="o">.</span><span class="n">downcase</span><span class="o">.</span><span class="n">include?</span><span class="p">(</span><span class="s1">&#39;torquebox&#39;</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>The code is nothing special, but being able to read a file of Markdown text and insert it into my template was pretty exciting. I&rsquo;m planning to use this trick to create a text-heavy site that keeps its content as separate from the presentation as possible by inserting all the large chunks of text as Markdown files into templates.</p>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># config/application.rb</span>
+</span><span class='line'><span class="nb">require</span> <span class="no">File</span><span class="o">.</span><span class="n">expand_path</span><span class="p">(</span><span class="s1">&#39;../../lib/services/torquebox_information_service&#39;</span><span class="p">,</span> <span class="bp">__FILE__</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>By wrapping these environment checking methods inside a module and using the handy <code>extend self</code>, the logic was kept isolated and no awful globals created in the process.</p>
+
+<p>I then required the module in the application.rb above all other requirements and the Application class in order that it would be available in every part of the app (config files, models, controllers, the whole gaggle of them!). So far, this approach is working and allows the logic for checking if Torquebox is running to be stored in a single place.</p>
+
+<p>I still feel like this could be improved, though. Maybe by not using <code>extend self</code> and instead including the module on any of the classes that need access to these methods it would better keep these Torquebox logic confined to only the places in the app that need access?</p>
 </div>
 
 
@@ -150,12 +215,12 @@
   
 
 
-<time datetime="2014-02-05T19:24:45-05:00" pubdate data-updated="true">Feb 5<span>th</span>, 2014</time>
+<time datetime="2015-04-11T19:56:11-04:00" pubdate data-updated="true">Apr 11<span>th</span>, 2015</time>
       
 
 <span class="categories">
   
-    <a class='category' href='/blog/categories/markdown/'>markdown</a>, <a class='category' href='/blog/categories/middleman/'>middleman</a>
+    <a class='category' href='/blog/categories/rails/'>rails,</a>, <a class='category' href='/blog/categories/ruby/'>ruby</a>
   
 </span>
 
@@ -164,7 +229,7 @@
     
       <div class="sharing">
   
-  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://johnk.herokuapp.com/blog/2014/02/05/finding-middle-ground-with-middleman/" data-via="mrjohnkeith" data-counturl="http://johnk.herokuapp.com/blog/2014/02/05/finding-middle-ground-with-middleman/" >Tweet</a>
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://johnk.herokuapp.com/blog/2015/04/11/defining-a-method-accessible-from-anywhere-in-a-rails-app/" data-via="mrjohnkeith" data-counturl="http://johnk.herokuapp.com/blog/2015/04/11/defining-a-method-accessible-from-anywhere-in-a-rails-app/" >Tweet</a>
   
   
   
@@ -173,10 +238,8 @@
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2014/01/27/awesome-way-to-learn-haml/" title="Previous Post: Awesome way to learn HAML">&laquo; Awesome way to learn HAML</a>
+        <a class="basic-alignment left" href="/blog/2014/07/23/ajax-testing-using-rspec/" title="Previous Post: Ajax Testing using RSpec, Capybara, and Puffing Billy">&laquo; Ajax Testing using RSpec, Capybara, and Puffing Billy</a>
       
-      
-        <a class="basic-alignment right" href="/blog/2014/03/02/new-theme/" title="Next Post: New look for the blog">New look for the blog &raquo;</a>
       
     </p>
   </footer>
@@ -289,8 +352,8 @@
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://johnk.herokuapp.com/blog/2014/02/05/finding-middle-ground-with-middleman/';
-        var disqus_url = 'http://johnk.herokuapp.com/blog/2014/02/05/finding-middle-ground-with-middleman/';
+        var disqus_identifier = 'http://johnk.herokuapp.com/blog/2015/04/11/defining-a-method-accessible-from-anywhere-in-a-rails-app/';
+        var disqus_url = 'http://johnk.herokuapp.com/blog/2015/04/11/defining-a-method-accessible-from-anywhere-in-a-rails-app/';
         var disqus_script = 'embed.js';
       
     (function () {

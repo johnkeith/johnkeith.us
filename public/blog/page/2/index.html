@@ -9,7 +9,7 @@
   <meta name="author" content="John Keith">
 
   
-  <meta name="description" content="Summing up week one of Launch Academy is tough: it&rsquo;s been a whirlwind of information and challenges. Here&rsquo;s what I do know: I could not &hellip;">
+  <meta name="description" content="Week two flew by and it is amazing how far we have come. It is also amazing how overrun the Launch Academy folder on my laptop is right now. For my &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -51,7 +51,7 @@
   <header role="banner"><hgroup>
   <h1><a href="/">John Keith</a></h1>
   
-    <h2>Javascript, Ruby, UX/UI. Formerly at <a href="http://www.launchacademy.com/">Launch Academy</a>.</h2>
+    <h2>Developer - Ruby, Rails, Angular, iOS</h2>
   
 </hgroup>
 
@@ -82,6 +82,157 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2014/05/26/my-ruby-toolbox-at-the-end-of-week-two/">My Ruby Toolbox at the End of Week Two</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-05-26T07:49:44-04:00" pubdate data-updated="true">May 26<span>th</span>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Week two flew by and it is amazing how far we have come. It is also amazing how overrun the Launch Academy folder on my laptop is right now. For my reflective post this week, I think it would be a good exercise to do some house keeping on the code I&rsquo;ve written so far and take a look at some of the awesome tools I&rsquo;m starting to learn how to use in Ruby.</p>
+
+<p>One of the most fun things I did was work with a couple other Launchers on recreating the <a href="https://github.com/johnkeith/Ruby2048">2048 game on the command line</a>. It was a great exercise &ndash; working with nested arrays that represented the board, constructing the methods that would move and recalculate the board each turn. The hardest part was combing Google to find out how to handle improper keyboard inputs from the terminal (for example, if you type &ldquo;Z&rdquo; instead of the &ldquo;A&rdquo;,&ldquo;S&rdquo;,&ldquo;W&rdquo;, or &ldquo;D&rdquo; keys we specified for moving). It was a slight distraction from our main work of the week, but I really loved figuring out how the mechanisms behind the game worked. (I&rsquo;d love to work on making an online playable version of the game in Sinatra, but that might have to wait until I have a better grasp of Javascript.) Here&rsquo;s a little snippet of our moving method using #transpose to flip the board around for easier calculating.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">strip_row_right</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">row</span><span class="o">.</span><span class="n">delete_if</span> <span class="p">{</span><span class="o">|</span><span class="n">space</span><span class="o">|</span> <span class="n">space</span> <span class="o">==</span> <span class="s2">&quot; &quot;</span><span class="p">}</span>
+</span><span class='line'>  <span class="k">until</span> <span class="n">row</span><span class="o">.</span><span class="n">length</span> <span class="o">==</span> <span class="mi">4</span>
+</span><span class='line'>    <span class="n">row</span><span class="o">.</span><span class="n">unshift</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>  <span class="n">row</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">def</span> <span class="nf">move_down</span><span class="p">(</span><span class="n">board</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">board</span> <span class="o">=</span> <span class="n">board</span><span class="o">.</span><span class="n">transpose</span>
+</span><span class='line'>  <span class="n">board</span><span class="o">.</span><span class="n">each_with_index</span> <span class="k">do</span> <span class="o">|</span><span class="n">row</span><span class="p">,</span> <span class="n">row_idx</span><span class="o">|</span>
+</span><span class='line'>    <span class="n">strip_row_right</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">row</span><span class="o">.</span><span class="n">reverse!</span><span class="o">.</span><span class="n">each_with_index</span> <span class="k">do</span> <span class="o">|</span><span class="n">column</span><span class="p">,</span> <span class="n">col_idx</span><span class="o">|</span>
+</span><span class='line'>      <span class="k">if</span> <span class="n">column</span> <span class="o">==</span> <span class="n">row</span><span class="o">[</span><span class="n">col_idx</span> <span class="o">+</span> <span class="mi">1</span><span class="o">]</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="p">(</span><span class="n">column</span> <span class="o">==</span> <span class="s2">&quot; &quot;</span> <span class="p">)</span>
+</span><span class='line'>        <span class="n">board</span><span class="o">[</span><span class="n">row_idx</span><span class="o">][</span><span class="n">col_idx</span><span class="o">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">board</span><span class="o">[</span><span class="n">row_idx</span><span class="o">][</span><span class="n">col_idx</span><span class="o">].</span><span class="n">to_i</span> <span class="o">*</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">to_s</span>
+</span><span class='line'>        <span class="n">board</span><span class="o">[</span><span class="n">row_idx</span><span class="o">][</span><span class="n">col_idx</span><span class="o">+</span><span class="mi">1</span><span class="o">]</span> <span class="o">=</span> <span class="s2">&quot; &quot;</span>
+</span><span class='line'>      <span class="k">else</span>
+</span><span class='line'>        <span class="k">next</span>
+</span><span class='line'>      <span class="k">end</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>    <span class="n">row</span><span class="o">.</span><span class="n">reverse!</span>
+</span><span class='line'>    <span class="n">strip_row_right</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>  <span class="n">board</span><span class="o">.</span><span class="n">transpose</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Another non-core, but extremely rewarding set of exercised I played with this week came from the <a href="https://evernote.com/careers/challenge.php">Evernote Challenge</a>. Basically, the challenge is a set of three problems that Evernote posted on their website, each of which can be submitted and automatically tested on the site. While I was never able to get my tests passing, sadly, I think I was able to sufficiently solve two of the problems, one involving a circular buffer and the other with counting the frequency of terms in a given input. I even dived into writing a few tests for my circular buffer solution to start preparing myself for the leap into TDD that will be coming up in the next few weeks. The frequency problem also was a great opportunity to deal with the travails of sorting hashes and multidimensional sorting of arrays.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">terms_to_add</span> <span class="o">=</span> <span class="nb">gets</span><span class="o">.</span><span class="n">chomp</span><span class="o">.</span><span class="n">to_i</span>
+</span><span class='line'><span class="n">items_to_count</span> <span class="o">=</span> <span class="no">Hash</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="mi">1</span><span class="o">.</span><span class="n">upto</span><span class="p">(</span><span class="n">terms_to_add</span><span class="p">)</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">input</span> <span class="o">=</span> <span class="nb">gets</span><span class="o">.</span><span class="n">chomp</span><span class="o">.</span><span class="n">to_sym</span>
+</span><span class='line'>  <span class="n">items_to_count</span><span class="o">[</span><span class="n">input</span><span class="o">]</span> <span class="o">+=</span> <span class="mi">1</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">take_amount</span> <span class="o">=</span> <span class="nb">gets</span><span class="o">.</span><span class="n">chomp</span><span class="o">.</span><span class="n">to_i</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">take_top</span> <span class="o">=</span> <span class="n">items_to_count</span><span class="o">.</span><span class="n">sort_by</span> <span class="p">{</span> <span class="o">|</span><span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="o">|</span> <span class="n">v</span> <span class="p">}</span><span class="o">.</span><span class="n">reverse</span><span class="o">.</span><span class="n">take</span><span class="p">(</span><span class="n">take_amount</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">fully_sorted</span> <span class="o">=</span> <span class="n">take_top</span><span class="o">.</span><span class="n">sort_by</span> <span class="p">{</span><span class="o">|</span><span class="n">item</span><span class="o">|</span> <span class="o">[-</span><span class="n">item</span><span class="o">[-</span><span class="mi">1</span><span class="o">]</span><span class="p">,</span> <span class="n">item</span><span class="o">[</span><span class="mi">0</span><span class="o">].</span><span class="n">to_s</span><span class="o">]</span> <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">fully_sorted</span><span class="o">.</span><span class="n">each</span> <span class="p">{</span><span class="o">|</span><span class="n">item</span><span class="o">|</span> <span class="nb">puts</span> <span class="n">item</span><span class="o">[</span><span class="mi">0</span><span class="o">].</span><span class="n">to_s</span> <span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>As I mentioned, our big focus in class this week was on Sinatra. I built at least five Sinatra apps this week, ranging from ones that pulled in data from a CSV to ones that actually started creating dynamic pages based on JSON data from APIs. I also started using HAML extensively on these project. Its really awesome how simple and readable HAML makes an HTML page.</p>
+
+<p>This weekend I&rsquo;ve been wrestling with creating a URL shortener in Sinatra. I&rsquo;ve made it to the point where the site is mostly functioning, but I&rsquo;m working on error and exception handling, which is no easy task. I also cannot for the life of me get my head around Redis, the database they recommended we use for this project, so I think I&rsquo;m going to be spending a good amount of time next week trying to figure out databases once and for all. That said, working on the URL shortener gave me a great opportunity to play around with the web scraping gem Nokogiri. Using Nokogiri, I was easily able to scrape a list of sandwich names (to be the links in my URL shortener) off a website and into a easily accessible array.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">page</span> <span class="o">=</span> <span class="ss">Nokogiri</span><span class="p">:</span><span class="ss">:HTML</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="s2">&quot;http://www.thrillist.com/food/nation/national-sandwich-day&quot;</span><span class="p">))</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">sandwich_list</span> <span class="o">=</span> <span class="o">[]</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">sandwiches</span> <span class="o">=</span> <span class="n">page</span><span class="o">.</span><span class="n">css</span><span class="p">(</span><span class="s2">&quot;strong&quot;</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">sandwiches</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">item</span><span class="o">|</span>
+</span><span class='line'>  <span class="n">sandwich_list</span> <span class="o">&lt;&lt;</span> <span class="n">item</span><span class="o">.</span><span class="n">text</span><span class="o">.</span><span class="n">downcase</span><span class="o">.</span><span class="n">gsub</span><span class="p">(</span><span class="sr">/[\d+\W+\s]/</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">gsub</span><span class="p">(</span><span class="sr">/the/</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2014/05/16/launch-academy-week-1-reflections/">Launch Academy Week One Reflections</a></h1>
     
     
@@ -98,7 +249,7 @@
   
 
 
-<time datetime="2014-05-16T20:41:21-04:00" pubdate data-updated="true"></time>
+<time datetime="2014-05-16T20:41:21-04:00" pubdate data-updated="true">May 16<span>th</span>, 2014</time>
         
       </p>
     
@@ -211,7 +362,7 @@
   
 
 
-<time datetime="2014-04-30T18:10:06-04:00" pubdate data-updated="true"></time>
+<time datetime="2014-04-30T18:10:06-04:00" pubdate data-updated="true">Apr 30<span>th</span>, 2014</time>
         
       </p>
     
@@ -318,7 +469,7 @@
   
 
 
-<time datetime="2014-04-24T23:10:21-04:00" pubdate data-updated="true"></time>
+<time datetime="2014-04-24T23:10:21-04:00" pubdate data-updated="true">Apr 24<span>th</span>, 2014</time>
         
       </p>
     
@@ -356,7 +507,7 @@
   
 
 
-<time datetime="2014-04-01T21:33:09-04:00" pubdate data-updated="true"></time>
+<time datetime="2014-04-01T21:33:09-04:00" pubdate data-updated="true">Apr 1<span>st</span>, 2014</time>
         
       </p>
     
@@ -472,7 +623,7 @@
   
 
 
-<time datetime="2014-03-27T11:41:27-04:00" pubdate data-updated="true"></time>
+<time datetime="2014-03-27T11:41:27-04:00" pubdate data-updated="true">Mar 27<span>th</span>, 2014</time>
         
       </p>
     
@@ -491,102 +642,6 @@
 <p>What also surprises me is that we do not see spaced repetition more in offline curriculum. I cannot imagine how much better my long term understanding and ability to use what I learned in <em>insert any high school subject here</em> would be had we been taught to use spaced repetition tools. It seems our whole education system is focused on the forward &ndash; the next chapter, the next test, the next year &ndash; and is a system that does not reward the concentrated study that leads to mastery. You have to wonder too if part of the motive for this forward inertia in our educational structure is profit: how many SAT cram courses/books/apps are you going to sell if students actually learn the material they need to know the first time they are taught it?</p>
 
 <p>That said, I&rsquo;m going to dive into the Anki app and see what I can create as far as a flashcards repository for learning Ruby and Rails. Depending on how the app works, I&rsquo;ll try to post what I develop here for download.</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/03/19/trying-to-remember-the-small-stuff/">Trying to Remember the Small Stuff</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-03-19T17:47:29-04:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Refactoring is really fun, especially in those moments when you have an &ldquo;Aha!&rdquo; flash and one of those little details clicks into place. I had that today with method I wrote for changing the sorting on a table in a Rails view.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">sortable</span><span class="p">(</span><span class="n">column</span><span class="p">,</span> <span class="n">title</span> <span class="o">=</span> <span class="kp">nil</span><span class="p">)</span>
-</span><span class='line'>  <span class="n">title</span> <span class="o">||=</span> <span class="n">column</span><span class="o">.</span><span class="n">titleize</span>
-</span><span class='line'>  <span class="n">direction</span> <span class="o">=</span> <span class="p">(</span><span class="n">column</span> <span class="o">==</span> <span class="n">sort_column</span> <span class="o">&amp;&amp;</span> <span class="n">sort_direction</span> <span class="o">==</span> <span class="s2">&quot;asc&quot;</span><span class="p">)</span> <span class="p">?</span> <span class="s2">&quot;desc&quot;</span> <span class="p">:</span> <span class="s2">&quot;asc&quot;</span>
-</span><span class='line'>  <span class="n">font_awesome_direction</span> <span class="o">=</span> <span class="n">direction</span> <span class="o">==</span> <span class="s2">&quot;asc&quot;</span> <span class="p">?</span> <span class="s2">&quot;up&quot;</span> <span class="p">:</span> <span class="s2">&quot;down&quot;</span>
-</span><span class='line'>  <span class="n">css_class</span> <span class="o">=</span> <span class="n">column</span> <span class="o">==</span> <span class="n">sort_column</span> <span class="p">?</span> <span class="s2">&quot;fa-caret-</span><span class="si">#{</span><span class="n">font_awesome_direction</span><span class="si">}</span><span class="s2">&quot;</span> <span class="p">:</span> <span class="kp">nil</span>
-</span><span class='line'>  <span class="n">link_to</span> <span class="n">title</span><span class="p">,</span> <span class="p">{</span><span class="ss">:sort</span> <span class="o">=&gt;</span> <span class="n">column</span><span class="p">,</span> <span class="ss">:direction</span> <span class="o">=&gt;</span> <span class="n">direction</span><span class="p">},</span> <span class="p">{</span><span class="ss">class</span><span class="p">:</span> <span class="n">css_class</span><span class="p">}</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>That sortable method was placed in my application_helper.rb. It works with these two methods from my view controller.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">sort_direction</span>
-</span><span class='line'>  <span class="sx">%w[asc desc]</span><span class="o">.</span><span class="n">include?</span><span class="p">(</span><span class="n">params</span><span class="o">[</span><span class="ss">:direction</span><span class="o">]</span><span class="p">)</span> <span class="p">?</span>  <span class="n">params</span><span class="o">[</span><span class="ss">:direction</span><span class="o">]</span> <span class="p">:</span> <span class="s2">&quot;asc&quot;</span>
-</span><span class='line'><span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">def</span> <span class="nf">sort_column</span>
-</span><span class='line'>  <span class="no">Expense</span><span class="o">.</span><span class="n">column_names</span><span class="o">.</span><span class="n">include?</span><span class="p">(</span><span class="n">params</span><span class="o">[</span><span class="ss">:sort</span><span class="o">]</span><span class="p">)</span> <span class="p">?</span> <span class="n">params</span><span class="o">[</span><span class="ss">:sort</span><span class="o">]</span> <span class="p">:</span> <span class="s2">&quot;date&quot;</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>And all of these are put into place with the index method in that same view controller.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">index</span>
-</span><span class='line'>  <span class="vi">@expenses</span> <span class="o">=</span> <span class="no">Expense</span><span class="o">.</span><span class="n">order</span><span class="p">(</span><span class="n">sort_column</span> <span class="o">+</span> <span class="s1">&#39; &#39;</span> <span class="o">+</span> <span class="n">sort_direction</span><span class="p">)</span><span class="o">.</span><span class="n">paginate</span><span class="p">(</span><span class="ss">page</span><span class="p">:</span> <span class="n">params</span><span class="o">[</span><span class="ss">:page</span><span class="o">]</span><span class="p">)</span>
-</span><span class='line'><span class="k">end</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p></p>
-
-<p>Initially, what I&rsquo;d written wasn&rsquo;t terrible: it worked in the browser, my columns resorted themselves on prompting, and a nice little caret was provided as feedback and a guide post for the user. That said, I was irked by the way the caret was smushed right up against the text and the way that adding the caret threw off the font sizing and styling I had going at the top of my table.</p>
-
-<p>So, I took a step back and tried to determine out if it was possible to embed HTML inside of a link_to in Rails. A couple minutes later, I had figured out it was perfectly acceptable and learned a little bit about the nifty #html_safe method that Rails provides. This led me to a rewritten last line that I think provides a much more pleasing output.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">link_to</span> <span class="s2">&quot;&lt;i class=&#39;fa </span><span class="si">#{</span><span class="n">css_class</span><span class="si">}</span><span class="s2">&#39;&gt;&lt;/i&gt; &quot;</span><span class="o">.</span><span class="n">html_safe</span><span class="o">+</span><span class="n">title</span><span class="p">,</span> <span class="p">{</span><span class="ss">:sort</span> <span class="o">=&gt;</span> <span class="n">column</span><span class="p">,</span> <span class="ss">:direction</span> <span class="o">=&gt;</span> <span class="n">direction</span><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>It was also great to have one of those moments when all that reading comes in handy. I couldn&rsquo;t get the icons to appear the first time I fired up the page, because I had wrapped my icon HTML in single quotes instead of double. Using double quotes on the outside and then single on the inside allows Ruby to interpolate the css_class variable. Nothing fancy, but still a good learning experience that will hopefully keep me more consistent with my use of quotes.</p>
 </div>
   
   
@@ -619,6 +674,10 @@
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2015/04/11/defining-a-method-accessible-from-anywhere-in-a-rails-app/">Defining a Method Accessible From Anywhere in a Rails App</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2014/07/23/ajax-testing-using-rspec/">Ajax Testing Using RSpec, Capybara, and Puffing Billy</a>
       </li>
     
@@ -632,10 +691,6 @@
     
       <li class="post">
         <a href="/blog/2014/06/09/week-four-and-the-challenges-of-oop/">Week Four and the Challenges of OOP</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/06/01/week-three-and-designing-for-efficiency/">Week Three and Designing for Efficiency</a>
       </li>
     
   </ul>
